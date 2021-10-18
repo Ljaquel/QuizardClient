@@ -36,7 +36,7 @@ const Home = () => {
     <div>
       <div className="container">
         <div className="row">
-          <h1 className="mt-3 mb-4 col-3">Recent Notes</h1>
+          <h1 className="mt-3 mb-4 col-3">Quizard</h1>
           <div className="col">
             {user &&
               <input type="body" name="body" className="form-control mt-4" id="bodyInput" value={body} onChange={onChange}/>
