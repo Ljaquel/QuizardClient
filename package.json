@@ -24,7 +24,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "cd ../QuizardServer && npm start",
+    "server": "cd ../QuizardServer && npm run devstart",
     "dev": "concurrently -n 'server,client' -c 'green,blue' \"npm run server\" \"npm start\""
   },
   "eslintConfig": {
