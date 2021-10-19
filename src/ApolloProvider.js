@@ -9,7 +9,7 @@ import {
 import { setContext } from 'apollo-link-context';
 
 const httpLink = createHttpLink({
-  uri: 'https://stark-lake-74900.herokuapp.com/'
+  uri: process.env.NODE_ENV === 'production' ? 'https://stark-lake-74900.herokuapp.com/' : 'http://localhost:5000/'
 });
 
 const authLink = setContext(() => {
