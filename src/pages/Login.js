@@ -10,10 +10,16 @@ const Login = (props) => {
   const [values, setValues] = useState({
     username:'',
     password:'',
+    error: null,
   })
 
   const onChange = e => {
-    setValues({ ...values, [e.target.name]: e.target.value});
+    if (values.error) {
+      setValues({ ...values, [e.target.name]: e.target.value, error: null});
+    }
+    else {
+      setValues({ ...values, [e.target.name]: e.target.value});
+    }
   }
 
   const [loginUser] = useMutation(LOGIN_USER, {
@@ -23,6 +29,7 @@ const Login = (props) => {
     },
     onError(err) {
       console.log(err)
+      setValues({ ...values, error: err});
     },
     variables: values
   });
@@ -49,6 +56,7 @@ const Login = (props) => {
         <div className="m-3 row justify-content-end">
           <button className="btn btn-primary col-2" type="submit" onClick={onSubmit}>Submit</button>
         </div>
+        {values.error && <div className="container mb-5 red">{values.error.message + ". Please try Again!"}</div>}
       </div>
     </div>
   )
