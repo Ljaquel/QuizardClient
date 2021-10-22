@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import QuizCard from '../components/QuizCard';
 import { AuthContext } from '../context/auth';
 import { gql, useQuery, useMutation } from '@apollo/client';
