@@ -42,7 +42,7 @@ const Home = () => {
           </div>
         </div>
         <div className="row">
-          {quizzes.map((quiz, index) => <QuizCard key={index} quiz={quiz}/>)}
+          {user && quizzes && quizzes.map((quiz, index) => <QuizCard key={index} quiz={quiz}/>)}
         </div>
       </div>
     </div>
