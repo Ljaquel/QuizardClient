@@ -10,8 +10,8 @@ import './App.css';
 function App() {
   return (
     <AuthProvider>
-      <Navbar/>
       <Router>
+        <Navbar/>
         <Switch>
           <Route exact path='/' component={Home}/>
           <AuthRoute exact path='/login' component={Login}/>
