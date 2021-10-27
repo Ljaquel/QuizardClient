@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import QuizCard from '../components/QuizCard';
+import Loading from '../components/Loading';
 import { AuthContext } from '../context/auth';
 import { gql, useQuery, useMutation } from '@apollo/client';
 
@@ -19,7 +20,7 @@ const Home = () => {
   });
 
   const { data } = useQuery(FETCH_QUIZZES_QUERY);
-  if(!data) { return <div>Loading!</div> }
+  if(!data) { return <Loading/> }
   const { getQuizzes: quizzes } = data;
 
   const onCreate = () => {
