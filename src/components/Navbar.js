@@ -25,7 +25,7 @@ export default function Navbar() {
           :
             <ul className="navbar-nav">
               <li className="nav-item">
-                <button className="btn btn-secondary nav-link" style={{cursor:"pointer"}} onClick={logout}>Logout</button>
+                <button className="btn btn-secondary text-light" onClick={logout}>Logout</button>
               </li>
             </ul>
           }

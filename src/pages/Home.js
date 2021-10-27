@@ -19,7 +19,7 @@ const Home = () => {
   });
 
   const { data } = useQuery(FETCH_QUIZZES_QUERY);
-  if(!data) { return <div></div> }
+  if(!data) { return <div>Loading!</div> }
   const { getQuizzes: quizzes } = data;
 
   const onCreate = () => {
@@ -41,8 +41,8 @@ const Home = () => {
             }
           </div>
         </div>
-        <div className="row">
-          {user && quizzes && quizzes.map((quiz, index) => <QuizCard key={index} quiz={quiz}/>)}
+        <div className="row row-cols-auto g-3">
+          {user && quizzes && quizzes.map((quiz, index) => <div className="col">  <QuizCard key={index} quiz={quiz}/>  </div>)}
         </div>
       </div>
     </div>
@@ -52,8 +52,15 @@ const Home = () => {
 const FETCH_QUIZZES_QUERY = gql`
   {
     getQuizzes {
+      id
       name
+      description
+      publishedDate
+      published
       creator
+      time
+      difficulty
+      createdAt
     }
   }
 `;
