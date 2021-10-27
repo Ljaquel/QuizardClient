@@ -42,12 +42,13 @@ const QuizBuilder = () => {
 }
 
 const FETCH_QUIZ_QUERY = gql`
-  query GetQuiz($quizId: String!) {
+  query($quizId: ID!) {
     getQuiz(quizId: $quizId) {
       id
       name
       description
       creator
+      createdAt
     }
   }
 `;

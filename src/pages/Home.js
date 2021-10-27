@@ -8,7 +8,7 @@ const Home = () => {
   const { user } = useContext(AuthContext);
   
   const [addQuiz] = useMutation(CREATE_QUIZ, {
-    variables: { name: "Quiz Name", creator: user?user.id:"" },
+    variables: { name: "Quiz Name", creator: user?._id },
     update(proxy, result){
       proxy.writeQuery({
         query: FETCH_QUIZZES_QUERY,
