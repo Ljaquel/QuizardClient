@@ -16,7 +16,7 @@ function App() {
           <Route exact path='/' component={Home}/>
           <NoAuthRoute exact path='/login' component={Login}/>
           <NoAuthRoute exact path='/register' component={Register}/>
-          <AuthRoute exact path='/quizbuilder/:id' component={QuizBuilder}/>
+          <AuthRoute exact path='/quizbuilder/:_id' component={QuizBuilder}/>
           <Route component={PageNotFound}></Route>
         </Switch>
       </Router>

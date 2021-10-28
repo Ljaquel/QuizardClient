@@ -43,7 +43,7 @@ const Home = () => {
           </div>
         </div>
         <div className="row row-cols-auto g-3">
-          {user && quizzes && quizzes.map((quiz, index) => <div className="col">  <QuizCard key={index} quiz={quiz}/>  </div>)}
+          {user && quizzes && quizzes.map((quiz, index) => <div className="col"  key={index} >  <QuizCard quiz={quiz}/>  </div>)}
         </div>
       </div>
     </div>
@@ -53,7 +53,7 @@ const Home = () => {
 const FETCH_QUIZZES_QUERY = gql`
   {
     getQuizzes {
-      id
+      _id
       name
       description
       publishedDate

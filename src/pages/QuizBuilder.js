@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../context/auth';
 import { useParams } from 'react-router-dom'
 import { gql, useQuery } from '@apollo/client';
@@ -10,11 +10,18 @@ import PageNotFound from '../pages/PageNotFound';
 
 const QuizBuilder = () => {
   const { user } = useContext(AuthContext);
-  const { id:quizId } = useParams();
-
+  const { _id:quizId } = useParams();
+  const [quizState, setQuizState] = useState({});
+  
   const { data, loading } = useQuery(FETCH_QUIZ_QUERY, { variables: { quizId: quizId } });
+  
+  const quiz = data?.getQuiz
+
+  useEffect(() => {
+    setQuizState(quiz)
+  }, [quiz]);
+
   if(loading) { return <Loading/> }
-  const { getQuiz:quiz } = data;
 
   if(user._id !== quiz.creator) { return <PageNotFound message="No Access Error"/> }
 
@@ -32,7 +39,7 @@ const QuizBuilder = () => {
           </div>
           <div className="row">
             <div className="col bg-danger">
-              <Description description={quiz.description}/>
+              <Description description={quizState?.description}/>
             </div>
           </div>
         </div>
@@ -44,7 +51,7 @@ const QuizBuilder = () => {
 const FETCH_QUIZ_QUERY = gql`
   query($quizId: ID!) {
     getQuiz(quizId: $quizId) {
-      id
+      _id
       name
       description
       creator

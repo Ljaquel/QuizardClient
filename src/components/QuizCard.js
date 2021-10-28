@@ -10,9 +10,9 @@ function QuizCard(props) {
   return (
     <div className="card" style={{width: "15rem"}}>
       <div className="card-body">
-        <Link to={`/quizbuilder/${quiz.id}`} className="card-subtitle text-muted">{quiz.name}</Link>
-        <h6 className="col card-subtitle text-muted">{moment(quiz.createdAt).fromNow()}</h6>
-        <p className="card-text mt-4">{user.name}</p>
+        <Link to={`/quizbuilder/${quiz._id}`} className="card-subtitle text-muted">{quiz.name}</Link>
+        <p className="card-text">{quiz.description}</p>
+        <h6 className="col card-subtitle text-muted mt-4">{moment(quiz.createdAt).fromNow()}</h6>
       </div>
     </div>
   )
