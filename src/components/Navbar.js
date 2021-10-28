@@ -7,6 +7,7 @@ import {Dropdown,Button} from 'react-bootstrap'
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext)
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -26,24 +27,23 @@ export default function Navbar() {
               </li>
             </ul>
           :
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <button className="btn btn-secondary text-light" onClick={logout}>Logout</button>
-              </li>
-            </ul>
+            
+            <Dropdown className="myclass">
+                   <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        {user.username[0].toUpperCase()}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                        <Dropdown.Item onClick={logout}>LogOut</Dropdown.Item> 
+                  </Dropdown.Menu>
+            </Dropdown>
+            
+
           } 
         </div>
       </div>
 
              
-            <Dropdown>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        AB
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                  <Dropdown.Item onClick={logout}>LogOut</Dropdown.Item> 
-                  </Dropdown.Menu>
-            </Dropdown>
+            
            
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
