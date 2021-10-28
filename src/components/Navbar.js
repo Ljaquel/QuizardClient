@@ -1,6 +1,9 @@
 import React, { useContext } from 'react'
 import { AuthContext } from '../context/auth'
 import { NavLink } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Dropdown,Button} from 'react-bootstrap'
+
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext)
@@ -28,9 +31,26 @@ export default function Navbar() {
                 <button className="btn btn-secondary text-light" onClick={logout}>Logout</button>
               </li>
             </ul>
-          }
+          } 
         </div>
       </div>
+
+             
+            <Dropdown>
+                  <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        AB
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                  <Dropdown.Item onClick={logout}>LogOut</Dropdown.Item> 
+                  </Dropdown.Menu>
+            </Dropdown>
+           
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"></link>
+            
     </nav>
+    
   )
 }
