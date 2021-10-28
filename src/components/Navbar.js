@@ -1,12 +1,18 @@
 import React, { useContext } from 'react'
 import { AuthContext } from '../context/auth'
 import { NavLink } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import {Dropdown,Button} from 'react-bootstrap'
+import { Link } from "react-router-dom";
 
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext)
+
+  function Profileclicked(){
+        console.log("Profile Clicked")
+
+  }
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -33,7 +39,14 @@ export default function Navbar() {
                         {user.username[0].toUpperCase()}
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                        <Dropdown.Item onClick={logout}>LogOut</Dropdown.Item> 
+
+                       
+                        <Dropdown.Item onClick={Profileclicked}>
+                              <Link to={`/profile/${user._id}`} > PROFILE</Link>
+                        </Dropdown.Item>  
+
+                        <Dropdown.Item onClick={logout}>LogOut</Dropdown.Item>
+
                   </Dropdown.Menu>
             </Dropdown>
             
