@@ -42,7 +42,7 @@ const Home = () => {
             //   Create Quiz
             // </button>
             
-            <CreateQuizPopUp/>
+            <CreateQuizPopUp createfuntion={onCreate}/>
             }
           </div>
         </div>
@@ -54,7 +54,7 @@ const Home = () => {
   )
 }
 
-const FETCH_QUIZZES_QUERY = gql`
+const FETCH_QUIZZES_QUERY = gql`user
   {
     getQuizzes {
       _id
