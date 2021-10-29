@@ -1,31 +1,38 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
+import { useQuery, useMutation } from '@apollo/client';
+
 import QuizCard from '../components/QuizCard';
 import Loading from '../components/Loading';
 import { AuthContext } from '../context/auth';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { CREATE_QUIZ, FETCH_QUIZZES_QUERY } from '../Calls';
 
 const Home = () => {
   const { user } = useContext(AuthContext);
   
   const [addQuiz] = useMutation(CREATE_QUIZ, {
     variables: { name: "Quiz Name", creator: user?._id },
-    update(proxy, result){
-      proxy.writeQuery({
+    update(cache, { data: { createQuiz }}){
+      cache.writeQuery({
         query: FETCH_QUIZZES_QUERY,
         data: {
-          getQuizzes: [result.data.createQuiz, ...data.getQuizzes]
+          getQuizzes: [createQuiz, ...data.getQuizzes]
         }
       })
     }
   });
 
-  const { data } = useQuery(FETCH_QUIZZES_QUERY);
-  if(!data) { return <Loading/> }
-  const { getQuizzes: quizzes } = data;
+  const { data, refetch } = useQuery(FETCH_QUIZZES_QUERY);
+
+  useEffect(() => {
+    refetch()
+  }, [refetch]);
 
   const onCreate = () => {
     addQuiz()
   }
+
+  if(!data) { return <Loading/> }
+  const { getQuizzes: quizzes } = data;
 
   return (
     <div>
@@ -33,7 +40,6 @@ const Home = () => {
         <div className="row">
           <h1 className="mt-3 mb-4 col-3">Quizard</h1>
           <div className="col">
-                {console.log(data)}
           </div>
           <div className="col-2">
             {user &&
@@ -51,28 +57,4 @@ const Home = () => {
   )
 }
 
-const FETCH_QUIZZES_QUERY = gql`
-  {
-    getQuizzes {
-      _id
-      name
-      description
-      publishedDate
-      published
-      creator
-      time
-      difficulty
-      createdAt
-    }
-  }
-`;
-
-const CREATE_QUIZ = gql`
-  mutation createQuiz($name: String!, $creator: String!){
-    createQuiz(name: $name, creator: $creator) {
-      name
-      creator
-    }
-  }
-`
 export default Home;
