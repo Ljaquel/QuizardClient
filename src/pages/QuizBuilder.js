@@ -14,7 +14,7 @@ const QuizBuilder = (props) => {
   const [quizState, setQuizState] = useState({});
   
   const { data, loading } = useQuery(FETCH_QUIZ_QUERY, { variables: { quizId: quizId } });
-  
+
   const quiz = data?.getQuiz
 
   useEffect(() => {

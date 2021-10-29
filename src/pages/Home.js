@@ -33,6 +33,7 @@ const Home = () => {
         <div className="row">
           <h1 className="mt-3 mb-4 col-3">Quizard</h1>
           <div className="col">
+                {console.log(data)}
           </div>
           <div className="col-2">
             {user &&
