@@ -6,12 +6,11 @@ import { gql, useQuery, useMutation } from '@apollo/client';
 
 const ProfileQuizArea = () => {
   const { user } = useContext(AuthContext);
-  const userid= user._id;
-  const mycreatorID="61720a8d816227536fb334c1"
+  var userid= user._id;
 
 
   const {data } = useQuery(FETCH_QUIZ_QUERY3,
-      {variables:{creatorID: mycreatorID}} );
+      {variables:{creatorID: userid}} );
       
   if(!data) { return <Loading/> }
 

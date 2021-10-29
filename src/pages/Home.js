@@ -3,6 +3,7 @@ import QuizCard from '../components/QuizCard';
 import Loading from '../components/Loading';
 import { AuthContext } from '../context/auth';
 import { gql, useQuery, useMutation } from '@apollo/client';
+import CreateQuizPopUp from '../components/CreateQuizPopUp';
 
 const Home = () => {
   const { user } = useContext(AuthContext);
@@ -37,9 +38,11 @@ const Home = () => {
           </div>
           <div className="col-2">
             {user &&
-            <button type="button" className="btn btn-info btn-lg mt-3" onClick={onCreate}>
-              Create Quiz
-            </button>
+            // <button type="button" className="btn btn-info btn-lg mt-3" onClick={onCreate}>
+            //   Create Quiz
+            // </button>
+            
+            <CreateQuizPopUp/>
             }
           </div>
         </div>
