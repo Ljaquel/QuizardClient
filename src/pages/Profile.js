@@ -8,7 +8,7 @@ import Description from '../components/Description';
 import Loading from '../components/Loading';
 import PageNotFound from '../pages/PageNotFound';
 import ProfileBanner from '../components/ProfileBanner'
-import ProfileQuiz from '../components/ProfileQuiz'
+import ProfileQuizArea from '../components/ProfileQuizArea'
 
 const Profile = (props) => {
       const { user, logout } = useContext(AuthContext)
@@ -17,7 +17,7 @@ const Profile = (props) => {
   return (
     <div className="container-fluid">
           <ProfileBanner username={user.username}/>
-          <ProfileQuiz />
+          <ProfileQuizArea />
 
  
     </div>

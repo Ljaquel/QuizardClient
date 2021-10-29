@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
-import QuizCard from '../components/QuizCard';
-import Loading from '../components/Loading';
+import QuizCard from './QuizCard';
+import Loading from './Loading';
 import { AuthContext } from '../context/auth';
 import { gql, useQuery, useMutation } from '@apollo/client';
 
-const ProfileQuiz = () => {
+const ProfileQuizArea = () => {
   const { user } = useContext(AuthContext);
   
 
@@ -62,4 +62,4 @@ const CREATE_QUIZ = gql`
     }
   }
 `
-export default ProfileQuiz;
+export default ProfileQuizArea;
