@@ -1,93 +1,39 @@
 import React, { useContext } from 'react'
-import QuizCard from './QuizCard';
-import Loading from './Loading';
-import { AuthContext } from '../context/auth';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { useParams } from 'react-router-dom'
+import { useQuery } from '@apollo/client'
+import QuizCard from './QuizCard'
+import Loading from './Loading'
+import PageNotFound from '../pages/PageNotFound'
+import { AuthContext } from '../context/auth'
+import { FETCH_QUIZZES_BY_CREATOR } from '../Calls'
+
+
+
 
 const ProfileQuizArea = () => {
   const { user } = useContext(AuthContext);
-  var userid= user._id;
-
-
-  const {data } = useQuery(FETCH_QUIZ_QUERY3,
-      {variables:{creatorID: userid}} );
-      
-  if(!data) { return <Loading/> }
-
+  const { _id:userId } = useParams()
   
- 
 
-  const FETCH_QUIZZES_QUERY2 = gql`
-  {
-    getQuizzes {
-      _id
-      name
-      description
-      publishedDate
-      published
-      creator
-      time
-      difficulty
-      createdAt
-    }
-  }
-`;
 
-const { getQuizzes: quizzes } = data;
+  const { data, loading } = useQuery(FETCH_QUIZZES_BY_CREATOR, {variables: {creatorId: userId}});
+
+  const quizzes =data?.getQuizzesByCreator;
+
+  if(loading) { return <Loading/> }
+  if(user._id !== userId) { return <PageNotFound message="No Access Error"/> }
+
   return (
-      
-    <div>
       <div className="container">
-        <div className="row">
-          <div className="mcol">
-          </div>
-          <div className="mcol-2">
-          {console.log(data)}
-          {console.log(quizzes)}
-
-          </div>
-        </div>
         <div className="row row-cols-auto g-3">
-          {data.getQuizzesbyUserid && data.getQuizzesbyUserid.map((quiz, index) =>
-           <div className="mcol"  key={index} > 
- 
-             <QuizCard quiz={quiz}/>  </div>)}
-
-
+          {quizzes && quizzes.map((quiz, index) =>
+            <div className="mcol"  key={index}>
+              <QuizCard quiz={quiz}/>
+            </div>
+          )}
         </div>
       </div>
-    </div>
   )
 }
 
-
-
-
-const FETCH_QUIZ_QUERY3 = gql`
-      query Query($creatorID: String!) {
-      getQuizzesbyUserid(creatorID: $creatorID) {
-                  _id
-                  name
-                  description
-                  publishedDate
-                  published
-                  creator
-                  time
-                  difficulty
-                  createdAt
-      }
-  }
-`;
-
-
- 
-
-const CREATE_QUIZ = gql`
-  mutation createQuiz($name: String!, $creator: String!){
-    createQuiz(name: $name, creator: $creator) {
-      name
-      creator
-    }
-  }
-`
 export default ProfileQuizArea;

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
+import { useMutation } from '@apollo/client'
 
-import { AuthContext } from '../context/auth';
+import { AuthContext } from '../context/auth'
+import { REGISTER_USER } from '../Calls'
 
 const Register = (props) => {
   const context = useContext(AuthContext);
@@ -63,29 +63,5 @@ const Register = (props) => {
     </div>
   )
 }
-
-const REGISTER_USER = gql`
-  mutation register(
-    $username: String!
-    $email: String!
-    $password: String!
-    $confirmPassword: String!
-  ) {
-    register(
-      registerInput: {
-        username: $username
-        email: $email
-        password: $password
-        confirmPassword: $confirmPassword
-      }
-    ) {
-      _id
-      email
-      username
-      createdAt
-      token
-    }
-  }
-`;
 
 export default Register;
