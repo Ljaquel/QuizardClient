@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
 
 import { AuthContext } from '../context/auth';
+import { LOGIN_USER } from '../Calls'
 
 const Login = (props) => {
   const context = useContext(AuthContext);
@@ -61,17 +61,5 @@ const Login = (props) => {
     </div>
   )
 }
-
-const LOGIN_USER = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      _id
-      email
-      username
-      createdAt
-      token
-    }
-  }
-`;
 
 export default Login;
