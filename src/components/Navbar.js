@@ -3,15 +3,14 @@ import { AuthContext } from '../context/auth'
 import { NavLink } from "react-router-dom";
 import {Dropdown,Button} from 'react-bootstrap'
 import { Link } from "react-router-dom";
+import {useHistory} from 'react-router-dom';
 
+const Navbar=(props) =>{
 
-export default function Navbar() {
   const { user, logout } = useContext(AuthContext)
 
-  function Profileclicked(){
-        console.log("Profile Clicked")
-
-  }
+  const history = useHistory();
+  const handleOnClick = () => history.push(`/profile/${user._id}`);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -38,15 +37,14 @@ export default function Navbar() {
                         {user.username[0].toUpperCase()}
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-
-                       
-                        <Dropdown.Item onClick={Profileclicked}>
-                              <Link to={`/profile/${user._id}`} > PROFILE</Link>
+                        {/* <Link to={`/profile/${user._id}`} > PROFILE</Link> */}
+                        <Dropdown.Item onClick={handleOnClick}>
+                              Profile
                         </Dropdown.Item>  
 
                         <Dropdown.Item onClick={logout}>LogOut</Dropdown.Item>
-
                   </Dropdown.Menu>
+
             </Dropdown>
             
 
@@ -66,3 +64,4 @@ export default function Navbar() {
     
   )
 }
+export default Navbar;
