@@ -54,7 +54,7 @@ const Home = () => {
   )
 }
 
-const FETCH_QUIZZES_QUERY = gql`user
+const FETCH_QUIZZES_QUERY = gql`
   {
     getQuizzes {
       _id
