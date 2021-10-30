@@ -9,7 +9,7 @@ const newQuestion = {
 
 const Workspace = ({ content, updateField }) => {
   const count = content.length
-  const [position, setPosition] = useState(count === 1 ? -1 : 0)
+  const [position, setPosition] = useState(count === 0 ? -1 : 0)
 
   const canAdd = count < 10
   const canDelete = count > 1

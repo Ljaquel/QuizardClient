@@ -12,8 +12,10 @@ function QuizCard(props) {
     <div className="card" style={{width: "15rem"}}>
       <div className="card-body">
         <Link to={`${destination}${quiz._id}`} className="card-subtitle text-muted">{quiz.name}</Link>
-        <p className="card-text">{quiz.description}</p>
-        <h6 className="col card-subtitle text-muted mt-4">{moment(quiz.createdAt).fromNow()}</h6>
+        <p className="card-text" style={{fontSize: "13px"}}>{quiz.description.length < 70 ? quiz.description : "Description..."}</p>
+        <h6 className="card-subtitle text-muted mt-0">
+          {props.home && quiz?.creator === user?._id && "Owner - "}{moment(quiz.createdAt).fromNow()}
+        </h6>
       </div>
     </div>
   )

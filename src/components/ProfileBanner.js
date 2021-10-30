@@ -1,18 +1,23 @@
-import { Component } from "react";
+import React, { useContext } from "react";
 import { AuthContext } from '../context/auth'
+import CreateQuizPopUp from '../components/CreateQuizPopUp'; 
 
+const ProfileBanner = ({addQuiz}) => {
+  const { user } = useContext(AuthContext);
 
+  return(
+    <div className="row">
+      <div className="col-auto mx-5 my-3">
+        <h1>{user?.username} - Created Quizzes</h1>
+      </div>
+      <div className="col">
 
-class ProfileBanner extends Component{
-      
-      render(){
-            
-            return(
-                  <div>
-                        <h1>{this.props.username}</h1>
-                  </div>
-            )
-      }
+      </div>
+      <div className="col-2 mt-4">
+        <CreateQuizPopUp addQuiz={addQuiz}/>
+      </div>
+    </div>
+  )
 }
 
 export default ProfileBanner

@@ -1,20 +1,52 @@
-import React, { useContext, useEffect } from 'react';
-import { useQuery } from '@apollo/client';
+import React, { useContext, useEffect } from 'react'
+import { useQuery, useMutation } from '@apollo/client'
 
-
-import { AuthContext } from '../context/auth';
+import { AuthContext } from '../context/auth'
 import ProfileBanner from '../components/ProfileBanner'
-import ProfileQuizArea from '../components/ProfileQuizArea'
-import CreateQuizPopUp from '../components/CreateQuizPopUp'; 
-import { CREATE_QUIZ, FETCH_QUIZZES_QUERY } from '../Calls';
+import QuizCard from '../components/QuizCard'
+import Loading from '../components/Loading'
+import PageNotFound from '../pages/PageNotFound'
+import { CREATE_QUIZ, FETCH_QUIZZES_BY_CREATOR } from '../Calls'
 
-const Profile = (props) => {
-      const { user } = useContext(AuthContext)
+const Profile = () => {
+  const { user } = useContext(AuthContext);
+  const { data, loading, refetch } = useQuery(FETCH_QUIZZES_BY_CREATOR, {variables: {creatorId: user?._id}});
+
+  useEffect(() => {
+    refetch()
+  }, [refetch]);
+
+  const [addQuiz] = useMutation(CREATE_QUIZ, {
+    variables: { name: "Default Quiz Name", creator: user?._id },
+    onError(err) { console.log(JSON.stringify(err, null, 2)) },
+    update(cache, { data: { createQuiz }}){
+      cache.writeQuery({
+        query: FETCH_QUIZZES_BY_CREATOR,
+        data: {
+          getQuizzesByCreator: [createQuiz, ...data.getQuizzesByCreator]
+        },
+        variables: {creatorId: user?._id}
+      })
+    }
+  });
+
+  const quizzes = data?.getQuizzesByCreator;
+
+  if(loading) { return <Loading/> }
+  if(!user) { return <PageNotFound message="No Access Error"/> }
  
   return (
     <div className="container-fluid">
-          <ProfileBanner username={user.username}/> 
-          <ProfileQuizArea />
+      <ProfileBanner username={user.username} addQuiz={addQuiz}/>
+      <div className="container">
+        <div className="row row-cols-auto g-3">
+          {quizzes && quizzes.map((quiz, index) =>
+            <div className="mcol"  key={index}>
+              <QuizCard quiz={quiz}/>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   )
 }

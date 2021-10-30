@@ -26,7 +26,7 @@ const QuizBuilder = (props) => {
 
   
   const [ deleteQuiz ] = useMutation(DELETE_QUIZ_MUTATION, {
-    onCompleted() { props.history.push("/") },
+    onCompleted() { props.history.push("/profile") },
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
     variables: {quizId: quizId}
   });
