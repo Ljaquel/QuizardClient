@@ -1,3 +1,31 @@
 html, body {
   height: 100%;
 }
+
+#root {
+  height: 100%
+}
+
+.editable-label {
+  color: rgb(255, 255, 255);
+  background-color: inherit;
+  border-style: hidden;
+  outline: none;
+}
+
+.editable-label::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgb(255, 255, 255);
+  opacity: 0.6;
+}
+
+.builder-nav-container, .nav-container {
+  height: 40px;
+}
+
+.workspace-container, .description-container {
+  background-color: rgb(171, 175, 187);
+}
+
+.question-card {
+  background-color: rgb(71, 80, 71);
+}

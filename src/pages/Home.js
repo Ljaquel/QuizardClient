@@ -43,7 +43,7 @@ const Home = () => {
           </div>
           <div className="col-2">
             {user &&
-            <button type="button" className="btn btn-info btn-lg mt-3" onClick={onCreate}>
+            <button type="button" className="btn btn-info btn-md mt-3" onClick={onCreate}>
               Create Quiz
             </button>
             }

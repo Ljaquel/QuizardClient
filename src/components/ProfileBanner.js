@@ -1,19 +1,11 @@
-import { Component } from "react";
-import { AuthContext } from '../context/auth'
-import React, { useContext } from 'react'
+import React from 'react'
 
-
-
-class ProfileBanner extends Component{
-      
-      render(){
-            
-            return(
-                  <div>
-                        <h1>{this.props.username}</h1>
-                  </div>
-            )
-      }
+const ProfileBanner = () => {
+  return (
+    <div>
+      ProfileBanner
+    </div>
+  )
 }
 
 export default ProfileBanner
