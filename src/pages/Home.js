@@ -47,13 +47,7 @@ const Home = () => {
           <div className="col">
           </div>
           <div className="col-2">
-            {user &&
-            // <button type="button" className="btn btn-info btn-lg mt-3" onClick={onCreate}>
-            //   Create Quiz
-            // </button>
-            
-            <CreateQuizPopUp createfuntion={onCreate}/>
-            }
+            {user &&  <CreateQuizPopUp/> }
           </div>
         </div>
         <div className="row row-cols-auto g-3">

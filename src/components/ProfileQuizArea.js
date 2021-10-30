@@ -8,8 +8,6 @@ import { AuthContext } from '../context/auth'
 import { FETCH_QUIZZES_BY_CREATOR } from '../Calls'
 
 
-
-
 const ProfileQuizArea = () => {
   const { user } = useContext(AuthContext);
   const { _id:userId } = useParams()

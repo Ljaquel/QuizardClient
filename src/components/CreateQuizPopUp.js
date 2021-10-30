@@ -1,19 +1,16 @@
-
-import { Component, useContext, useState } from "react";
+import { Component, useContext, useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
+import { gql, useQuery, useMutation } from "@apollo/client";
+
+import { CREATE_QUIZ, FETCH_QUIZZES_QUERY } from "../Calls";
 import { AuthContext } from "../context/auth";
-import { gql, useQuery, useMutation } from '@apollo/client';
-function CreateQuizPopUp(props) {
-  const context = useContext(AuthContext);
+import Loading from "../components/Loading";
+
+function CreateQuizPopUp() {
+  const { user } = useContext(AuthContext);
 
   const [values, setValues] = useState({
-
-    quizname:    "",
-    categories:  "",
-    quizDuration: "",
-    numofQuestions: "",
-
-
+    quizname: "", 
     error: null,
   });
 
@@ -25,40 +22,39 @@ function CreateQuizPopUp(props) {
     }
   };
 
-
-
   const [show, setShow] = useState(false);
 
+  const [addQuiz] = useMutation(CREATE_QUIZ, {
+    variables: { name: values.quizname, creator: user?._id },
+    update(cache, { data: { createQuiz } }) {
+      cache.writeQuery({
+        query: FETCH_QUIZZES_QUERY,
+        data: {
+          getQuizzes: [createQuiz, ...data.getQuizzes],
+        },
+      });
+    },
+  });
+
+  const { data, refetch } = useQuery(FETCH_QUIZZES_QUERY);
 
 
-
-//   const [addQuiz] = useMutation(CREATE_QUIZ, {
-//       variables: { name: "Quiz Name", creator: user?._id },
-//       update(proxy, result){
-//         proxy.writeQuery({
-//           query: FETCH_QUIZZES_QUERY,
-//           data: {
-//             getQuizzes: [result.data.createQuiz, ...data.getQuizzes]
-//           }
-//         })
-//       }
-//     });
-
-
-
-
-
-
-
-  const handleClose = () => {
-      props.createfuntion()
-     
-      console.log(values)
-      setShow(false);
-
+  if (!data) {
+    return <Loading />;
   }
-  
-  
+
+  const { getQuizzes: quizzes } = data;
+
+  const handleClose = () => {setShow(false)};
+
+  const createQuizPressed = () => {
+        if (values.quizname ==="")              //if QuizName texfield empty then show Error message
+                    document.getElementById('quiznameTextfield').reportValidity();        
+        else{
+            addQuiz();
+            handleClose()
+        }
+    };
 
   const handleShow = () => setShow(true);
 
@@ -73,61 +69,26 @@ function CreateQuizPopUp(props) {
           <Modal.Title>Create Quiz</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div
-            className="container-fluid bg-light p-5 mt-5"
+          <div 
             style={{ maxWidth: "700px" }}
           >
-            <div className="container mb-5">
-              
-            </div>
             <div className="m-3 row justify-content-center">
+                 
               <label className="form-label col-4">Quiz Name:</label>
               <input
-            
+                id="quiznameTextfield"
+                required
+                type="text"
+                placeholder="Quiz Name"
                 name="quizname"
                 className="form-control col"
-                id="quizname"
+                
                 value={values.quizname}
-                onChange={onChange}
-              />
+                onChange={onChange} 
+              /> 
+
             </div>
 
-            <div className="m-3 row justify-content-center">
-              <label className="form-label col-4">Category</label>
-              <input
-            
-                name="categories"
-                className="form-control col"
-                id="categories"
-                value={values.categories}
-                onChange={onChange}
-              />
-            </div>
-
-            <div className="m-3 row justify-content-center">
-              <label className="form-label col-4">Duration</label>
-              <input
-            
-                name="quizDuration"
-                className="form-control col"
-                id="quizDuration"
-                value={values.quizDuration}
-                onChange={onChange}
-              />
-            </div>
-
-            <div className="m-3 row justify-content-center">
-              <label className="form-label col-4">Number of Questions</label>
-              <input
-            
-                name="numofQuestions"
-                className="form-control col"
-                id="numofQuestions"
-                value={values.numofQuestions}
-                onChange={onChange}
-              />
-            </div>
- 
             {values.error && (
               <div className="container mb-5 red">
                 {values.error.message + ". Please try Again!"}
@@ -140,22 +101,14 @@ function CreateQuizPopUp(props) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
+          <Button variant="primary" onClick={createQuizPressed} type="submit">
+            Create Quiz
+          </Button> 
+          
         </Modal.Footer>
       </Modal>
     </>
   );
 }
-
-const CREATE_QUIZ = gql`
-  mutation createQuiz($name: String!, $creator: String!){
-    createQuiz(name: $name, creator: $creator) {
-      name
-      creator
-    }
-  }
-`
 
 export default CreateQuizPopUp;
