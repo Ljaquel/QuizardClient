@@ -4,5 +4,7 @@ import Register from './Register'
 import QuizBuilder from './QuizBuilder'
 import PageNotFound from './PageNotFound'
 import Profile from './Profile'
+import QuizScreen from './QuizScreen'
+import Settings from './Settings'
 
-export { Home, Login, Register, QuizBuilder, PageNotFound,Profile }
+export { Home, Login, Register, QuizBuilder, PageNotFound, QuizScreen, Settings, Profile }
