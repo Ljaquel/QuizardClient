@@ -9,6 +9,7 @@ import BuilderSideBar from '../components/quizBuilder/BuilderSideBar';
 import Description from '../components/quizBuilder/Description';
 import Loading from '../components/Loading';
 import PageNotFound from '../pages/PageNotFound';
+import { RemoveTypename } from '../util/RemoveTypename'
 import { FETCH_QUIZ_QUERY, DELETE_QUIZ_MUTATION, UPDATE_QUIZ_MUTATION } from '../Calls'
 
 const QuizBuilder = (props) => {
@@ -20,7 +21,7 @@ const QuizBuilder = (props) => {
   const quiz = data?.getQuiz
 
   useEffect(() => {
-    setQuizState({...quiz, __typename: undefined})
+    if(quiz) setQuizState(RemoveTypename(quiz))
   }, [quiz]);
 
   
@@ -31,18 +32,11 @@ const QuizBuilder = (props) => {
   });
 
   const [ updateQuiz ] = useMutation(UPDATE_QUIZ_MUTATION, {
-    //update(cache, { data: { updateQuiz }}){
-    //  cache.writeQuery({
-    //    query: FETCH_QUIZ_QUERY,
-    //    data: { quiz: { ...updateQuiz, __typename: 'Quiz' } },
-    //    variables: { id: updateQuiz._id }
-    //  })
-    //},
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
     variables: { quizId: quizState?._id }
   });
 
-  const saveQuiz = () => updateQuiz({ variables: { update: {...quizState, content: undefined} } })
+  const saveQuiz = () => updateQuiz({ variables: { update: quizState }})
   const publishQuiz = () => {
     console.log("Can't publish yet")
     //setQuizState({...quizState, published: true})
@@ -63,15 +57,15 @@ const QuizBuilder = (props) => {
         saveQuiz={saveQuiz}
         publishQuiz={publishQuiz}
       />
-      <div className="container-fluid">
-        <div className="row">
+      <div className="container-fluid" >
+        <div className="row d-flex flex-row">
           <div className="col-3 p-0">
             <BuilderSideBar/>
           </div>
           <div className="col-9">
             <div className="row">
               <div className="col p-0">
-                <Workspace content={quizState?.content}/>
+                {quizState.content && <Workspace content={quizState.content} updateField={updateField}/> }
               </div>
             </div>
             <div className="row">
