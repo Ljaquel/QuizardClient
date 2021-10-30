@@ -13,28 +13,9 @@ import { CREATE_QUIZ, FETCH_QUIZZES_QUERY } from '../Calls';
 
 const Home = () => {
   const { user } = useContext(AuthContext);
-  
-  const [addQuiz] = useMutation(CREATE_QUIZ, {
-    variables: { name: "Quiz Name", creator: user?._id },
-    update(cache, { data: { createQuiz }}){
-      cache.writeQuery({
-        query: FETCH_QUIZZES_QUERY,
-        data: {
-          getQuizzes: [createQuiz, ...data.getQuizzes]
-        }
-      })
-    }
-  });
+
 
   const { data, refetch } = useQuery(FETCH_QUIZZES_QUERY);
-
-  useEffect(() => {
-    refetch()
-  }, [refetch]);
-
-  const onCreate = () => {
-    addQuiz()
-  }
 
   if(!data) { return <Loading/> }
   const { getQuizzes: quizzes } = data;
@@ -50,12 +31,16 @@ const Home = () => {
             {user &&  <CreateQuizPopUp/> }
           </div>
         </div>
+        
         <div className="row row-cols-auto g-3">
-          {user && quizzes && quizzes.map((quiz, index) => <div className="col"  key={index} >  <QuizCard quiz={quiz}/>  </div>)}
+        {console.log(quizzes)}
+          {user && quizzes && quizzes.map((quiz, index) => <div className="col"  key={index} >  
+                        <QuizCard quiz={quiz}/>  </div>)}
         </div>
       </div>
     </div>
   )
+  
 }
 
 export default Home;

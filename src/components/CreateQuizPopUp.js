@@ -37,12 +37,14 @@ function CreateQuizPopUp() {
   });
 
   const { data, refetch } = useQuery(FETCH_QUIZZES_QUERY);
+//   useEffect(() => {
+//       refetch()
+//     }, [refetch]);
 
 
   if (!data) {
     return <Loading />;
   }
-
   const { getQuizzes: quizzes } = data;
 
   const handleClose = () => {setShow(false)};
@@ -51,6 +53,7 @@ function CreateQuizPopUp() {
         if (values.quizname ==="")              //if QuizName texfield empty then show Error message
                     document.getElementById('quiznameTextfield').reportValidity();        
         else{
+            
             addQuiz();
             handleClose()
         }
