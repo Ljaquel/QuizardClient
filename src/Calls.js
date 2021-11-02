@@ -9,12 +9,27 @@ const FETCH_QUIZZES_QUERY = gql`
       publishedDate
       published
       creator
+      timesPlayed
       time
+      rating
       difficulty
+      comments {
+        comment
+        name
+        createdAt
+      }
+      color
+      tags
+      stats {
+        averageScore
+        lowestScore
+        highestScore
+        averageTime
+      }
       content {
         question
         answer
-        choices   
+        choices
       }
       createdAt
     }
@@ -30,12 +45,27 @@ const FETCH_QUIZ_QUERY = gql`
       publishedDate
       published
       creator
+      timesPlayed
       time
+      rating
       difficulty
+      comments {
+        comment
+        name
+        createdAt
+      }
+      color
+      tags
+      stats {
+        averageScore
+        lowestScore
+        highestScore
+        averageTime
+      }
       content {
         question
         answer
-        choices   
+        choices
       }
       createdAt
     }
@@ -46,19 +76,34 @@ const FETCH_QUIZZES_BY_CREATOR = gql`
 query($creatorId: ID!) {
   getQuizzesByCreator(creatorId: $creatorId) {
     _id
-    name
-    description
-    publishedDate
-    published
-    creator
-    time
-    difficulty
-    content {
-      question
-      answer
-      choices
-    }
-    createdAt
+      name
+      description
+      publishedDate
+      published
+      creator
+      timesPlayed
+      time
+      rating
+      difficulty
+      comments {
+        comment
+        name
+        createdAt
+      }
+      color
+      tags
+      stats {
+        averageScore
+        lowestScore
+        highestScore
+        averageTime
+      }
+      content {
+        question
+        answer
+        choices
+      }
+      createdAt
   }
 }
 `;
@@ -72,12 +117,27 @@ const CREATE_QUIZ = gql`
       publishedDate
       published
       creator
+      timesPlayed
       time
+      rating
       difficulty
+      comments {
+        comment
+        name
+        createdAt
+      }
+      color
+      tags
+      stats {
+        averageScore
+        lowestScore
+        highestScore
+        averageTime
+      }
       content {
         question
         answer
-        choices   
+        choices
       }
       createdAt
     }
@@ -93,12 +153,27 @@ const DELETE_QUIZ_MUTATION = gql`
       publishedDate
       published
       creator
+      timesPlayed
       time
+      rating
       difficulty
+      comments {
+        comment
+        name
+        createdAt
+      }
+      color
+      tags
+      stats {
+        averageScore
+        lowestScore
+        highestScore
+        averageTime
+      }
       content {
         question
         answer
-        choices   
+        choices
       }
       createdAt
     }
@@ -114,12 +189,27 @@ const UPDATE_QUIZ_MUTATION = gql`
       publishedDate
       published
       creator
+      timesPlayed
       time
+      rating
       difficulty
+      comments {
+        comment
+        name
+        createdAt
+      }
+      color
+      tags
+      stats {
+        averageScore
+        lowestScore
+        highestScore
+        averageTime
+      }
       content {
         question
         answer
-        choices   
+        choices
       }
       createdAt
     }
