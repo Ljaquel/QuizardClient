@@ -9,7 +9,11 @@ const RemoveTypename = (obj) => {
     delete question.__typename
     content[i] = question
   }
-  
+
+  let stats = {...obj.stats}
+  delete stats.__typename
+
+  copy.stats = stats
   copy.content = content
   return copy
 }
