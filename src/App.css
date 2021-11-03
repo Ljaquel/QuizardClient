@@ -26,6 +26,19 @@ html, body {
   background-color: rgb(171, 175, 187);
 }
 
+.workspace-container {
+  padding-bottom: 30px;
+}
+
 .question-card {
   background-color: rgb(71, 80, 71);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #fff;
+  box-shadow: none;
 }

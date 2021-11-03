@@ -11,7 +11,7 @@ const QuizScreen = () => {
   const { user } = useContext(AuthContext);
   const { _id:quizId } = useParams();
   
-  const { data, loading } = useQuery(FETCH_QUIZ_QUERY, { variables: { quizId: quizId } });
+  const { data } = useQuery(FETCH_QUIZ_QUERY, { variables: { quizId: quizId } });
   const quiz = data?.getQuiz
   
   if(!quiz) { return <Loading/> }

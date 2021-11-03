@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Question from './Question'
 
 const newQuestion = {
@@ -7,9 +7,10 @@ const newQuestion = {
   choices: ["Answer A", "Answer B", "Answer C", "Answer D"]
 }
 
-const Workspace = ({ content, updateField }) => {
+const Workspace = ({ content, updateField, positionState, color }) => {
   const count = content.length
-  const [position, setPosition] = useState(count === 0 ? -1 : 0)
+  const [position, setPosition] = positionState
+  if (count === 0) setPosition(-1)
 
   const canAdd = count < 10
   const canDelete = count > 1
@@ -61,7 +62,7 @@ const Workspace = ({ content, updateField }) => {
         </div>
         <div className="col p-0 m-0">
           <div className="container-fluid text-white">
-            {(position >= 0) && (position < count) && <Question question={content[position]} updateQuestion={updateQuestion}/> }
+            {(position >= 0) && (position < count) && <Question question={content[position]} updateQuestion={updateQuestion} color={color}/> }
           </div>
         </div>
         <div className="col-auto p-0 m-0 align-self-center">

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'
+import { useParams, Redirect } from 'react-router-dom'
 import { useQuery, useMutation } from '@apollo/client';
 
 import { AuthContext } from '../context/auth';
@@ -16,12 +16,15 @@ const QuizBuilder = (props) => {
   const { user } = useContext(AuthContext);
   const { _id:quizId } = useParams();
   const [quizState, setQuizState] = useState({});
+  const [position, setPosition] = useState(0);
   
   const { data, loading } = useQuery(FETCH_QUIZ_QUERY, { variables: { quizId: quizId } });
   const quiz = data?.getQuiz
 
   useEffect(() => {
-    if(quiz) setQuizState(RemoveTypename(quiz))
+    if(quiz) {
+      setQuizState(RemoveTypename(quiz))
+    }
   }, [quiz]);
 
   
@@ -47,6 +50,7 @@ const QuizBuilder = (props) => {
 
   if(loading) { return <Loading/> }
   if(user._id !== quiz.creator) { return <PageNotFound message="No Access Error"/> }
+  if(quizState?.creator && quizState?.published) { return <Redirect to={"quizscreen/" + quizId}/> }
 
   return (
     <>
@@ -60,12 +64,20 @@ const QuizBuilder = (props) => {
       <div className="container-fluid" >
         <div className="row d-flex flex-row">
           <div className="col-3 p-0">
-            <BuilderSideBar/>
+            <BuilderSideBar
+              tags={quizState?.tags}
+              difficulty={quizState?.difficulty}
+              time={quizState?.time}
+              color={quizState?.color}
+              updateField={updateField}
+              content={quizState?.content}
+              positionState={[position, setPosition]}
+            />
           </div>
           <div className="col-9">
             <div className="row">
               <div className="col p-0">
-                {quizState.content && <Workspace content={quizState.content} updateField={updateField}/> }
+                {quizState.content && <Workspace content={quizState.content} updateField={updateField} positionState={[position, setPosition]} color={quizState?.color}/> }
               </div>
             </div>
             <div className="row">
