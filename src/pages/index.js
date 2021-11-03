@@ -6,5 +6,6 @@ import PageNotFound from './PageNotFound'
 import Profile from './Profile'
 import QuizScreen from './QuizScreen'
 import Settings from './Settings'
+import SearchScreen from './SearchScreen.js'
 
-export { Home, Login, Register, QuizBuilder, PageNotFound, QuizScreen, Settings, Profile }
+export { Home, Login, Register, QuizBuilder, PageNotFound, QuizScreen, Settings, Profile,SearchScreen }
