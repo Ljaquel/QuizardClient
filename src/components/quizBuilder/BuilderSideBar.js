@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import QuestionsList from './QuestionsList'
+import Style from './Style'
 
-const BuilderSideBar = ({ tags, difficulty, time, color, updateField, content, positionState }) => {
+const BuilderSideBar = ({ tags, difficulty, time, style, updateField, content, positionState }) => {
   const [tag, setTag] = useState("")
 
   const AddTag = () => {
@@ -78,17 +79,14 @@ const BuilderSideBar = ({ tags, difficulty, time, color, updateField, content, p
       </div>
 
 
-      <div className="row my-2 ps-2">
-        <div className="col-auto">
-          <label>Color:</label>
-        </div>
-        <div className="col-auto">
-            <input type="color" value={color?color:"#ffffff"} onInput={(e) => updateField("color", e.target.value)}></input>
+      <div className="row mt-4">
+        <div className="col">
+          <div className="accordion" id="accordionSideBar">
+            <QuestionsList updateField={updateField} positionState={positionState} content={content}/>
+            <Style style={style} updateField={updateField}/>
+          </div>
         </div>
       </div>
-
-
-      <QuestionsList updateField={updateField} positionState={positionState} content={content}/>
 
 
     </div>

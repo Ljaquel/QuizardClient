@@ -18,7 +18,12 @@ const FETCH_QUIZZES_QUERY = gql`
         name
         createdAt
       }
-      color
+      style {
+        color
+        questionColor
+        backgroundColor
+        choiceColor
+      }
       tags
       stats {
         averageScore
@@ -54,7 +59,12 @@ const FETCH_QUIZ_QUERY = gql`
         name
         createdAt
       }
-      color
+      style {
+        color
+        questionColor
+        backgroundColor
+        choiceColor
+      }
       tags
       stats {
         averageScore
@@ -90,7 +100,12 @@ query($creatorId: ID!) {
         name
         createdAt
       }
-      color
+      style {
+        color
+        questionColor
+        backgroundColor
+        choiceColor
+      }
       tags
       stats {
         averageScore
@@ -126,7 +141,12 @@ const CREATE_QUIZ = gql`
         name
         createdAt
       }
-      color
+      style {
+        color
+        questionColor
+        backgroundColor
+        choiceColor
+      }
       tags
       stats {
         averageScore
@@ -162,7 +182,12 @@ const DELETE_QUIZ_MUTATION = gql`
         name
         createdAt
       }
-      color
+      style {
+        color
+        questionColor
+        backgroundColor
+        choiceColor
+      }
       tags
       stats {
         averageScore
@@ -198,7 +223,12 @@ const UPDATE_QUIZ_MUTATION = gql`
         name
         createdAt
       }
-      color
+      style {
+        color
+        questionColor
+        backgroundColor
+        choiceColor
+      }
       tags
       stats {
         averageScore
