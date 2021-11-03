@@ -17,6 +17,7 @@ const QuizBuilder = (props) => {
   const { _id:quizId } = useParams();
   const [quizState, setQuizState] = useState({});
   const [position, setPosition] = useState(0);
+  const [unsavedChanges, setUnsavedChanges] = useState(false)
   
   const { data, loading } = useQuery(FETCH_QUIZ_QUERY, { variables: { quizId: quizId } });
   const quiz = data?.getQuiz
@@ -39,14 +40,20 @@ const QuizBuilder = (props) => {
     variables: { quizId: quizState?._id }
   });
 
-  const saveQuiz = () => updateQuiz({ variables: { update: quizState }})
+  const saveQuiz = () => {
+    updateQuiz({ variables: { update: quizState }})
+    setUnsavedChanges(false)
+  }
   const publishQuiz = () => {
     console.log("Can't publish yet")
     //setQuizState({...quizState, published: true})
     //updateQuiz({ variables: { published: true } })
   }
 
-  const updateField = (field, value) => setQuizState({...quizState, [field]: value})
+  const updateField = (field, value) => {
+    setQuizState({...quizState, [field]: value})
+    if(!unsavedChanges) setUnsavedChanges(true)
+  }
 
   if(loading) { return <Loading/> }
   if(user._id !== quiz.creator) { return <PageNotFound message="No Access Error"/> }
@@ -60,6 +67,7 @@ const QuizBuilder = (props) => {
         deleteQuiz={deleteQuiz}
         saveQuiz={saveQuiz}
         publishQuiz={publishQuiz}
+        unsavedChanges={unsavedChanges}
       />
       <div className="container-fluid" >
         <div className="row d-flex flex-row">
@@ -68,7 +76,7 @@ const QuizBuilder = (props) => {
               tags={quizState?.tags}
               difficulty={quizState?.difficulty}
               time={quizState?.time}
-              color={quizState?.color}
+              style={quizState?.style}
               updateField={updateField}
               content={quizState?.content}
               positionState={[position, setPosition]}
@@ -77,7 +85,7 @@ const QuizBuilder = (props) => {
           <div className="col-9">
             <div className="row">
               <div className="col p-0">
-                {quizState.content && <Workspace content={quizState.content} updateField={updateField} positionState={[position, setPosition]} color={quizState?.color}/> }
+                {quizState.content && <Workspace content={quizState.content} updateField={updateField} positionState={[position, setPosition]} style={quizState?.style}/> }
               </div>
             </div>
             <div className="row">

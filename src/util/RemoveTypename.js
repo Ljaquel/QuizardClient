@@ -13,6 +13,10 @@ const RemoveTypename = (obj) => {
   let stats = {...obj.stats}
   delete stats.__typename
 
+  let style = {...obj.style}
+  delete style.__typename
+
+  copy.style = style
   copy.stats = stats
   copy.content = content
   return copy

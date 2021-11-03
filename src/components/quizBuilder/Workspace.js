@@ -3,11 +3,11 @@ import Question from './Question'
 
 const newQuestion = {
   question: "Question?",
-  answer: -1,
+  answer: 0,
   choices: ["Answer A", "Answer B", "Answer C", "Answer D"]
 }
 
-const Workspace = ({ content, updateField, positionState, color }) => {
+const Workspace = ({ content, updateField, positionState, style }) => {
   const count = content.length
   const [position, setPosition] = positionState
   if (count === 0) setPosition(-1)
@@ -43,10 +43,10 @@ const Workspace = ({ content, updateField, positionState, color }) => {
   }
 
   return (
-    <div className="container-fluid text-white workspace-container">
+    <div className="container-fluid text-white workspace-container" style={{backgroundColor: style?style.backgroundColor:"#abafbb"}}>
       <div className="row mb-4 pt-4">
         <div className="col text-center">
-          <label htmlFor="customRange2" className="form-label text-dark">Question {position+1}</label>
+          <label htmlFor="customRange2" className="form-label text-dark"><span className="badge bg-light text-dark">Question {position+1}</span></label>
           <input type="range" className="form-range" min={0} max={count-1} value={position} onChange={(e) => setPosition(parseInt(e.target.value))} id="customRange2" ></input>
         </div>
       </div>
@@ -62,7 +62,7 @@ const Workspace = ({ content, updateField, positionState, color }) => {
         </div>
         <div className="col p-0 m-0">
           <div className="container-fluid text-white">
-            {(position >= 0) && (position < count) && <Question question={content[position]} updateQuestion={updateQuestion} color={color}/> }
+            {(position >= 0) && (position < count) && <Question question={content[position]} updateQuestion={updateQuestion} style={style}/> }
           </div>
         </div>
         <div className="col-auto p-0 m-0 align-self-center">
