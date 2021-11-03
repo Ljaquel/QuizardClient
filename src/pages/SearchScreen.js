@@ -21,7 +21,7 @@ const QuizScreen = () => {
   return (
     <div className="container">
       <div className="row">
-        <h1 className="mt-3 mb-4 col-3">Quizard</h1>
+        <h1 className="mt-3 mb-4 col-3">Search</h1>
       </div>
       <div className="row row-cols-auto g-3"> 
         {user && quizzes && quizzes.map((quiz, index) =>
