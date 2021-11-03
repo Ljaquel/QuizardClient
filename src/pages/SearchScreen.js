@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@apollo/client';
 
-import QuizCard from '../components/QuizCard';
+import SearchQuizCard from '../components/SearchQuizCard';
 import Loading from '../components/Loading';
 import { AuthContext } from '../context/auth';
 import { FETCH_QUIZZES_QUERY } from '../Calls';
@@ -20,13 +20,14 @@ const QuizScreen = () => {
  
   return (
     <div className="container">
-      <div className="row">
-        <h1 className="mt-3 mb-4 col-3">Search</h1>
+      <div >
+        <h1  >Search</h1>
       </div>
-      <div className="row row-cols-auto g-3"> 
+
+      <div> 
         {user && quizzes && quizzes.map((quiz, index) =>
-          <div className="col"  key={index}>  
-            <QuizCard quiz={quiz} home={true}/>
+          <div  key={index}>  
+            <SearchQuizCard quiz={quiz} home={true}/>
           </div>
         )}
       </div>

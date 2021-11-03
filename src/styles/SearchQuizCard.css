@@ -1,0 +1,6 @@
+.Searchcard{
+  margin: 1em;
+}
+.Searchcard:hover{
+  background-color: rgb(211, 218, 224);
+}
