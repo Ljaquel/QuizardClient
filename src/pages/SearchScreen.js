@@ -10,7 +10,9 @@ const QuizScreen = () => {
   const { user } = useContext(AuthContext);
   const [ searchInput, setSearchInput ] = useState("")
 
-  const { data, refetch } = useQuery(FETCH_QUIZZES_QUERY);
+  const { data, refetch } = useQuery(FETCH_QUIZZES_QUERY, {
+    variables: { filters: { published: true } }
+  });
 
   useEffect(() => {
     refetch()

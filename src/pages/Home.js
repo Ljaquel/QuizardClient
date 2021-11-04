@@ -8,7 +8,9 @@ import { FETCH_QUIZZES_QUERY } from '../Calls';
 
 const Home = () => {
   const { user } = useContext(AuthContext);
-  const { data, refetch } = useQuery(FETCH_QUIZZES_QUERY);
+  const { data, refetch } = useQuery(FETCH_QUIZZES_QUERY, {
+    variables: {filters: { published: true }}
+  });
 
   useEffect(() => {
     refetch()
