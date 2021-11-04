@@ -15,7 +15,7 @@ const QuizScreen = () => {
   const quiz = data?.getQuiz
   
   if(!quiz) { return <Loading/> }
-  if(user._id === quiz.creator) { return <PageNotFound message="No Access Error"/> }
+  if(user._id === quiz.creator && quiz.published === false) { return <PageNotFound message="No Access Error"/> }
   return (
     <div className="container-lg pt-2">
       <div className="row mt-2 mb-5">
