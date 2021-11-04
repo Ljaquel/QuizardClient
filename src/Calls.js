@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 const FETCH_QUIZZES_QUERY = gql`
-  query fetchQuizzesQuery{
-    getQuizzes {
+  query fetchQuizzesQuery($filters: QuizInput){
+    getQuizzes(filters: $filters) {
       _id
       name
       description
@@ -80,47 +80,6 @@ const FETCH_QUIZ_QUERY = gql`
       createdAt
     }
   }
-`;
-
-const FETCH_QUIZZES_BY_CREATOR = gql`
-query($creatorId: ID!) {
-  getQuizzesByCreator(creatorId: $creatorId) {
-    _id
-      name
-      description
-      publishedDate
-      published
-      creator
-      timesPlayed
-      time
-      rating
-      difficulty
-      comments {
-        comment
-        name
-        createdAt
-      }
-      style {
-        color
-        questionColor
-        backgroundColor
-        choiceColor
-      }
-      tags
-      stats {
-        averageScore
-        lowestScore
-        highestScore
-        averageTime
-      }
-      content {
-        question
-        answer
-        choices
-      }
-      createdAt
-  }
-}
 `;
 
 const CREATE_QUIZ = gql`
@@ -285,7 +244,6 @@ const REGISTER_USER = gql`
 export { 
   FETCH_QUIZZES_QUERY,
   FETCH_QUIZ_QUERY,
-  FETCH_QUIZZES_BY_CREATOR,
   CREATE_QUIZ,
   DELETE_QUIZ_MUTATION,
   UPDATE_QUIZ_MUTATION,

@@ -18,6 +18,7 @@ const QuizBuilder = (props) => {
   const [quizState, setQuizState] = useState({});
   const [position, setPosition] = useState(0);
   const [unsavedChanges, setUnsavedChanges] = useState(false)
+  const [reqs, setReqs] = useState([])
   
   const { data, loading } = useQuery(FETCH_QUIZ_QUERY, { variables: { quizId: quizId } });
   const quiz = data?.getQuiz
@@ -45,14 +46,24 @@ const QuizBuilder = (props) => {
     setUnsavedChanges(false)
   }
   const publishQuiz = () => {
-    console.log("Can't publish yet")
-    //setQuizState({...quizState, published: true})
-    //updateQuiz({ variables: { published: true } })
+    updateQuiz({ variables: { update: {published: true, publishedDate: new Date().toISOString()} } })
+    props.history.push("/profile")
   }
 
   const updateField = (field, value) => {
     setQuizState({...quizState, [field]: value})
     if(!unsavedChanges) setUnsavedChanges(true)
+  }
+
+  const updateReqs = () => {
+    if(!quizState) return
+    let newReqs = []
+    if(unsavedChanges) newReqs.push("There are unsaved changes. Save first")
+    if(quizState?.content.length < 5) newReqs.push("Needs a minimum of five questions")
+    if(parseInt(quizState?.time) === 0) newReqs.push("Time Limit should be at least One Minute")
+    if(quizState.name.length === 0) newReqs.push("Please provide a name for your quiz")
+    if(quizState.description.length === 0) newReqs.push("Please provide a description for your quiz")
+    setReqs(newReqs)
   }
 
   if(loading) { return <Loading/> }
@@ -68,6 +79,8 @@ const QuizBuilder = (props) => {
         saveQuiz={saveQuiz}
         publishQuiz={publishQuiz}
         unsavedChanges={unsavedChanges}
+        reqs={reqs}
+        updateReqs={updateReqs}
       />
       <div className="container-fluid" >
         <div className="row d-flex flex-row">

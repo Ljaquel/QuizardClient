@@ -6,11 +6,11 @@ import ProfileBanner from '../components/ProfileBanner'
 import QuizCard from '../components/QuizCard'
 import Loading from '../components/Loading'
 import PageNotFound from '../pages/PageNotFound'
-import { CREATE_QUIZ, FETCH_QUIZZES_BY_CREATOR } from '../Calls'
+import { CREATE_QUIZ, FETCH_QUIZZES_QUERY } from '../Calls'
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
-  const { data, loading, refetch } = useQuery(FETCH_QUIZZES_BY_CREATOR, {variables: {creatorId: user?._id}});
+  const { data, loading, refetch } = useQuery(FETCH_QUIZZES_QUERY, { variables: { filters: { creator: user?._id+"" } } });
 
   useEffect(() => {
     refetch()
@@ -21,16 +21,16 @@ const Profile = () => {
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
     update(cache, { data: { createQuiz }}){
       cache.writeQuery({
-        query: FETCH_QUIZZES_BY_CREATOR,
+        query: FETCH_QUIZZES_QUERY,
         data: {
-          getQuizzesByCreator: [createQuiz, ...data.getQuizzesByCreator]
+          getQuizzes: [createQuiz, ...data.getQuizzes]
         },
-        variables: {creatorId: user?._id}
+        variables: { filters: { creator: user?._id } }
       })
     }
   });
 
-  const quizzes = data?.getQuizzesByCreator;
+  const quizzes = data?.getQuizzes;
 
   if(loading) { return <Loading/> }
   if(!user) { return <PageNotFound message="No Access Error"/> }

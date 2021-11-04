@@ -62,6 +62,7 @@ const Question = ({ question, updateQuestion:update, style }) => {
     let choices = [...question.choices]
     choices.splice(i, 1)
     newQuestion.choices = choices
+    if(answer === i) newQuestion.answer = 0
     update(newQuestion)
   }
 
