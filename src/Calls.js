@@ -241,6 +241,12 @@ const REGISTER_USER = gql`
   }
 `;
 
+const CHANGE_PASSWORD = gql`
+  mutation changePassword($newPassword: String!, $confirmPassword: String!) {
+    changePassword(newPassword: $newPassword, confirmPassword: $confirmPassword)
+}
+`
+
 export { 
   FETCH_QUIZZES_QUERY,
   FETCH_QUIZ_QUERY,
@@ -248,5 +254,6 @@ export {
   DELETE_QUIZ_MUTATION,
   UPDATE_QUIZ_MUTATION,
   LOGIN_USER,
-  REGISTER_USER
+  REGISTER_USER,
+  CHANGE_PASSWORD
 }
