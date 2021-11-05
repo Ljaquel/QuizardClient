@@ -10,15 +10,19 @@ const Navbar=() =>{
   return (
     <nav className="navbar navbar-expand-lg navbar-dark nav-container p-1 bg-dark">
       <div className="container-fluid px-2">
+
         <div className="collapse navbar-collapse">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/" exact={true} >Home</NavLink>
-            </li>
-          </ul>
+
+          {user&&
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0" >
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/" exact={true} >Home</NavLink>
+              </li>
+            </ul>
+          }
           {!user
           ?
-            <ul className="navbar-nav">
+            <ul className="navbar-nav" style={{marginLeft:"auto"}}>
               <li className="nav-item">
                 <NavLink className="nav-link" activeClassName="active" to="/login">Login</NavLink>
               </li>
