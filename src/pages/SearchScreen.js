@@ -41,7 +41,7 @@ const QuizScreen = () => {
         <div onChange={handleChange} style={{float:"left",marginRight:"10px",padding:"20px",border:"solid"}} >
           <h4>Filter By:</h4>
         
-          <li style={{listStyle:"none"}}> <input type="radio" value="Quiz" name="option" /> Quiz </li>
+          <li style={{listStyle:"none"}}> <input type="radio" value="Quiz" name="option" defaultChecked /> Quiz </li>
           <li style={{listStyle:"none"}}> <input type="radio" value="User" name="option" /> User </li>
 
           <li style={{listStyle:"none"}}> <input type="radio" value="Category" name="option" /> Category </li>
