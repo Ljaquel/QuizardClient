@@ -1,6 +1,16 @@
 .card{
   width: 15rem
 }
-.card:hover{
-  background-color: rgb(211, 218, 224);
+.card-body:hover{
+  background-color: rgb(15, 29, 56);
+} 
+
+.searchScreencardDiv{
+  width: 100%; 
 }
+.searchScreencardDiv :hover{ 
+  background-color: rgb(15, 29, 56);
+  color: aliceblue;
+}
+
+
