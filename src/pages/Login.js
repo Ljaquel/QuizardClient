@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useMutation } from '@apollo/client';
 
 import { AuthContext } from '../context/auth';
@@ -11,6 +11,13 @@ const Login = (props) => {
     username:'',
     password:'',
     error: null,
+  })
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleDocumentKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleDocumentKeyPress);
+    }
   })
 
   const onChange = e => {
@@ -34,10 +41,17 @@ const Login = (props) => {
     variables: values
   });
 
-  const onSubmit = e => {
-    e.preventDefault();
+  const onSubmit = () => {
     loginUser();
   }
+
+  const handleDocumentKeyPress = (e) => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      onSubmit();
+    }
+  };
+
   
   return (
     <div className="container p-5">
