@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useParams, Redirect } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useQuery, useMutation } from '@apollo/client';
 
 import { AuthContext } from '../context/auth';
@@ -68,7 +68,6 @@ const QuizBuilder = (props) => {
 
   if(loading) { return <Loading/> }
   if(user._id !== quiz.creator) { return <PageNotFound message="No Access Error"/> }
-  if(quizState?.creator && quizState?.published) { return <Redirect to={"quizscreen/" + quizId}/> }
 
   return (
     <>
@@ -81,6 +80,7 @@ const QuizBuilder = (props) => {
         unsavedChanges={unsavedChanges}
         reqs={reqs}
         updateReqs={updateReqs}
+        published={quizState?.published}
       />
       <div className="container-fluid" >
         <div className="row d-flex flex-row">

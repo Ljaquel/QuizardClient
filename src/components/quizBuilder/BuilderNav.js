@@ -27,7 +27,7 @@ const PublishModal = ({ publishQuiz, reqs, updateReqs }) => {
   )
 }
 
-const BuilderNav = ({ name, updateField, unsavedChanges, saveQuiz, publishQuiz, deleteQuiz, reqs, updateReqs }) => {
+const BuilderNav = ({ name, updateField, unsavedChanges, saveQuiz, publishQuiz, deleteQuiz, reqs, updateReqs, published }) => {
   return (
     <nav className="navbar navbar-expand-sm navbar-dark p-1 builder-nav-container bg-dark border-top border-bottom border-1 border-white">
       <div className="container-fluid px-2">
@@ -48,7 +48,7 @@ const BuilderNav = ({ name, updateField, unsavedChanges, saveQuiz, publishQuiz, 
                 <span className="visually-hidden">New alerts</span>
               </span>}
             </button>
-            <PublishModal publishQuiz={publishQuiz} reqs={reqs} updateReqs={updateReqs}/>
+            {!published && <PublishModal publishQuiz={publishQuiz} reqs={reqs} updateReqs={updateReqs} published={published}/> }
             <button type="button" className="btn btn-danger"  onClick={deleteQuiz}>Delete</button>
           </div>
         </div>

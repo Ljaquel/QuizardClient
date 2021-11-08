@@ -8,7 +8,7 @@ import '../styles/QuizCard.css'
 function QuizCard(props) {
   const { quiz } = props;
   const { user } = useContext(AuthContext);
-  const destination = quiz.published ? "/quizscreen/" : user?._id === quiz.creator ? "/quizbuilder/" :  "/quizscreen/"
+  const destination = user?._id === quiz.creator ? "/quizbuilder/" :  "/quizscreen/"
   const history= useHistory();
 
   return (
