@@ -7,8 +7,8 @@ const Question = ({ question, style, answer, setAnswer }) => {
   const choices = question?.choices
 
   return (
-    <div className="container-fluid mx-0 px-3 py-1 question-card rounded" style={{color: style?style.color:"white", backgroundColor: style?style.questionColor:"#475047"}}>
-      <div className="row m-0 p-0 px-0 mt-4 align-items-center border border-1 border-secondary rounded">
+    <div className="container-fluid px-5 py-4 question-card rounded" style={{color: style?style.color:"white", backgroundColor: style?style.questionColor:"#475047"}}>
+      <div className="row mx-0 py-3 px-3 mt-2 mb-4 align-items-center border border-1 border-secondary rounded">
         <div className="col col-auto align-self-center">
           <span className="" style={{color: style?style.color:"white", backgroundColor: "inherit", pointerEvents: "none"}}>
             {question?.question}

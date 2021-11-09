@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Question from './playground/Question'
+import { useMutation } from '@apollo/client'
+import { UPDATE_USER_MUTATION } from '../../Calls'
+import QuizInSessionNav from './playground/QuizInSessionNav'
 
 const QuizInSession = ({ quiz, user,  setScreen}) => {
   const [record, setRecord] = useState([])
@@ -8,7 +11,6 @@ const QuizInSession = ({ quiz, user,  setScreen}) => {
   const [answer, setAnswer] = useState(null)
 
   const { content, style } = quiz
-
   const count = content.length
 
   useEffect(() => {
@@ -17,6 +19,11 @@ const QuizInSession = ({ quiz, user,  setScreen}) => {
       document.removeEventListener("keydown", handleDocumentKeyPress);
     }
   })
+
+  const [ updateUser ] = useMutation(UPDATE_USER_MUTATION, {
+    onError(err) { console.log(JSON.stringify(err, null, 2)) },
+    variables: {}
+  });
 
   const handleDocumentKeyPress = (e) => {
     if (e.keyCode === 13) {
@@ -41,6 +48,7 @@ const QuizInSession = ({ quiz, user,  setScreen}) => {
 
   const finishQuiz = () => {
     //updateResults in user doc
+    updateUser({ variables: { fields: { name: "Liomard J Mesa"} }})
     setScreen(3)
   }
 
@@ -48,18 +56,8 @@ const QuizInSession = ({ quiz, user,  setScreen}) => {
 
   return (
     <div className="container-fluid p-0 m-0">
-      <div className="container-fluid">
-        <div className="row p-2 m-2">
-          <div className="col align-self-center">
-            <h6>Total # of Questions: {count}</h6>
-            <h6>Question #{currentQuestion+1}</h6>
-            <h6>Time Limit: {timer}</h6>
-            <h6>Record: {record.length?record:"[]"}</h6>
-            <h6>Current Answer: {answer!==null?answer:"none"}</h6>
-          </div>
-        </div>
-      </div>
-      <div className="container-fluid text-white workspace-container" style={{backgroundColor: style?style.backgroundColor:"#abafbb"}}>
+      <QuizInSessionNav count={count} currentQuestion={currentQuestion} timer={timer} record={record} answer={answer} />
+      <div className="container-fluid text-white workspace-container p-5" style={{backgroundColor: style?style.backgroundColor:"#abafbb"}}>
         <div className="row pb-4">
           <div className="col p-0 m-0">
             <div className="container-fluid text-white">

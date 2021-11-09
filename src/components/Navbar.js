@@ -35,7 +35,7 @@ const Navbar=() =>{
               </ul>
               <Dropdown className="myclass">
                 <Dropdown.Toggle variant="success" size={"sm"} id="dropdown-basic">
-                  {user.username[0].toUpperCase()}
+                  {user.username}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item onClick={() => history.push('/profile')}>Profile</Dropdown.Item>
