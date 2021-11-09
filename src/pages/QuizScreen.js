@@ -11,7 +11,7 @@ import PageNotFound from '../pages/PageNotFound';
 import { FETCH_QUIZ_QUERY } from '../Calls'
 
 const QuizScreen = () => {
-  const { user } = useContext(AuthContext);
+  const { user, update:updateUserContext } = useContext(AuthContext);
   const { _id:quizId } = useParams();
   const [screen, setScreen] = useState(1)
   
@@ -25,8 +25,8 @@ const QuizScreen = () => {
     <>
       {
         screen === 1 ? <QuizHome quiz={quiz} user={user} setScreen={setScreen}/> :
-        screen === 2 ? <QuizInSession quiz={quiz} user={user} setScreen={setScreen}/> :
-        screen === 3 ? <QuizResults quiz={quiz} user={user} setScreen={setScreen}/> :
+        screen === 2 ? <QuizInSession quiz={quiz} user={user} updateUserContext={updateUserContext} setScreen={setScreen}/> :
+        screen === 3 ? <QuizResults quiz={quiz} setScreen={setScreen}/> :
         <PageNotFound message="Error" />
       }
     </>

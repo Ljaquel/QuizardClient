@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/client'
 import { UPDATE_USER_MUTATION } from '../../Calls'
 import QuizInSessionNav from './playground/QuizInSessionNav'
 
-const QuizInSession = ({ quiz, user,  setScreen}) => {
+const QuizInSession = ({ quiz, user, updateUserContext, setScreen}) => {
   const [record, setRecord] = useState([])
   const [timer] = useState(quiz?.time)
   const [currentQuestion, setCurrentQuestion] = useState(0)
@@ -46,9 +46,16 @@ const QuizInSession = ({ quiz, user,  setScreen}) => {
     }
   }
 
+  const updateU = (updates) => {
+    updateUser({ variables: { fields: updates }})
+    updateUserContext(updates)
+  }
+
   const finishQuiz = () => {
-    //updateResults in user doc
-    updateUser({ variables: { fields: { name: "Liomard J Mesa"} }})
+    let newHistory = [...user.history]
+
+    const updates = { history: newHistory }
+    updateU(updates)
     setScreen(3)
   }
 
