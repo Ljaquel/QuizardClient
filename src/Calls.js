@@ -205,14 +205,51 @@ const UPDATE_QUIZ_MUTATION = gql`
   }
 `
 
+const UPDATE_USER_MUTATION = gql`
+  mutation UpdateUser($fields: UserInput) {
+    updateUser(fields: $fields) {
+      _id
+      email
+      token
+      username
+      createdAt
+      name
+      points
+      color
+      history {
+        time
+        score
+        quizId
+      }
+      rewards {
+        badges
+        points
+        level
+      }
+    }
+  }
+`
 const LOGIN_USER = gql`
   mutation loginUser($username: String!, $password: String!) {
     login(username: $username, password: $password) {
       _id
       email
+      token
       username
       createdAt
-      token
+      name
+      points
+      color
+      history {
+        time
+        score
+        quizId
+      }
+      rewards {
+        badges
+        points
+        level
+      }
     }
   }
 `;
@@ -234,12 +271,31 @@ const REGISTER_USER = gql`
     ) {
       _id
       email
+      token
       username
       createdAt
-      token
+      name
+      points
+      color
+      history {
+        time
+        score
+        quizId
+      }
+      rewards {
+        badges
+        points
+        level
+      }
     }
   }
 `;
+
+const CHANGE_PASSWORD = gql`
+  mutation changePassword($newPassword: String!, $confirmPassword: String!) {
+    changePassword(newPassword: $newPassword, confirmPassword: $confirmPassword)
+}
+`
 
 export { 
   FETCH_QUIZZES_QUERY,
@@ -247,6 +303,8 @@ export {
   CREATE_QUIZ,
   DELETE_QUIZ_MUTATION,
   UPDATE_QUIZ_MUTATION,
+  UPDATE_USER_MUTATION,
   LOGIN_USER,
-  REGISTER_USER
+  REGISTER_USER,
+  CHANGE_PASSWORD
 }
