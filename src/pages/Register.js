@@ -8,6 +8,7 @@ const Register = (props) => {
   const context = useContext(AuthContext);
 
   const [values, setValues] = useState({
+    name:'',
     username:'',
     password:'',
     email:'',
@@ -18,7 +19,7 @@ const Register = (props) => {
   }
 
   const [addUser] = useMutation(REGISTER_USER, {
-    update(_, data) {
+    update(_, data) { 
       context.login(data.data.register);
       props.history.push('/');
     },
@@ -28,6 +29,7 @@ const Register = (props) => {
   });
 
   const onSubmit = e => {
+    
     e.preventDefault();
     addUser();
   }
@@ -36,6 +38,14 @@ const Register = (props) => {
     <div className="container p-5">
       <div className="container-fluid bg-light p-5 mt-5" style={{maxWidth:"700px"}}>
       <div className="container mb-5"><h1>Register</h1></div>
+
+        <div className="m-3 row justify-content-center">
+          <label className="form-label col-4">Name</label>
+          <input type="username" name="name" className="form-control col" id="usernameInput"
+            value={values.name} onChange={onChange}/>
+        </div>
+
+
         <div className="m-3 row justify-content-center">
           <label className="form-label col-4">Username</label>
           <input type="username" name="username" className="form-control col" id="usernameInput"

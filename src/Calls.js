@@ -256,6 +256,7 @@ const LOGIN_USER = gql`
 
 const REGISTER_USER = gql`
   mutation registerUser(
+    $name: String!
     $username: String!
     $email: String!
     $password: String!
@@ -263,6 +264,7 @@ const REGISTER_USER = gql`
   ) {
     register(
       registerInput: {
+        name: $name
         username: $username
         email: $email
         password: $password
