@@ -8,7 +8,7 @@ import '../styles/QuizCard.css'
 function QuizCard(props) {
   const { quiz } = props;
   const { user } = useContext(AuthContext);
-  const destination = user?._id === quiz.creator ? "/quizbuilder/" :  "/quizscreen/"
+  const destination = quiz.published ? "/quizscreen/" : user?._id === quiz.creator ? "/quizbuilder/" :  "/quizscreen/"
   const history= useHistory();
 
   return (
@@ -32,6 +32,7 @@ function QuizCard(props) {
             
               {quiz.name} 
               <p className="card-text" style={{fontSize: "13px"}}>{quiz.description.length < 140 ? quiz.description : "Description..."}</p>
+              <p>category:  {quiz?.tags.toString()}</p> 
               <h6 className="card-subtitle mt-0">
                 {props.home && quiz?.creator === user?._id && "Owner - "}{quiz.publishedDate.length>0?"Published "+moment(quiz.publishedDate).fromNow():"Created "+moment(quiz.createdAt).fromNow()}
               </h6>
