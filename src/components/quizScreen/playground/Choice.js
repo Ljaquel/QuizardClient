@@ -7,7 +7,7 @@ const Choice = ({index, choice, answer, setAnswer, style}) => {
       onClick={() => setAnswer(index)}
       >
       <div className="col col-auto p-0 ps-3 m-0 align-self-center">
-        <input className="form-check-input" type="radio" name="flexRadioDefault" value={index} checked={index === answer}></input>
+        <input className="form-check-input" type="radio" name="flexRadioDefault" value={index} checked={index === answer} onChange={() => {}}></input>
       </div>
       <div className="col">
         <p className="px-2 lead"

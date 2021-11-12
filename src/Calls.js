@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
-const FETCH_SEARCHRESULTS_QUERY = gql`
-  query Query($query: String!, $searchFilter: String) {
+
+const FETCH_SEARCH_RESULTS_QUERY = gql`
+  query getSearchResultsQuery($query: String!, $searchFilter: String) {
     getSearchResults(query: $query, searchFilter: $searchFilter) {
       ... on User {
         _id
@@ -8,18 +9,45 @@ const FETCH_SEARCHRESULTS_QUERY = gql`
         name
       }
       ... on Quiz {
+        _id
+        name
+        description
+        publishedDate
         published
-      creator
-      _id
-      name
-      description
-      publishedDate
-      createdAt
-      tags
+        creator
+        timesPlayed
+        time
+        rating
+        difficulty
+        comments {
+          comment
+          name
+          createdAt
+        }
+        style {
+          color
+          questionColor
+          backgroundColor
+          choiceColor
+        }
+        tags
+        stats {
+          averageScore
+          lowestScore
+          highestScore
+          averageTime
+        }
+        content {
+          question
+          answer
+          choices
+        }
+        createdAt
       }
     }
   }
-`; 
+`;
+
 const FETCH_USER_QUERY = gql`
   query fetchUserQuery($userId: ID!){
     getUser(userId: $userId) {
@@ -29,6 +57,7 @@ const FETCH_USER_QUERY = gql`
     }
   } 
 `;
+
 const FETCH_QUIZZES_QUERY = gql`
   query fetchQuizzesQuery($filters: QuizInput){
     getQuizzes(filters: $filters) {
@@ -329,7 +358,7 @@ const CHANGE_PASSWORD = gql`
 `
 
 export { 
-  FETCH_SEARCHRESULTS_QUERY,
+  FETCH_SEARCH_RESULTS_QUERY,
   FETCH_USER_QUERY,
   FETCH_QUIZZES_QUERY,
   FETCH_QUIZ_QUERY,

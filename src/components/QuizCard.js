@@ -5,10 +5,9 @@ import { AuthContext } from '../context/auth';
 import { Link } from "react-router-dom";
 import '../styles/QuizCard.css' 
 
-function QuizCard(props) {
-  const { quiz } = props;
+function QuizCard({ quiz, home}) {
   const { user } = useContext(AuthContext);
-  const destination = quiz.published ? "/quizscreen/" : user?._id === quiz.creator ? "/quizbuilder/" :  "/quizscreen/"
+  const destination = home ? "/quizscreen/" : user?._id === quiz.creator ? "/quizbuilder/" :  "/quizscreen/"
   const history= useHistory();
 
   return (
@@ -20,7 +19,7 @@ function QuizCard(props) {
               {quiz.name} 
               <p className="card-text" style={{fontSize: "13px"}}>{quiz.description.length < 70 ? quiz.description : "Description..."}</p>
               <h6 className="card-subtitle mt-0">
-                {props.home && quiz?.creator === user?._id && "Owner - "}{quiz.publishedDate.length>0?"Published "+moment(quiz.publishedDate).fromNow():"Created "+moment(quiz.createdAt).fromNow()}
+                {home && quiz?.creator === user?._id && "Owner - "}{quiz.publishedDate.length>0?"Published "+moment(quiz.publishedDate).fromNow():"Created "+moment(quiz.createdAt).fromNow()}
               </h6>
           
         </div>
@@ -32,9 +31,9 @@ function QuizCard(props) {
             
               {quiz.name} 
               <p className="card-text" style={{fontSize: "13px"}}>{quiz.description.length < 140 ? quiz.description : "Description..."}</p>
-              <p>category:  {quiz?.tags.toString()}</p> 
+              <p>Tags: {quiz?.tags.toString()}</p> 
               <h6 className="card-subtitle mt-0">
-                {props.home && quiz?.creator === user?._id && "Owner - "}{quiz.publishedDate.length>0?"Published "+moment(quiz.publishedDate).fromNow():"Created "+moment(quiz.createdAt).fromNow()}
+                {home && quiz?.creator === user?._id && "Owner - "}{quiz.publishedDate.length>0?"Published "+moment(quiz.publishedDate).fromNow():"Created "+moment(quiz.createdAt).fromNow()}
               </h6>
 
         </div>
@@ -48,7 +47,7 @@ function QuizCard(props) {
               {quiz.name} 
               <p className="card-text" style={{fontSize: "13px"}}>{quiz.description.length < 70 ? quiz.description : "Description..."}</p>
               <h6 className="card-subtitle mt-0">
-                {props.home && quiz?.creator === user?._id && "Owner - "}{quiz.publishedDate.length>0?"Published "+moment(quiz.publishedDate).fromNow():"Created "+moment(quiz.createdAt).fromNow()}
+                {home && quiz?.creator === user?._id && "Owner - "}{quiz.publishedDate.length>0?"Published "+moment(quiz.publishedDate).fromNow():"Created "+moment(quiz.createdAt).fromNow()}
               </h6>
             
         </div>

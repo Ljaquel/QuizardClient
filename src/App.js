@@ -1,13 +1,10 @@
 import React from 'react';
-import { Home, Login, Register, QuizBuilder, PageNotFound, Profile, QuizScreen, Settings, SearchScreen,GuestProfile } from './pages/index';
+import { Home, Login, Register, QuizBuilder, PageNotFound, Profile, QuizScreen, Settings, SearchScreen, GuestProfile } from './pages/index';
 import Navbar from './components/Navbar';
 import { AuthRoute, NoAuthRoute } from './util/AuthRoute';
 import { AuthProvider } from './context/auth';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
-
 import './App.css';
- 
 
 function App() {
   return (

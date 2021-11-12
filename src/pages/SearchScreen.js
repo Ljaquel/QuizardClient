@@ -1,50 +1,24 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Button } from 'react-bootstrap';
+import React, { useState } from 'react'
 import { useQuery } from '@apollo/client';
 
-import Loading from '../components/Loading';
-import { AuthContext } from '../context/auth';
-import { FETCH_QUIZZES_QUERY,FETCH_SEARCHRESULTS_QUERY } from '../Calls';
+import { FETCH_SEARCH_RESULTS_QUERY } from '../Calls';
 import QuizCard from '../components/QuizCard';
 import UserCard from '../components/UserCard';
 
-
-const QuizScreen = () => {
-  const { user } = useContext(AuthContext);
-  const [ searchInput, setSearchInput ] = useState("")
+const SearchScreen = () => {
+  const [searchInput, setSearchInput] = useState("")
   const [value, setValue] = useState("Quiz");
-  const [users,setUsers] = useState();
-  const [quizzes,setQuizzes] = useState();
-  const [categoryQuizzes,setcategoryQuizzes] = useState();
  
-  const  userData = useQuery(FETCH_SEARCHRESULTS_QUERY, {
-    variables: {  query: searchInput,searchFilter:"User" } 
-  });
-  const  quizData = useQuery(FETCH_SEARCHRESULTS_QUERY, {
-    variables: {  query: searchInput,searchFilter:"Quiz" } 
-  });
+  const { data: usersData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, { variables: {  query: searchInput, searchFilter:"User" } });
+  const { data: quizzesData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, { variables: {  query: searchInput, searchFilter:"Quiz" } });
+  const { data: tagsData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, { variables: { query: searchInput, searchFilter:"Tag" } });
 
-  const  categoryData = useQuery(FETCH_SEARCHRESULTS_QUERY, {
-    variables: { query: searchInput,searchFilter:"Category" }
-  });
+  const users = usersData?.getSearchResults
+  const quizzes = quizzesData?.getSearchResults
+  const taggedQuizzes = tagsData?.getSearchResults
  
-  const handleChange = val => {
-    setValue(val.target.value);
-    setUsers()
-    setQuizzes();
-  }
- 
-  const handleApply=()=>{
-    console.log("Apply clicked");
-    if(value==="Quiz"){ setQuizzes(quizData.data.getSearchResults) }
-    if(value==="User"){ setUsers(userData.data.getSearchResults)   }
-    if(value==="Category"){
-      setcategoryQuizzes(categoryData.data.getSearchResults)
-      //todo
-    } 
-  }
+  const searchNotEmpty = searchInput !== ""
 
-  
   return (
     <div className="container">
       <h1>Quiz Results</h1>
@@ -57,56 +31,27 @@ const QuizScreen = () => {
         </div> 
       </div>   
       <div> 
-
-        <div onChange={handleChange} style={{float:"left",marginRight:"10px",padding:"20px",border:"solid"}} >
+        <div onChange={ e => setValue(e.target.value) } style={{float:"left",marginRight:"10px",padding:"20px",border:"solid"}} >
           <h4>Filter By:</h4>
-        
           <li style={{listStyle:"none"}}> <input type="radio" value="Quiz" name="option" defaultChecked /> Quiz </li>
           <li style={{listStyle:"none"}}> <input type="radio" value="User" name="option" /> User </li>
-
-          <li style={{listStyle:"none"}}> <input type="radio" value="Category" name="option" /> Category </li>
-          <Button onClick={handleApply}> Apply</Button>
+          <li style={{listStyle:"none"}}> <input type="radio" value="Tag" name="option" /> Tag </li>
         </div>
 
         <div className = "row-cols-auto" style={{overflow:"auto"}}> 
-          {user && quizzes&& value==="Quiz" && quizzes.map((quiz, index) =>
-            <div  key={index}>
-              <QuizCard quiz={quiz} home={true}/>
+          {searchNotEmpty && value==="Quiz" && quizzes && quizzes?.map((quiz, index) => <QuizCard key={index} quiz={quiz} home={true}/> )}
+          {searchNotEmpty && value==="Tag" && taggedQuizzes && taggedQuizzes?.map((quiz, index) => <QuizCard key={index} quiz={quiz} home={true}/> )}
+        </div>
+        <div className="row row-cols-auto g-3"> 
+          {searchNotEmpty && value==="User" && users && users.map((currentuser, index) =>
+            <div className="col"  key={index}>  
+              <UserCard currentuser={currentuser} />
             </div>
           )}
-
-          {user && categoryQuizzes && value==="Category" && categoryQuizzes.map((quiz, index) =>
-                      <div  key={index}>
-                        <QuizCard quiz={quiz} home={true}/>
-                      </div>
-          )}
         </div>
-        
-        {/* <div className="row-cols-auto"  style={{overflow:"auto",float:"left"}}> 
-          {user && users  && value==="User"&& users.map((currentuser, index) =>
-            <div className="col"  key={index}>  
-              
-          </div>
-
-              
-           
-          )}
-        </div> */}
-
-          <div className="row">
-                </div>
-                <div className="row row-cols-auto g-3"> 
-                {user && users  && value==="User"&& users.map((currentuser, index) =>
-                    <div className="col"  key={index}>  
-                      <UserCard currentuser={currentuser} />
-                    </div>
-                  )}
-          </div>
-
-
       </div> 
     </div>
   )
 }
 
-export default QuizScreen
+export default SearchScreen

@@ -8,7 +8,7 @@ const Question = ({ question, style, answer, setAnswer }) => {
 
   return (
     <div className="container-fluid px-5 py-4 question-card rounded" style={{color: style?style.color:"white", backgroundColor: style?style.questionColor:"#475047"}}>
-      <div className="row mx-0 py-3 px-3 mt-2 mb-4 align-items-center border border-1 border-secondary rounded">
+      <div className="row mx-0 py-3 px-3 mt-2 mb-4 align-items-center">
         <div className="col col-auto align-self-center">
           <span className="" style={{color: style?style.color:"white", backgroundColor: "inherit", pointerEvents: "none"}}>
             {question?.question}
