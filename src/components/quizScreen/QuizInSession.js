@@ -56,7 +56,6 @@ const QuizInSession = ({ quiz, updateUserContext, setScreen}) => {
   };
 
   const goNextQ = () => {
-    console.log(user)
     let newRecord = [...record]
     newRecord.push({ answer:answer, correct:answer===content[currentQuestion].answer })
     setRecord(newRecord)
@@ -96,8 +95,7 @@ const QuizInSession = ({ quiz, updateUserContext, setScreen}) => {
 
     if(!(result !== undefined && result.score > score)) {
       let points = result !== undefined ? (user.points+(score-result.score)) : (user.points + score)
-      console.log(points)
-      //updateU( { points: points } )
+      updateU( { points: points } )
     }
     setScreen(3)
   }

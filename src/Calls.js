@@ -65,15 +65,6 @@ const RESULT_ATTRIBUTES = gql`
   }
 `
 
-const BADGE_ATTRIBUTES = gql`
-  fragment badgeAttributes on Badge {
-    image
-    title
-    points
-    description
-  }
-`
-
 const FETCH_SEARCH_RESULTS_QUERY = gql`
   query getSearchResultsQuery($query: String!, $searchFilter: String) {
     getSearchResults(query: $query, searchFilter: $searchFilter) {
