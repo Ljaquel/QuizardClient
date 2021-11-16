@@ -44,7 +44,6 @@ const USER_ATTRIBUTES = gql`
     _id
     email
     username
-    token
     name
     level
     points
@@ -93,17 +92,10 @@ const FETCH_SEARCH_RESULTS_QUERY = gql`
 const FETCH_USER_QUERY = gql`
   query fetchUserQuery($userId: ID!){
     getUser(userId: $userId) {
-      _id
-      email
-      username
-      token
-      name
-      level
-      points
-      color
-      createdAt
+      ...quizAttributes
     }
   }
+  ${USER_ATTRIBUTES}
 `;
 
 const FETCH_QUIZZES_QUERY = gql`
