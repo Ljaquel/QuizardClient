@@ -2,7 +2,7 @@ import React from 'react'
 
 const Choice = ({index, choice, answer, setAnswer, style}) => {
   return (
-    <div className="row m-0 p-0 px-0 py-2 my-2 align-items-center border border-1 border-secondary rounded choice"
+    <div className="row m-0 p-0 px-0 py-2 my-2 align-items-center rounded choice"
       style={{backgroundColor: style? style.choiceColor:"#475047", cursor: "pointer"}}
       onClick={() => setAnswer(index)}
       >

@@ -8,7 +8,8 @@ import QuizInSessionNav from './playground/QuizInSessionNav'
 const QuizInSession = ({ quiz, updateUserContext, setScreen}) => {
   const { user } = useContext(AuthContext)
   const [record, setRecord] = useState([])
-  const [timer] = useState(quiz?.time)
+  const [time] = useState(quiz?.time)
+  const [timer, setTimer] = useState("00:00:00")
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answer, setAnswer] = useState(null)
 
@@ -81,7 +82,7 @@ const QuizInSession = ({ quiz, updateUserContext, setScreen}) => {
         userId: user._id,
         quizId: quiz._id,
         score: score,
-        time: "1:02",
+        time: timer,
         badges: [],
         record: rec.map((x) => x.answer),
       }
@@ -89,7 +90,7 @@ const QuizInSession = ({ quiz, updateUserContext, setScreen}) => {
     }
     else {
       if(result.score < score) {
-        updateResult({ variables: { resultId: result._id, update: { score: score, time: "1:00", record: rec.map((x) => x.answer) } }})
+        updateResult({ variables: { resultId: result._id, update: { score: score, time: timer, record: rec.map((x) => x.answer) } }})
       }
     }
 
@@ -112,12 +113,16 @@ const QuizInSession = ({ quiz, updateUserContext, setScreen}) => {
 
   return (
     <div className="container-fluid p-0 m-0">
-      <QuizInSessionNav count={count} currentQuestion={currentQuestion} timer={timer} answer={answer} setScreen={setScreen}/>
-      <div className="progress">
-        <div className="progress-bar" role="progressbar" style={{width: progressPercentage}}
-        aria-valuenow="25" aria-valuemin="0" aria-valuemax={"100"}> {progressPercentage} </div>
-      </div>
-      <div className="container-fluid text-white workspace-container p-5" style={{backgroundColor: style?style.backgroundColor:"#abafbb"}}>
+      <QuizInSessionNav count={count} currentQuestion={currentQuestion} time={time} timerState={[timer, setTimer]} answer={answer} setScreen={setScreen}/>
+      <div className="container-fluid text-white workspace-container p-5 pt-2" style={{backgroundColor: style?style.backgroundColor:"#abafbb"}}>
+        <div className="row px-0 mx-0 mb-5 mt-2">
+          <div className="col">
+            <div className="progress">
+              <div className="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style={{width: progressPercentage}}
+                aria-valuenow="25" aria-valuemin="0" aria-valuemax={"100"}> {progressPercentage} </div>
+            </div>
+          </div>
+        </div>
         <div className="row pb-4">
           <div className="col p-0 m-0">
             <div className="container-fluid text-white">

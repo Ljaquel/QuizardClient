@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react'
-import { useQuery, useMutation } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 
 import { AuthContext } from '../context/auth'
-import ProfileBanner from '../components/ProfileBanner'
+//import ProfileBanner from '../components/ProfileBanner'
 import QuizCard from '../components/QuizCard'
 import Loading from '../components/Loading'
 import PageNotFound from './PageNotFound'
-import { CREATE_QUIZ, FETCH_QUIZZES_QUERY } from '../Calls'
+import { FETCH_QUIZZES_QUERY } from '../Calls'
 import { useParams } from 'react-router'
 
 const GuestProfile = () => {
@@ -16,12 +16,9 @@ const GuestProfile = () => {
   debugger;
   const { data, loading, refetch } = useQuery(FETCH_QUIZZES_QUERY, { variables: { filters: { creator: userId} } });
 
-
   useEffect(() => {
     refetch()
-  }, [refetch]);
-
-   
+  }, [refetch]);   
 
   const quizzes = data?.getQuizzes;
 

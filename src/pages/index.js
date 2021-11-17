@@ -7,6 +7,6 @@ import Profile from './Profile'
 import QuizScreen from './QuizScreen'
 import Settings from './Settings'
 import SearchScreen from './SearchScreen.js'
-import GuestProfile from './Guestprofile.js';
+import GuestProfile from './GuestProfile.js';
 
 export { Home, Login, Register, QuizBuilder, PageNotFound, QuizScreen, Settings, Profile, SearchScreen, GuestProfile }
