@@ -1,6 +1,7 @@
 import React from 'react'
+import Timer from '../playground/Timer'
 
-const QuizInSessionNav = ({ count, currentQuestion, timer, answer, setScreen }) => {
+const QuizInSessionNav = ({ count, currentQuestion, time, timerState, setScreen }) => {
   return (
     <nav className="navbar navbar-expand-sm navbar-dark p-1 builder-nav-container bg-dark border-top border-bottom border-1 border-white">
       <div className="container-fluid px-2">
@@ -16,10 +17,7 @@ const QuizInSessionNav = ({ count, currentQuestion, timer, answer, setScreen }) 
               Question #{currentQuestion+1}
             </li>
             <li className="navbar-item px-4">
-              Time Limit: {timer} 
-            </li>
-            <li className="navbar-item px-4">
-              Current Answer: {answer!==null?answer:"none"}
+              <Timer time={time} timerState={timerState} setScreen={setScreen}/>
             </li>
           </ul>
         </div>

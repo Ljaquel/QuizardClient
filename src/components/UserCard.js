@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/auth';
-import { Link } from "react-router-dom";
 import '../styles/QuizCard.css' 
 
 function UserCard(props) {
