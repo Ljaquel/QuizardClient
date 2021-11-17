@@ -40,7 +40,7 @@ function QuizCard({ quiz, home}) {
       </Link> 
       }
 
-      {history.location.pathname ==="/profile" &&
+      {history.location.pathname.includes("/profile") && 
         <Link to={`${destination}${quiz._id}`} className="searchScreencardDiv card-subtitle text-muted" >
         <div style={{width: "100%", border:"solid", padding:"16px",marginBottom:"10px"}}>
             
