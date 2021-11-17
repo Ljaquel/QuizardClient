@@ -42,7 +42,7 @@ const Navbar=() =>{
                   {user.username}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => history.push('/profile')}>Profile</Dropdown.Item>
+                  <Dropdown.Item onClick={() => history.push('/profile/'.concat(user._id))}>Profile</Dropdown.Item>
                   <Dropdown.Item onClick={() => history.push('/settings')}>Settings</Dropdown.Item> 
                   <Dropdown.Item onClick={logout} className="text-dark">Logout</Dropdown.Item>
                 </Dropdown.Menu>

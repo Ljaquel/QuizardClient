@@ -16,8 +16,7 @@ function App() {
           <NoAuthRoute exact path='/login' component={Login}/>
           <NoAuthRoute exact path='/register' component={Register}/>
           <AuthRoute exact path='/quizbuilder/:_id' component={QuizBuilder}/>
-          <AuthRoute exact path='/profile' component={Profile}/>
-          <AuthRoute exact path='/guestprofile/:_id' component={GuestProfile}/>
+          <AuthRoute exact path='/profile/:_id' component={Profile}/> 
           <AuthRoute exact path='/quizscreen/:_id' component={QuizScreen}/>
           <AuthRoute exact path='/searchscreen' component={SearchScreen}/>
           <AuthRoute exact path='/settings' component={Settings}/>

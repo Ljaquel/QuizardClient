@@ -83,7 +83,7 @@ const FETCH_SEARCH_RESULTS_QUERY = gql`
 const FETCH_USER_QUERY = gql`
   query fetchUserQuery($userId: ID!){
     getUser(userId: $userId) {
-      ...quizAttributes
+      ...userAttributes
     }
   }
   ${USER_ATTRIBUTES}
