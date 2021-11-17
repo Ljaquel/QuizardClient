@@ -70,10 +70,11 @@ const BuilderSideBar = ({ tags, difficulty, time, style, updateField, content, p
           <label>Time Limit:</label>
         </div>
         <div className="col-auto">
-            <input type="number" value={time?parseInt(time):0} min={0} max={60}
-              onInput={
-                ({target}) => { let v = target.value; updateField("time", v>60?'60':v<0?'0':v) }
-              }
+            <input type="number" value={!time? 0 : time[1] === '1'? 60 : parseInt(time.substring(3, 5)) } min={0} max={60}
+              onInput={({target}) => { 
+                let v = target.value
+                updateField("time", v>=60?'01:00:00':v<=0?'00:00:00':v>9?("00:"+v+":00"):("00:0"+v+":00"))
+              }}
             ></input>
         </div>
       </div>
