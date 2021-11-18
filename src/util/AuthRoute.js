@@ -4,26 +4,26 @@ import { Route, Redirect } from 'react-router-dom';
 import { AuthContext } from '../context/auth';
 
 function AuthRoute({ component: Component, ...rest }) {
-  const { user } = useContext(AuthContext);
+  const { contextUserId } = useContext(AuthContext)
 
   return (
     <Route
       {...rest}
       render={(props) =>
-        !user ? <Redirect to="/" /> : <Component {...props} />
+        !contextUserId ? <Redirect to="/" /> : <Component {...props} />
       }
     />
   );
 }
 
 function NoAuthRoute({ component: Component, ...rest }) {
-  const { user } = useContext(AuthContext);
+  const { contextUserId } = useContext(AuthContext)
 
   return (
     <Route
       {...rest}
       render={(props) =>
-        user ? <Redirect to="/" /> : <Component {...props} />
+        contextUserId ? <Redirect to="/" /> : <Component {...props} />
       }
     />
   );

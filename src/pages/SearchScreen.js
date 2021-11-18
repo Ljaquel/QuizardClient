@@ -43,9 +43,9 @@ const SearchScreen = () => {
           {searchNotEmpty && value==="Tag" && taggedQuizzes && taggedQuizzes?.map((quiz, index) => <QuizCard key={index} quiz={quiz} home={true}/> )}
         </div>
         <div className="row row-cols-auto g-3"> 
-          {searchNotEmpty && value==="User" && users && users.map((currentuser, index) =>
+          {searchNotEmpty && value==="User" && users && users.map((currentUser, index) =>
             <div className="col"  key={index}>  
-              <UserCard currentuser={currentuser} />
+              <UserCard currentUser={currentUser} />
             </div>
           )}
         </div>

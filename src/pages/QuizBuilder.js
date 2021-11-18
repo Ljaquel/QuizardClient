@@ -13,7 +13,7 @@ import { RemoveTypename } from '../util/RemoveTypename'
 import { FETCH_QUIZ_QUERY, DELETE_QUIZ_MUTATION, UPDATE_QUIZ_MUTATION } from '../Calls'
 
 const QuizBuilder = (props) => {
-  const { user } = useContext(AuthContext);
+  const { contextUserId } = useContext(AuthContext);
   const { _id:quizId } = useParams();
   const [quizState, setQuizState] = useState({});
   const [position, setPosition] = useState(0);
@@ -31,7 +31,7 @@ const QuizBuilder = (props) => {
 
   
   const [ deleteQuiz ] = useMutation(DELETE_QUIZ_MUTATION, {
-    onCompleted() { props.history.push("/profile") },
+    onCompleted() { props.history.push("/profile/"+contextUserId) },
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
     variables: {quizId: quizId}
   });
@@ -47,12 +47,12 @@ const QuizBuilder = (props) => {
   }
   const publishQuiz = () => {
     updateQuiz({ variables: { update: {published: true, publishedDate: new Date().toISOString()} } })
-    props.history.push("/profile")
+    props.history.push("/profile/"+contextUserId)
   }
 
   const updateField = (field, value) => {
     setQuizState({...quizState, [field]: value})
-    if(!unsavedChanges) setUnsavedChanges(true)
+    if(!unsavedChanges && field !== "thumbnail" && field !== "backgroundImage") setUnsavedChanges(true)
   }
 
   const updateReqs = () => {
@@ -67,7 +67,7 @@ const QuizBuilder = (props) => {
   }
 
   if(loading) { return <Loading/> }
-  if(user._id !== quiz.creator) { return <PageNotFound message="No Access Error"/> }
+  if(contextUserId !== quiz.creator) { return <PageNotFound message="No Access Error"/> }
 
   return (
     <>
@@ -86,13 +86,10 @@ const QuizBuilder = (props) => {
         <div className="row d-flex flex-row">
           <div className="col-3 p-0">
             <BuilderSideBar
-              tags={quizState?.tags}
-              difficulty={quizState?.difficulty}
-              time={quizState?.time}
-              style={quizState?.style}
+              quiz={quizState}
               updateField={updateField}
-              content={quizState?.content}
               positionState={[position, setPosition]}
+              updateQuiz={updateQuiz}
             />
           </div>
           <div className="col-9">

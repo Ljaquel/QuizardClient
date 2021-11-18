@@ -6,12 +6,13 @@ import Loading from '../Loading'
 
 const QuizResults = (props) => {
   const { quiz } = props
-  const { user } = useContext(AuthContext)
+  const { contextUserId } = useContext(AuthContext)
+  const { user } = props
 
   const { data, loading } = useQuery(FETCH_RESULTS_QUERY, {
     pollInterval: 100,
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
-    variables: { filters: { userId: user._id, quizId: quiz._id} }
+    variables: { filters: { userId: contextUserId, quizId: quiz._id} }
   })
 
   const result = data?.getResults[0]
@@ -20,7 +21,7 @@ const QuizResults = (props) => {
 
   return (
     <div className="container-lg py-4">
-      <h3>{user.name ? user.name + ", " : ""} You have finished "{quiz?.name}"</h3>
+      <h3>{user.name+", "} You have finished "{quiz?.name}"</h3>
       <h3>Your score was: {result ? result.score : "..."}/100</h3>
       <button className="btn btn-success" onClick={() => props.history.push("/")}>Continue</button>
     </div>

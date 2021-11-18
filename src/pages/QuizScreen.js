@@ -8,23 +8,26 @@ import QuizResults from '../components/quizScreen/QuizResults'
 import { AuthContext } from '../context/auth';
 import Loading from '../components/Loading';
 import PageNotFound from '../pages/PageNotFound';
-import { FETCH_QUIZ_QUERY } from '../Calls'
+import { FETCH_QUIZ_QUERY, FETCH_USER_QUERY } from '../Calls'
 
 const QuizScreen = (props) => {
-  const { user, update:updateUserContext } = useContext(AuthContext);
+  const { contextUserId } = useContext(AuthContext)
   const { _id:quizId } = useParams();
   const [screen, setScreen] = useState(1)
   
+  const { data:userData } = useQuery(FETCH_USER_QUERY, { variables: { userId: contextUserId } });
+  const user = userData?.getUser
+
   const { data } = useQuery(FETCH_QUIZ_QUERY, { variables: { quizId: quizId } });
   const quiz = data?.getQuiz
   
-  if(!quiz) { return <Loading/> }
-  if(user._id === quiz.creator && quiz.published === false) { return <PageNotFound message="No Access Error"/> }
+  if(!quiz || !user) { return <Loading/> }
+  if(contextUserId === quiz.creator && quiz.published === false) { return <PageNotFound message="No Access Error"/> }
   
   return (
     screen === 1 ? <QuizHome quiz={quiz} user={user} setScreen={setScreen}/> :
-    screen === 2 ? <QuizInSession quiz={quiz} user={user} updateUserContext={updateUserContext} setScreen={setScreen}/> :
-    screen === 3 ? <QuizResults quiz={quiz} setScreen={setScreen} history={props.history}/> :
+    screen === 2 ? <QuizInSession quiz={quiz} user={user} setScreen={setScreen}/> :
+    screen === 3 ? <QuizResults quiz={quiz} user={user} setScreen={setScreen} history={props.history}/> :
     <PageNotFound message="Error" />
   )
 }

@@ -7,7 +7,7 @@ import { AuthContext } from '../context/auth';
 import { FETCH_QUIZZES_QUERY } from '../Calls';
 
 const Home = () => {
-  const { user } = useContext(AuthContext);
+  const { contextUserId } = useContext(AuthContext);
   const { data, refetch } = useQuery(FETCH_QUIZZES_QUERY, {
     variables: {filters: { published: true }}
   });
@@ -25,7 +25,7 @@ const Home = () => {
         <h1 className="mt-3 mb-4 col-3">Quizard</h1>
       </div>
       <div className="row row-cols-auto g-3"> 
-        {user && quizzes && quizzes.map((quiz, index) =>
+        {contextUserId && quizzes && quizzes.map((quiz, index) =>
           <div className="col"  key={index}>  
             <QuizCard quiz={quiz} home={true}/>
           </div>
