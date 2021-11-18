@@ -31,7 +31,7 @@ const SearchScreen = () => {
         </div> 
       </div>   
       <div> 
-        <div onChange={ e => setValue(e.target.value) } style={{float:"left",marginRight:"10px",padding:"20px",border:"solid"}} >
+        <div onChange={ e => setValue(e.target.value) } className="me-3 p-4 border border-3 border-secondary rounded" style={{float:"left"}} >
           <h4>Filter By:</h4>
           <li style={{listStyle:"none"}}> <input type="radio" value="Quiz" name="option" defaultChecked /> Quiz </li>
           <li style={{listStyle:"none"}}> <input type="radio" value="User" name="option" /> User </li>
@@ -43,9 +43,9 @@ const SearchScreen = () => {
           {searchNotEmpty && value==="Tag" && taggedQuizzes && taggedQuizzes?.map((quiz, index) => <QuizCard key={index} quiz={quiz} home={true}/> )}
         </div>
         <div className="row row-cols-auto g-3"> 
-          {searchNotEmpty && value==="User" && users && users.map((currentuser, index) =>
+          {searchNotEmpty && value==="User" && users && users.map((currentUser, index) =>
             <div className="col"  key={index}>  
-              <UserCard currentuser={currentuser} />
+              <UserCard currentUser={currentUser} />
             </div>
           )}
         </div>

@@ -7,7 +7,7 @@ const newQuestion = {
   choices: ["Answer A", "Answer B", "Answer C", "Answer D"]
 }
 
-const Workspace = ({ content, updateField, positionState, style }) => {
+const Workspace = ({ backgroundImage, content, updateField, positionState, style }) => {
   const count = content.length
   const [position, setPosition] = positionState
   if (count === 0) setPosition(-1)
@@ -42,8 +42,12 @@ const Workspace = ({ content, updateField, positionState, style }) => {
     updateField("content", newContent)
   }
 
+  const backgroundStyle = backgroundImage ? 
+    {backgroundImage: `url("${backgroundImage}")`} :
+    {backgroundColor: style?style.backgroundColor:"#abafbb"}
+
   return (
-    <div className="container-fluid text-white workspace-container" style={{backgroundColor: style?style.backgroundColor:"#abafbb"}}>
+    <div className="container-fluid text-white workspace-container" style={backgroundStyle}>
       <div className="row mb-4 pt-4">
         <div className="col text-center">
           <label htmlFor="customRange2" className="form-label text-dark"><span className="badge bg-light text-dark">Question {position+1}</span></label>
