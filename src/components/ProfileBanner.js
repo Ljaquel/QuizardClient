@@ -8,7 +8,7 @@ import { FETCH_USER_QUERY, UPDATE_USER_MUTATION,SET_FOLLOWER } from "../Calls";
 import context from "react-bootstrap/esm/AccordionContext";
 
 const ProfileBanner = (props) => {
-  const { userContext } = useContext(AuthContext);
+  const { contextUserId } = useContext(AuthContext);
   const user=props.user
   const [ updateUserFollowing ] = useMutation(UPDATE_USER_MUTATION, {
     onError(err) { console.log(JSON.stringify(err, null, 2)) }, variables: {}
@@ -17,7 +17,8 @@ const ProfileBanner = (props) => {
     onCompleted() {
       setfollow(!follower?.following?.includes(user.username.concat(" "+user._id)))
     }, 
-    variables: { userId: userContext._id } });
+     variables: { userId: contextUserId } 
+  });
   const follower = followerUserData?.getUser
 
   const [ setFollower ] = useMutation(SET_FOLLOWER, {
@@ -28,19 +29,25 @@ const ProfileBanner = (props) => {
   const [follow, setfollow] = useState()
 
   const followClick=() =>{  
-    let newfollowing=[...follower.following] 
-    let newfollowers=[...user.followers]
-    let followingstr=user.username.concat(" "+user._id)
-    let followerstr=follower.username.concat(" "+follower._id)
+   
+    var newfollowing=[...follower.following] 
+    var newfollowers=[...user.followers]
+    var followingstr=user.username.concat(" "+user._id)
+    var followerstr=follower.username.concat(" "+follower._id)
+    console.log(follow)
+    console.log(newfollowers)
     if (follow) {
      newfollowing.push(followingstr) 
      newfollowers.push(followerstr)
     }
     else{  
        newfollowing=newfollowing.filter(el => el !== followingstr) 
-       newfollowers=newfollowers.filter(el => el !== newfollowers) 
+       newfollowers=newfollowers.filter(el => el !== followerstr) 
     }
     const following = { following: newfollowing }
+    
+    console.log(newfollowers)
+
     setFollower({variables: {creatorId: user?._id , newFollowers: newfollowers}})
     updateUserFollowing({ variables: { fields: following }})
     setfollow(!follow)
@@ -62,9 +69,9 @@ const ProfileBanner = (props) => {
       </div>
 
       <div className="col-2 mt-4"> 
-        {user?.username === userContext?.username && 
+        {user?._id === contextUserId && 
             <CreateQuizPopUp addQuiz={props.addQuiz}/> }
-        {!(user?.username===userContext?.username) &&
+        {!(user?._id===contextUserId) &&
           <button onClick={followClick}> {follow ? 'follow' : 'unfollow'} </button> } 
       </div>
         
