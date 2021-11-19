@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
 
 import ProfileBanner from '../components/ProfileBanner'
@@ -7,13 +7,15 @@ import Loading from '../components/Loading'
 import PageNotFound from '../pages/PageNotFound'
 import { CREATE_QUIZ, FETCH_QUIZZES_QUERY,FETCH_USER_QUERY } from '../Calls'
 import { useParams } from 'react-router'
+import { AuthContext } from '../context/auth'
 
 const Profile = () => {
+  const { contextUserId } = useContext(AuthContext);
   const { _id:siteUserId } = useParams();
   const  { data:userData}  = useQuery(FETCH_USER_QUERY, { variables: { userId: siteUserId } });
   const user = userData?.getUser
 
-  const filters = user?._id === siteUserId ? { creator: siteUserId } : { creator: siteUserId, published: true }
+  const filters = contextUserId === siteUserId ? { creator: siteUserId } : { creator: siteUserId, published: true }
 
   const { data, loading, refetch } = useQuery(FETCH_QUIZZES_QUERY, { variables: { filters: filters } });
 
