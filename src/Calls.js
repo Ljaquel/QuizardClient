@@ -13,8 +13,9 @@ const QUIZ_ATTRIBUTES = gql`
     rating
     difficulty
     comments {
-      comment
-      name
+      _id
+      body
+      user
       createdAt
     }
     style {
