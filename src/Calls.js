@@ -122,6 +122,22 @@ const FETCH_RESULTS_QUERY = gql`
   ${RESULT_ATTRIBUTES}
 `
 
+const CREATE_COMMENT = gql`
+  mutation createComment($quizId: ID!, $user: ID!, $body: String!) {
+    createComment(quizId: $quizId, user: $user, body: $body) {
+      _id
+    }
+  }
+`
+
+const DELETE_COMMENT = gql`
+  mutation deleteComment($quizId: ID!, $commentId: ID!) {
+    deleteComment(quizId: $quizId, commentId: $commentId) {
+      _id
+    }
+  }
+`
+
 const CREATE_RESULT = gql`
   mutation createResult($input: ResultInput){
     createResult(input: $input) {
@@ -289,4 +305,6 @@ export {
   REGISTER_USER,
   CHANGE_PASSWORD,
   SET_FOLLOWER,
+  CREATE_COMMENT,
+  DELETE_COMMENT
 }

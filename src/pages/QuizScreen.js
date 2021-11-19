@@ -18,14 +18,14 @@ const QuizScreen = (props) => {
   const { data:userData } = useQuery(FETCH_USER_QUERY, { variables: { userId: contextUserId } });
   const user = userData?.getUser
 
-  const { data } = useQuery(FETCH_QUIZ_QUERY, { variables: { quizId: quizId } });
+  const { data, refetch:refetchQuiz } = useQuery(FETCH_QUIZ_QUERY, { variables: { quizId: quizId } });
   const quiz = data?.getQuiz
   
   if(!quiz || !user) { return <Loading/> }
   if(contextUserId === quiz.creator && quiz.published === false) { return <PageNotFound message="No Access Error"/> }
   
   return (
-    screen === 1 ? <QuizHome quiz={quiz} user={user} setScreen={setScreen}/> :
+    screen === 1 ? <QuizHome quiz={quiz} user={user} setScreen={setScreen} refetchQuiz={refetchQuiz}/> :
     screen === 2 ? <QuizInSession quiz={quiz} user={user} setScreen={setScreen}/> :
     screen === 3 ? <QuizResults quiz={quiz} user={user} setScreen={setScreen} history={props.history}/> :
     <PageNotFound message="Error" />
