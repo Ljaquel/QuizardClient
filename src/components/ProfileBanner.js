@@ -7,9 +7,10 @@ import { Image } from 'cloudinary-react'
 import { FETCH_USER_QUERY, UPDATE_USER_MUTATION,SET_FOLLOWER } from "../Calls";
 
 
-const ProfileBanner = (props) => {
+const ProfileBanner = ({user, addQuiz}) => {
   const { contextUserId } = useContext(AuthContext);
-  const user=props.user
+  const [follow, setfollow] = useState()
+  
   const [ updateUserFollowing ] = useMutation(UPDATE_USER_MUTATION, {
     onError(err) { console.log(JSON.stringify(err, null, 2)) }, variables: {}
   });
@@ -26,10 +27,9 @@ const ProfileBanner = (props) => {
     variables: {}
   });
 
-  const [follow, setfollow] = useState()
 
-  var newfollowing=[...follower.following] 
-  var newfollowers=[...user.followers]
+  var newfollowing = follower ? [...follower.following] : [] 
+  var newfollowers = user ? [...user.followers] : []
  
 
   const followClick=() =>{   
@@ -66,7 +66,7 @@ const ProfileBanner = (props) => {
 
       <div className="col-2 mt-4"> 
         {user?._id === contextUserId && 
-            <CreateQuizPopUp addQuiz={props.addQuiz}/> }
+            <CreateQuizPopUp addQuiz={addQuiz}/> }
         {!(user?._id===contextUserId) &&
           <button onClick={followClick}> {follow ? 'follow' : 'unfollow'} </button> } 
       </div>
