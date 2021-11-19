@@ -62,6 +62,12 @@ const Settings = () => {
     variables: {newPassword: newPassword, confirmPassword: confirmPassword}
   });
 
+  const [ updateUser ] = useMutation(UPDATE_USER_MUTATION, {
+    onCompleted(){ },
+    onError(err) { console.log(JSON.stringify(err, null, 2)) },
+    variables: {}
+  });
+
   const [ updateUserName ] = useMutation(UPDATE_USER_MUTATION, {
     onCompleted(){
       setNewUserName('')
@@ -143,6 +149,17 @@ const Settings = () => {
             <input type="file" className="form-control" id="avatarFile" onChange={e => setImageState(e.target.files[0])}></input>
             <button className="btn btn-outline-secondary" type="button" onClick={() =>  updateImage(false) } disabled={!imageState || imageState===""}>Upload</button>
             <button className="btn btn-outline-secondary" disabled={!user.avatar} onClick={() => updateImage(true)} type="button">x</button>
+          </div>
+        </div>
+      </div>
+
+      <div className="row px-2 mt-4">
+        <div className="col">
+          <span className="mx-1">Theme Color:</span>
+        </div>
+        <div className="col col-12">
+          <div className="input-group input-group-sm">
+            <input type="color" className="form-control" value={user.color} onChange={e => updateUser({ variables: { fields: {color: e.target.value}}})}></input>
           </div>
         </div>
       </div>
