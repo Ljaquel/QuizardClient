@@ -13,7 +13,7 @@ import { RemoveTypename } from '../util/RemoveTypename'
 import { FETCH_QUIZ_QUERY, DELETE_QUIZ_MUTATION, UPDATE_QUIZ_MUTATION } from '../Calls'
 
 const QuizBuilder = (props) => {
-  const { user } = useContext(AuthContext);
+  const { contextUserId } = useContext(AuthContext);
   const { _id:quizId } = useParams();
   const [quizState, setQuizState] = useState({});
   const [position, setPosition] = useState(0);
@@ -31,7 +31,7 @@ const QuizBuilder = (props) => {
 
   
   const [ deleteQuiz ] = useMutation(DELETE_QUIZ_MUTATION, {
-    onCompleted() { props.history.push("/profile") },
+    onCompleted() { props.history.push("/profile/"+contextUserId) },
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
     variables: {quizId: quizId}
   });
@@ -47,12 +47,12 @@ const QuizBuilder = (props) => {
   }
   const publishQuiz = () => {
     updateQuiz({ variables: { update: {published: true, publishedDate: new Date().toISOString()} } })
-    props.history.push("/profile")
+    props.history.push("/profile/"+contextUserId)
   }
 
   const updateField = (field, value) => {
     setQuizState({...quizState, [field]: value})
-    if(!unsavedChanges) setUnsavedChanges(true)
+    if(!unsavedChanges && field !== "thumbnail" && field !== "backgroundImage") setUnsavedChanges(true)
   }
 
   const updateReqs = () => {
@@ -60,14 +60,14 @@ const QuizBuilder = (props) => {
     let newReqs = []
     if(unsavedChanges) newReqs.push("There are unsaved changes. Save first")
     if(quizState?.content.length < 5) newReqs.push("Needs a minimum of five questions")
-    if(parseInt(quizState?.time) === 0) newReqs.push("Time Limit should be at least One Minute")
+    if(parseInt(quizState?.time.substring(3, 5)) === 0 && parseInt(quizState?.time.substring(0, 2)) === 0) newReqs.push("Time Limit should be at least One Minute")
     if(quizState.name.length === 0) newReqs.push("Please provide a name for your quiz")
     if(quizState.description.length === 0) newReqs.push("Please provide a description for your quiz")
     setReqs(newReqs)
   }
 
   if(loading) { return <Loading/> }
-  if(user._id !== quiz.creator) { return <PageNotFound message="No Access Error"/> }
+  if(contextUserId !== quiz.creator) { return <PageNotFound message="No Access Error"/> }
 
   return (
     <>
@@ -86,19 +86,16 @@ const QuizBuilder = (props) => {
         <div className="row d-flex flex-row">
           <div className="col-3 p-0">
             <BuilderSideBar
-              tags={quizState?.tags}
-              difficulty={quizState?.difficulty}
-              time={quizState?.time}
-              style={quizState?.style}
+              quiz={quizState}
               updateField={updateField}
-              content={quizState?.content}
               positionState={[position, setPosition]}
+              updateQuiz={updateQuiz}
             />
           </div>
           <div className="col-9">
             <div className="row">
               <div className="col p-0">
-                {quizState.content && <Workspace content={quizState.content} updateField={updateField} positionState={[position, setPosition]} style={quizState?.style}/> }
+                {quizState.content && <Workspace content={quizState.content} backgroundImage={quizState?.backgroundImage} updateField={updateField} positionState={[position, setPosition]} style={quizState?.style}/> }
               </div>
             </div>
             <div className="row">

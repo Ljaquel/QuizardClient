@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
-import QuestionsList from './QuestionsList'
-import Style from './Style'
 
-const BuilderSideBar = ({ tags, difficulty, time, style, updateField, content, positionState }) => {
+import Style from './Style'
+import QuestionsList from './QuestionsList'
+import Images from './Images'
+
+const BuilderSideBar = ({ quiz, updateField, positionState }) => {
+  const { _id, tags, difficulty, time, style, backgroundImage, content, thumbnail } = quiz
   const [tag, setTag] = useState("")
 
   const AddTag = () => {
@@ -55,16 +58,6 @@ const BuilderSideBar = ({ tags, difficulty, time, style, updateField, content, p
       </div>
 
 
-      <div className="row px-2">
-        <div className="col">
-          <div className="input-group">
-            <input type="file" className="form-control" id="thumbnailFile"></input>
-            <label className="input-group-text" htmlFor="thumbnailFile">Upload</label>
-          </div>
-        </div>
-      </div>
-
-
       <div className="row my-2 ps-2">
         <div className="col-auto">
           <label>Time Limit:</label>
@@ -85,6 +78,7 @@ const BuilderSideBar = ({ tags, difficulty, time, style, updateField, content, p
           <div className="accordion" id="accordionSideBar">
             <QuestionsList updateField={updateField} positionState={positionState} content={content}/>
             <Style style={style} updateField={updateField}/>
+            <Images thumbnail={thumbnail} backgroundImage={backgroundImage} updateField={updateField} _id={_id}/>
           </div>
         </div>
       </div>

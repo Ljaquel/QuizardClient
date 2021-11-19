@@ -11,7 +11,7 @@ import { useParams } from 'react-router'
 
 const GuestProfile = () => {
   
-  const { user } = useContext(AuthContext);
+  const { contextUserId } = useContext(AuthContext);
   let { _id:userId } = useParams();
   debugger;
   const { data, loading, refetch } = useQuery(FETCH_QUIZZES_QUERY, { variables: { filters: { creator: userId} } });
@@ -23,7 +23,7 @@ const GuestProfile = () => {
   const quizzes = data?.getQuizzes;
 
   if(loading) { return <Loading/> }
-  if(!user) { return <PageNotFound message="No Access Error"/> }
+  if(!contextUserId) { return <PageNotFound message="No Access Error"/> }
  
   return (
     <div className="container-fluid">
