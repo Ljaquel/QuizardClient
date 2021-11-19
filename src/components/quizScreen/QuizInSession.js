@@ -5,15 +5,15 @@ import { useMutation, useQuery } from '@apollo/client'
 import { UPDATE_USER_MUTATION, CREATE_RESULT, FETCH_RESULTS_QUERY, UPDATE_RESULT } from '../../Calls'
 import QuizInSessionNav from './playground/QuizInSessionNav'
 
-const QuizInSession = ({ quiz, updateUserContext, setScreen}) => {
-  const { user } = useContext(AuthContext)
+const QuizInSession = ({ user, quiz, setScreen}) => {
+  const { contextUserId } = useContext(AuthContext)
   const [record, setRecord] = useState([])
   const [time] = useState(quiz?.time)
   const [timer, setTimer] = useState("00:00:00")
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answer, setAnswer] = useState(null)
 
-  const { content, style } = quiz
+  const { content, style, backgroundImage } = quiz
   const count = content.length
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const QuizInSession = ({ quiz, updateUserContext, setScreen}) => {
 
   const { data, refetch } = useQuery(FETCH_RESULTS_QUERY, {
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
-    variables: { filters: { quizId: quiz._id, userId: user._id } }
+    variables: { filters: { quizId: quiz._id, userId: contextUserId } }
   });
 
   useEffect(() => {
@@ -71,7 +71,6 @@ const QuizInSession = ({ quiz, updateUserContext, setScreen}) => {
 
   const updateU = (updates) => {
     updateUser({ variables: { fields: updates }})
-    updateUserContext(updates)
   }
 
   const finishQuiz = async (rec) => {
@@ -79,7 +78,7 @@ const QuizInSession = ({ quiz, updateUserContext, setScreen}) => {
 
     if(result === null || result === undefined ) {
       let newResult = {
-        userId: user._id,
+        userId: contextUserId,
         quizId: quiz._id,
         score: score,
         time: timer,
@@ -87,16 +86,13 @@ const QuizInSession = ({ quiz, updateUserContext, setScreen}) => {
         record: rec.map((x) => x.answer),
       }
       createResult({ variables: { input: {...newResult} }})
+      updateU( { points: user.points + score } )
     }
     else {
       if(result.score < score) {
         updateResult({ variables: { resultId: result._id, update: { score: score, time: timer, record: rec.map((x) => x.answer) } }})
+        updateU( { points: user.points+(score-result.score) } )
       }
-    }
-
-    if(!(result !== undefined && result.score > score)) {
-      let points = result !== undefined ? (user.points+(score-result.score)) : (user.points + score)
-      updateU( { points: points } )
     }
     setScreen(3)
   }
@@ -111,10 +107,14 @@ const QuizInSession = ({ quiz, updateUserContext, setScreen}) => {
     return Math.floor(correct/count*100)
   }
 
+  const backgroundStyle = backgroundImage ? 
+    {backgroundImage: `url("${backgroundImage}")`} :
+    {backgroundColor: style?style.backgroundColor:"#abafbb"} 
+
   return (
     <div className="container-fluid p-0 m-0">
       <QuizInSessionNav count={count} currentQuestion={currentQuestion} time={time} timerState={[timer, setTimer]} answer={answer} setScreen={setScreen}/>
-      <div className="container-fluid text-white workspace-container p-5 pt-2" style={{backgroundColor: style?style.backgroundColor:"#abafbb"}}>
+      <div className="container-fluid text-white workspace-container p-5 pt-2" style={backgroundStyle}>
         <div className="row px-0 mx-0 mb-5 mt-2">
           <div className="col">
             <div className="progress">
