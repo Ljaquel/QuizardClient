@@ -11,14 +11,11 @@ import { useParams } from 'react-router'
 
 const Profile = () => {
   const { user:userContext } = useContext(AuthContext);
-  const { _id:userid } = useParams();
-  const  { data: userdata}  = useQuery(FETCH_USER_QUERY, { variables: { userId: userid } });
-  const user = userdata?.getUser
+  const { _id:userId } = useParams();
+  const  { data: userData}  = useQuery(FETCH_USER_QUERY, { variables: { userId: userId } });
+  const user = userData?.getUser
 
-  const { data, loading, refetch } = useQuery(FETCH_QUIZZES_QUERY, { variables: { filters: { creator: userid } } });
-
-
-// console.log("here")
+  const { data, loading, refetch } = useQuery(FETCH_QUIZZES_QUERY, { variables: { filters: { creator: userId } } });
 
   useEffect(() => {
     refetch()

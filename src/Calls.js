@@ -49,6 +49,8 @@ const USER_ATTRIBUTES = gql`
     points
     color
     createdAt
+    following
+    followers
   }
 `
 
@@ -184,6 +186,12 @@ const UPDATE_USER_MUTATION = gql`
   }
   ${USER_ATTRIBUTES}
 `
+const SET_FOLLOWER = gql`
+  mutation setFollower($creatorId: String,$newFollowers:[String]) {
+    setFollower(creatorId: $creatorId, newFollowers: $newFollowers) 
+  }
+`
+
 const LOGIN_USER = gql`
   mutation loginUser($username: String!, $password: String!) {
     login(username: $username, password: $password) {
@@ -252,5 +260,6 @@ export {
   UPDATE_USER_MUTATION,
   LOGIN_USER,
   REGISTER_USER,
-  CHANGE_PASSWORD
+  CHANGE_PASSWORD,
+  SET_FOLLOWER,
 }
