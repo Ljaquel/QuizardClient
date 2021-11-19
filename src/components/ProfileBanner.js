@@ -10,7 +10,7 @@ import { FETCH_USER_QUERY, UPDATE_USER_MUTATION,SET_FOLLOWER } from "../Calls";
 const ProfileBanner = ({user, addQuiz}) => {
   const { contextUserId } = useContext(AuthContext);
   const [follow, setfollow] = useState()
-  
+
   const [ updateUserFollowing ] = useMutation(UPDATE_USER_MUTATION, {
     onError(err) { console.log(JSON.stringify(err, null, 2)) }, variables: {}
   });
@@ -50,7 +50,7 @@ const ProfileBanner = ({user, addQuiz}) => {
   if(!user) { return <div className="col-auto mx-5 my-3">  Not working </div> }
   
   return(
-    <div className="row">
+    <div className="row rounded p-2 py-1 mb-3 mt-1" style={{backgroundColor: user.color}}>
       <div className="col col-12 mx-5 mt-3"> 
         <Image cloudName="ljaquel"  width="150" height="150" crop="fill" radius="max" publicId={user.avatar}/>      
       </div>
@@ -58,8 +58,6 @@ const ProfileBanner = ({user, addQuiz}) => {
       <div className="col-auto mx-5 my-3"> 
         <h1>{user?.name} - Created Quizzes</h1>        
       </div>
-
-     
 
       <div className="col"> 
       </div>

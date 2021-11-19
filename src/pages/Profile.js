@@ -43,7 +43,7 @@ const Profile = () => {
   if(!user) { return <PageNotFound message="No Access Error"/> }
  
   return (
-    <div className="container-fluid">  
+    <div className="container">  
       <ProfileBanner user={user} addQuiz={addQuiz}/>
       <div className="container">
         <div className="row row-cols-auto g-3"> 

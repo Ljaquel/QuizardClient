@@ -154,10 +154,10 @@ const Settings = () => {
       </div>
 
       <div className="row px-2 mt-4">
-        <div className="col">
+        <div className="col col-auto">
           <span className="mx-1">Theme Color:</span>
         </div>
-        <div className="col col-12">
+        <div className="col col-auto w-25">
           <div className="input-group input-group-sm">
             <input type="color" className="form-control" value={user.color} onChange={e => updateUser({ variables: { fields: {color: e.target.value}}})}></input>
           </div>

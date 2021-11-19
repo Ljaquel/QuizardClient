@@ -26,16 +26,14 @@ const GuestProfile = () => {
   if(!contextUserId) { return <PageNotFound message="No Access Error"/> }
  
   return (
-    <div className="container-fluid">
-      <div className="container">
-        <div className="row row-cols-auto g-3">
-          {quizzes && quizzes.map((quiz, index) =>
-            <div className="mcol"  key={index}>
-              <QuizCard quiz={quiz}/>
-            </div>
-          )}
-          <h1>{userId}</h1>
-        </div>
+    <div className="container">
+      <div className="row row-cols-auto g-3">
+        {quizzes && quizzes.map((quiz, index) =>
+          <div className="mcol"  key={index}>
+            <QuizCard quiz={quiz}/>
+          </div>
+        )}
+        <h1>{userId}</h1>
       </div>
     </div>
   )
