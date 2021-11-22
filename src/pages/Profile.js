@@ -24,17 +24,9 @@ const Profile = () => {
   }, [refetch]);
 
   const [addQuiz] = useMutation(CREATE_QUIZ, {
-    variables: { name: "Default Quiz Name", creator: user?._id },
+    variables: { name: "Default Quiz Name", creatorId: contextUserId },
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
-    update(cache, { data: { createQuiz }}){
-      cache.writeQuery({
-        query: FETCH_QUIZZES_QUERY,
-        data: {
-          getQuizzes: [createQuiz, ...data.getQuizzes]
-        },
-        variables: { filters: { creator: user?._id } }
-      })
-    }
+    onCompleted() { refetch() }
   });
 
   const quizzes = data?.getQuizzes;

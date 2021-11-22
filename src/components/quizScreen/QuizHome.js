@@ -45,11 +45,11 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz }) => {
         {quiz.comments && quiz.comments.map((comment) => (
           <div key={comment._id} className="row rounded px-2 mx-2 mt-1">
             <div className="col-6 bg-light rounded">
-              <span className="badge bg-primary">{comment.user}</span>
+              <span className="badge bg-primary">{comment.user.username}</span>
               <span className=""> - <small>{moment(comment.createdAt).fromNow()}</small></span>
               <p>{comment.body}</p>
             </div>
-            {comment.user === user._id &&
+            {comment.user._id === user._id &&
               <div className="col-1">
                 <button onClick={() => deleteComment({ variables: {commentId: comment._id}})} className="btn btn-danger btn">x</button>
               </div>

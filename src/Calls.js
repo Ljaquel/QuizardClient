@@ -7,7 +7,11 @@ const QUIZ_ATTRIBUTES = gql`
     description
     publishedDate
     published
-    creator
+    creator {
+      _id
+      name
+      username
+    }
     timesPlayed
     time
     rating
@@ -15,7 +19,11 @@ const QUIZ_ATTRIBUTES = gql`
     comments {
       _id
       body
-      user
+      user {
+        _id
+        name
+        username
+      }
       createdAt
     }
     style {
@@ -124,17 +132,13 @@ const FETCH_RESULTS_QUERY = gql`
 
 const CREATE_COMMENT = gql`
   mutation createComment($quizId: ID!, $user: ID!, $body: String!) {
-    createComment(quizId: $quizId, user: $user, body: $body) {
-      _id
-    }
+    createComment(quizId: $quizId, user: $user, body: $body)
   }
 `
 
 const DELETE_COMMENT = gql`
   mutation deleteComment($quizId: ID!, $commentId: ID!) {
-    deleteComment(quizId: $quizId, commentId: $commentId) {
-      _id
-    }
+    deleteComment(quizId: $quizId, commentId: $commentId)
   }
 `
 
@@ -172,30 +176,21 @@ const DELETE_RESULTS = gql`
 `
 
 const CREATE_QUIZ = gql`
-  mutation createQuizMutation($name: String!, $creator: String!){
-    createQuiz(name: $name, creator: $creator) {
-      ...quizAttributes
-    }
+  mutation createQuizMutation($name: String!, $creatorId: String!){
+    createQuiz(name: $name, creatorId: $creatorId)
   }
-  ${QUIZ_ATTRIBUTES}
 `
 
 const DELETE_QUIZ_MUTATION = gql`
   mutation deleteQuizMutation($quizId: ID!) {
-    deleteQuiz(quizId: $quizId) {
-      ...quizAttributes
-    }
+    deleteQuiz(quizId: $quizId)
   }
-  ${QUIZ_ATTRIBUTES}
 `
 
 const UPDATE_QUIZ_MUTATION = gql`
   mutation updateQuizMutation($quizId: ID!, $update: QuizInput) {
-    updateQuiz(quizId: $quizId, update: $update) {
-      ...quizAttributes
-    }
+    updateQuiz(quizId: $quizId, update: $update)
   }
-  ${QUIZ_ATTRIBUTES}
 `
 
 const UPDATE_THUMBNAIL = gql`
@@ -225,7 +220,7 @@ const UPDATE_USER_MUTATION = gql`
   ${USER_ATTRIBUTES}
 `
 const SET_FOLLOWER = gql`
-  mutation setFollower($creatorId: String,$newFollowers:[String]) {
+  mutation setFollower($creatorId: String, $newFollowers:[String]) {
     setFollower(creatorId: $creatorId, newFollowers: $newFollowers) 
   }
 `

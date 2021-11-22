@@ -22,7 +22,7 @@ const QuizScreen = (props) => {
   const quiz = data?.getQuiz
   
   if(!quiz || !user) { return <Loading/> }
-  if(contextUserId === quiz.creator && quiz.published === false) { return <PageNotFound message="No Access Error"/> }
+  if(contextUserId === quiz.creator._id && quiz.published === false) { return <PageNotFound message="No Access Error"/> }
   
   return (
     screen === 1 ? <QuizHome quiz={quiz} user={user} setScreen={setScreen} refetchQuiz={refetchQuiz}/> :

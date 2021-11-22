@@ -42,7 +42,10 @@ const QuizBuilder = (props) => {
   });
 
   const saveQuiz = () => {
-    updateQuiz({ variables: { update: quizState }})
+    let update = {...quizState}
+    delete update.creator
+    delete update.comments
+    updateQuiz({ variables: { update: update }})
     setUnsavedChanges(false)
   }
   const publishQuiz = () => {
@@ -67,7 +70,7 @@ const QuizBuilder = (props) => {
   }
 
   if(loading) { return <Loading/> }
-  if(contextUserId !== quiz.creator) { return <PageNotFound message="No Access Error"/> }
+  if(contextUserId !== quiz.creator._id) { return <PageNotFound message="No Access Error"/> }
 
   return (
     <>
