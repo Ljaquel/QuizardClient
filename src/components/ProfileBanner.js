@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { AuthContext } from '../context/auth'
-import CreateQuizPopUp from '../components/CreateQuizPopUp'; 
+import CreatePlatformPopUp from '../components/CreatePlatformPopUp'; 
 import { Image } from 'cloudinary-react'
 
 import { FETCH_USER_QUERY, UPDATE_USER_MUTATION,SET_FOLLOWER } from "../Calls";
 
-const ProfileBanner = ({user, addQuiz}) => {
+const ProfileBanner = ({user, addPlatform}) => {
   const { contextUserId } = useContext(AuthContext);
   const [follow, setfollow] = useState()
 
@@ -54,18 +54,15 @@ const ProfileBanner = ({user, addQuiz}) => {
         <Image cloudName="ljaquel"  width="150" height="150" crop="fill" radius="max" publicId={user.avatar.publicId?user.avatar.publicId:"admin/profile_uvnezs"}/>      
       </div>
 
-      <div className="col-auto mx-5 my-3"> 
-        <h1>{user?.name} - Created Quizzes</h1>        
+      <div className="col mx-5 my-3"> 
+        <h1>{user?.name} - Platforms</h1>        
       </div>
 
-      <div className="col"> 
-      </div>
-
-      <div className="col-2 mt-4"> 
+      <div className="col col-auto mt-4"> 
         {user?._id === contextUserId && 
-            <CreateQuizPopUp addQuiz={addQuiz}/> }
+            <CreatePlatformPopUp addPlatform={addPlatform}/> }
         {!(user?._id===contextUserId) &&
-          <button onClick={followClick}> {follow ? 'follow' : 'unfollow'} </button> } 
+          <button className="btn btn-md bg-success" onClick={followClick}> {follow ? 'Follow' : 'Unfollow'} </button> } 
       </div>
         
     </div>

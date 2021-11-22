@@ -44,6 +44,7 @@ const QuizBuilder = (props) => {
   const saveQuiz = () => {
     let update = {...quizState}
     delete update.creator
+    delete update.platform
     delete update.comments
     delete update.thumbnail
     delete update.backgroundImage

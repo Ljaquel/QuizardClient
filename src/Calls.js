@@ -1,5 +1,30 @@
 import { gql } from '@apollo/client';
 
+const PLATFORM_ATTRIBUTES = gql`
+  fragment platformAttributes on Platform {
+    _id
+    name
+    description
+    creator {
+      _id
+      name
+      username
+    }
+    rating
+    image {
+      publicId
+      url
+    }
+    banner {
+      publicId
+      url
+    }
+    following
+    followers
+    createdAt
+  }
+`
+
 const QUIZ_ATTRIBUTES = gql`
   fragment quizAttributes on Quiz {
     _id
@@ -11,6 +36,10 @@ const QUIZ_ATTRIBUTES = gql`
       _id
       name
       username
+    }
+    platform {
+      _id
+      name
     }
     timesPlayed
     time
@@ -97,10 +126,14 @@ export const FETCH_SEARCH_RESULTS_QUERY = gql`
       ... on Quiz {
         ...quizAttributes
       }
+      ... on Platform {
+        ...platformAttributes
+      }
     }
   }
   ${USER_ATTRIBUTES}
   ${QUIZ_ATTRIBUTES}
+  ${PLATFORM_ATTRIBUTES}
 `;
 
 export const FETCH_USER_QUERY = gql`
@@ -128,6 +161,24 @@ export const FETCH_QUIZ_QUERY = gql`
     }
   }
   ${QUIZ_ATTRIBUTES}
+`
+
+export const FETCH_PLATFORMS = gql`
+  query fetchPlatforms($filters: PlatformInput){
+    getPlatforms(filters: $filters) {
+      ...platformAttributes
+    }
+  }
+  ${PLATFORM_ATTRIBUTES}
+`
+
+export const FETCH_PLATFORM = gql`
+  query fetchPlatform($platformId: ID!) {
+    getPlatform(platformId: $platformId) {
+      ...platformAttributes
+    }
+  }
+  ${PLATFORM_ATTRIBUTES}
 `
 
 export const FETCH_RESULTS_QUERY = gql`
@@ -185,8 +236,8 @@ export const DELETE_RESULTS = gql`
 `
 
 export const CREATE_QUIZ = gql`
-  mutation createQuizMutation($name: String!, $creatorId: String!){
-    createQuiz(name: $name, creatorId: $creatorId)
+  mutation createQuizMutation($name: String!, $creatorId: String!, $platformId: String!){
+    createQuiz(name: $name, creatorId: $creatorId, platformId: $platformId)
   }
 `
 
@@ -199,6 +250,24 @@ export const DELETE_QUIZ_MUTATION = gql`
 export const UPDATE_QUIZ_MUTATION = gql`
   mutation updateQuizMutation($quizId: ID!, $update: QuizInput) {
     updateQuiz(quizId: $quizId, update: $update)
+  }
+`
+
+export const CREATE_PLATFORM = gql`
+  mutation createPlatform($name: String!, $creatorId: String!){
+    createPlatform(name: $name, creatorId: $creatorId)
+  }
+`
+
+export const DELETE_PLATFORM = gql`
+  mutation deletePlatform($platformId: ID!) {
+    deletePlatform(platformId: $platformId)
+  }
+`
+
+export const UPDATE_PLATFORM = gql`
+  mutation updatePlatform($platformId: ID!, $update: PlatformInput) {
+    updatePlatform(platformId: $platformId, update: $update)
   }
 `
 

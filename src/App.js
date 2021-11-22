@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Login, Register, QuizBuilder, PageNotFound, Profile, QuizScreen, Settings, SearchScreen } from './pages/index';
+import { Home, Login, Register, QuizBuilder, PageNotFound, Platform, Profile, QuizScreen, Settings, SearchScreen } from './pages/index';
 import Navbar from './components/Navbar';
 import { AuthRoute, NoAuthRoute } from './util/AuthRoute';
 import { AuthProvider } from './context/auth';
@@ -15,6 +15,7 @@ function App() {
           <Route exact path='/' component={Home}/>
           <NoAuthRoute exact path='/login' component={Login}/>
           <NoAuthRoute exact path='/register' component={Register}/>
+          <AuthRoute exact path='/platform/:_id' component={Platform}/>
           <AuthRoute exact path='/quizbuilder/:_id' component={QuizBuilder}/>
           <AuthRoute exact path='/profile/:_id' component={Profile}/> 
           <AuthRoute exact path='/quizscreen/:_id' component={QuizScreen}/>
