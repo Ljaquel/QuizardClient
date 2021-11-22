@@ -45,6 +45,8 @@ const QuizBuilder = (props) => {
     let update = {...quizState}
     delete update.creator
     delete update.comments
+    delete update.thumbnail
+    delete update.backgroundImage
     updateQuiz({ variables: { update: update }})
     setUnsavedChanges(false)
   }

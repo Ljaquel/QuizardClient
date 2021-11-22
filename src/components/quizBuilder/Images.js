@@ -3,25 +3,26 @@ import Axios from 'axios'
 import { Image } from 'cloudinary-react'
 import { useMutation } from '@apollo/client';
 
-import { UPDATE_THUMBNAIL, UPDATE_BACKGROUND } from '../../Calls'
+import { UPDATE_IMAGE } from '../../Calls'
 
 const Images = ({ thumbnail, backgroundImage, updateField, _id }) => {
   const [thumbnailState, setThumbnailState] = useState("")
   const [backgroundImageState, setBackgroundImageState] = useState("")
 
-  const [ updateThumbnail ] = useMutation(UPDATE_THUMBNAIL, {
+  const [ updateThumbnail ] = useMutation(UPDATE_IMAGE, {
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
-    variables: { quizId: _id }
+    variables: { type: "Quiz", _id: _id, field: "thumbnail" }
   })
 
-  const [ updateBackground ] = useMutation(UPDATE_BACKGROUND, {
+  const [ updateBackground ] = useMutation(UPDATE_IMAGE, {
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
-    variables: { quizId: _id }
+    variables: { type: "Quiz", _id: _id, field: "backgroundImage" }
   })
 
   
   const uploadImage = async(field, deletion) => {
-    let public_id = null
+    let publicId = null
+    let url = null
     const formData = new FormData()
 
     if(!deletion) {
@@ -33,19 +34,19 @@ const Images = ({ thumbnail, backgroundImage, updateField, _id }) => {
       }
       formData.append("upload_preset", "quizard")
       const res = await Axios.post("https://api.cloudinary.com/v1_1/ljaquel/image/upload", formData)
-      public_id = res.data.public_id
-      if(field === 'backgroundImage') { public_id = res.data.url }
+      publicId = res.data.public_id
+      url = res.data.url
     }
-    else { public_id = "" }
+    else { publicId = ""; url = "" }
 
-
-    updateField(field, public_id)
+    const update = {publicId, url}
+    updateField(field, update)
 
     if(field === "thumbnail") {
-      updateThumbnail({ variables: { value: public_id }})
+      updateThumbnail({ variables: { publicId, url }})
     }
     else if(field === "backgroundImage") {
-      updateBackground({ variables: { value: public_id }})
+      updateBackground({ variables: { publicId, url }})
     }
   }
 
@@ -68,12 +69,12 @@ const Images = ({ thumbnail, backgroundImage, updateField, _id }) => {
               <div className="input-group input-group-sm">
                 <input type="file" className="form-control" id="thumbnailFile" onChange={e => setThumbnailState(e.target.files[0])}></input>
                 <button className="btn btn-outline-secondary" type="button" onClick={() => uploadImage("thumbnail", false)} disabled={!thumbnailState || thumbnailState===""}>Upload</button>
-                <button className="btn btn-outline-secondary" disabled={!thumbnail} onClick={() => uploadImage("thumbnail", true)} type="button">x</button>
+                <button className="btn btn-outline-secondary" disabled={!thumbnail?.publicId} onClick={() => uploadImage("thumbnail", true)} type="button">x</button>
               </div>
             </div>
           </div>
           
-          {thumbnail && <Image cloudName="ljaquel"  width="100" publicId={thumbnail}/> } 
+          {thumbnail?.publicId && <Image cloudName="ljaquel"  width="100" publicId={thumbnail.publicId}/> } 
 
           <div className="row px-2 mt-4">
             <div className="col">
@@ -83,12 +84,12 @@ const Images = ({ thumbnail, backgroundImage, updateField, _id }) => {
               <div className="input-group input-group-sm">
                 <input type="file" className="form-control" id="backgroundImageFile" onChange={e => setBackgroundImageState(e.target.files[0])}></input>
                 <button className="btn btn-outline-secondary" disabled={!backgroundImageState || backgroundImageState===""} type="button" onClick={() => uploadImage("backgroundImage", false)}>Upload</button>
-                <button className="btn btn-outline-secondary" disabled={!backgroundImage} onClick={() => uploadImage("backgroundImage", true)} type="button">x</button>
+                <button className="btn btn-outline-secondary" disabled={!backgroundImage?.publicId} onClick={() => uploadImage("backgroundImage", true)} type="button">x</button>
               </div>
             </div>
           </div>
 
-          {backgroundImage && <Image cloudName="ljaquel"  width="100" publicId={backgroundImage}/>}
+          {backgroundImage?.publicId && <Image cloudName="ljaquel"  width="100" publicId={backgroundImage.publicId}/>}
 
 
         </div>

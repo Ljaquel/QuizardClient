@@ -44,8 +44,14 @@ const QUIZ_ATTRIBUTES = gql`
       answer
       choices
     }
-    thumbnail
-    backgroundImage
+    thumbnail {
+      publicId
+      url
+    }
+    backgroundImage {
+      publicId
+      url
+    }
     createdAt
   }
 `
@@ -59,7 +65,10 @@ const USER_ATTRIBUTES = gql`
     level
     points
     color
-    avatar
+    avatar {
+      publicId
+      url
+    }
     createdAt
     following
     followers
@@ -193,21 +202,9 @@ const UPDATE_QUIZ_MUTATION = gql`
   }
 `
 
-const UPDATE_THUMBNAIL = gql`
-  mutation updateThumbnail($quizId: ID!, $value: String!) {
-    updateThumbnail(quizId: $quizId, value: $value)
-  }
-`
-
-const UPDATE_BACKGROUND = gql`
-  mutation updateBackground($quizId: ID!, $value: String!) {
-    updateBackground(quizId: $quizId, value: $value)
-  }
-`
-
-const UPDATE_AVATAR = gql`
-  mutation updateAvatar($userId: ID!, $value: String!) {
-    updateAvatar(userId: $userId, value: $value)
+const UPDATE_IMAGE = gql`
+  mutation updateImage($type: String!, $_id: ID!, $field: String!, $publicId: String!, $url: String!) {
+    updateImage(type: $type, _id: $_id, field: $field, publicId: $publicId, url : $url)
   }
 `
 
@@ -236,7 +233,10 @@ const LOGIN_USER = gql`
       level
       points
       color
-      avatar
+      avatar {
+        publicId
+        url
+      }
       createdAt
     }
   }
@@ -267,7 +267,10 @@ const REGISTER_USER = gql`
       level
       points
       color
-      avatar
+      avatar {
+        publicId
+        url
+      }
       createdAt
     }
   }
@@ -293,9 +296,7 @@ export {
   DELETE_QUIZ_MUTATION,
   UPDATE_QUIZ_MUTATION,
   UPDATE_USER_MUTATION,
-  UPDATE_AVATAR,
-  UPDATE_THUMBNAIL,
-  UPDATE_BACKGROUND,
+  UPDATE_IMAGE,
   LOGIN_USER,
   REGISTER_USER,
   CHANGE_PASSWORD,

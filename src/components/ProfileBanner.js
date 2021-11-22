@@ -51,7 +51,7 @@ const ProfileBanner = ({user, addQuiz}) => {
   return(
     <div className="row rounded p-2 py-1 mb-3 mt-1" style={{backgroundColor: user.color}}>
       <div className="col col-12 mx-5 mt-3"> 
-        <Image cloudName="ljaquel"  width="150" height="150" crop="fill" radius="max" publicId={user.avatar?user.avatar:"admin/profile_uvnezs"}/>      
+        <Image cloudName="ljaquel"  width="150" height="150" crop="fill" radius="max" publicId={user.avatar.publicId?user.avatar.publicId:"admin/profile_uvnezs"}/>      
       </div>
 
       <div className="col-auto mx-5 my-3"> 

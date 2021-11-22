@@ -42,8 +42,8 @@ const Workspace = ({ backgroundImage, content, updateField, positionState, style
     updateField("content", newContent)
   }
 
-  const backgroundStyle = backgroundImage ? 
-    {backgroundImage: `url("${backgroundImage}")`} :
+  const backgroundStyle = backgroundImage?.url ? 
+    {backgroundImage: `url("${backgroundImage.url}")`} :
     {backgroundColor: style?style.backgroundColor:"#abafbb"}
 
   return (

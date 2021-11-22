@@ -4,7 +4,7 @@ import Axios from 'axios'
 import { Image } from 'cloudinary-react'
 
 import Loading from '../components/Loading'
-import { CHANGE_PASSWORD, UPDATE_USER_MUTATION, UPDATE_AVATAR, FETCH_USER_QUERY } from '../Calls'
+import { CHANGE_PASSWORD, UPDATE_USER_MUTATION, UPDATE_IMAGE, FETCH_USER_QUERY } from '../Calls'
 import { AuthContext } from '../context/auth';
 
 const Settings = () => {
@@ -28,25 +28,27 @@ const Settings = () => {
   })
   const user = userData?.getUser
 
-  const [ updateAvatar ] = useMutation(UPDATE_AVATAR, {
+  const [ updateAvatar ] = useMutation(UPDATE_IMAGE, {
     onCompleted() { setImageState(''); refetch() },
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
-    variables: { userId: contextUserId }
+    variables: { type: "User",  _id: contextUserId, field: "avatar" }
   })
 
   const updateImage = async(deletion) => {
-    let public_id = null
+    let publicId = null
+    let url = null
 
     if(!deletion) {
       const formData = new FormData()
       formData.append("file", imageState)
       formData.append("upload_preset", "quizard")
       const res = await Axios.post("https://api.cloudinary.com/v1_1/ljaquel/image/upload", formData)
-      public_id = res.data.public_id
+      publicId = res.data.public_id
+      url = res.data.url
     }
-    else { public_id = "" }
+    else { publicId = ""; url = "" }
 
-    updateAvatar({ variables: { value: public_id }})
+    updateAvatar({ variables: { publicId, url }})
   }
   
   const [changePassword] = useMutation(CHANGE_PASSWORD, {
@@ -112,7 +114,7 @@ const Settings = () => {
   return (
     <div className="container-sm">
       <h1>Settings</h1>
-      {user.avatar && <Image cloudName="ljaquel"  width="200" height="200" crop="fill" radius="max" publicId={user.avatar}/> } 
+      {user.avatar.publicId && <Image cloudName="ljaquel"  width="200" height="200" crop="fill" radius="max" publicId={user.avatar.publicId}/> } 
       <h2>Name: {user.name}</h2>
       <h2>Username: {user.username}</h2>
 
@@ -148,7 +150,7 @@ const Settings = () => {
           <div className="input-group input-group-sm">
             <input type="file" className="form-control" id="avatarFile" onChange={e => setImageState(e.target.files[0])}></input>
             <button className="btn btn-outline-secondary" type="button" onClick={() =>  updateImage(false) } disabled={!imageState || imageState===""}>Upload</button>
-            <button className="btn btn-outline-secondary" disabled={!user.avatar} onClick={() => updateImage(true)} type="button">x</button>
+            <button className="btn btn-outline-secondary" disabled={!user.avatar?.publicId} onClick={() => updateImage(true)} type="button">x</button>
           </div>
         </div>
       </div>

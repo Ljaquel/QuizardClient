@@ -23,7 +23,7 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz }) => {
     <div className="container-lg pt-2">
       <div className="row mt-2 mb-5">
         <div className="col">
-          {user?.avatar && <Image cloudName="ljaquel"  width="300" publicId={quiz.thumbnail}/> } 
+          {quiz.thumbnail?.publicId && <Image cloudName="ljaquel"  width="300" publicId={quiz.thumbnail.publicId}/> } 
         </div>
       </div>
       <div className="row mt-2 mb-5">

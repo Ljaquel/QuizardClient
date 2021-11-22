@@ -16,7 +16,7 @@ function QuizCard({ quiz, home}) {
       {path==="/" &&
         <Link to={`${destination}${quiz._id}`} className="searchScreencardDiv card-subtitle text-muted" >
           <div className="p-2 border border-3 border-secondary rounded ">
-            <Image cloudName="ljaquel"  width="100" publicId={quiz.thumbnail} className='me-2'/>
+            <Image cloudName="ljaquel"  width="100" publicId={quiz.thumbnail.publicId} className='me-2'/>
             <span>{quiz.name}</span> 
             <p className="card-text" style={{fontSize: "13px"}}>{quiz.description.length < 70 ? quiz.description : "Description..."}</p>
             <h6 className="card-subtitle mt-0">
@@ -28,7 +28,7 @@ function QuizCard({ quiz, home}) {
       {path==="/searchscreen" &&
         <Link to={`${destination}${quiz._id}`} className="searchScreencardDiv card-subtitle text-muted" >
           <div className="p-3 mb-3 w-100 border border-3 border-secondary rounded">
-            <Image cloudName="ljaquel"  width="100" publicId={quiz.thumbnail} className='me-2'/>
+            <Image cloudName="ljaquel"  width="100" publicId={quiz.thumbnail.publicId} className='me-2'/>
             <span>{quiz.name}</span> 
             <p className="card-text" style={{fontSize: "13px"}}>{quiz.description.length < 140 ? quiz.description : "Description..."}</p>
             <p>Tags: {quiz?.tags.toString()}</p> 
@@ -41,7 +41,7 @@ function QuizCard({ quiz, home}) {
       {path.includes("/profile") && 
         <Link to={`${destination}${quiz._id}`} className="searchScreencardDiv card-subtitle text-muted" >
           <div className="p-2 border border-3 border-secondary rounded ">
-            <Image cloudName="ljaquel"  width="100" publicId={quiz.thumbnail} className='me-2'/>
+            <Image cloudName="ljaquel"  width="100" publicId={quiz.thumbnail.publicId} className='me-2'/>
             <span>{quiz.name}</span> 
             <p className="card-text" style={{fontSize: "13px"}}>{quiz.description.length < 70 ? quiz.description : "Description..."}</p>
           </div>

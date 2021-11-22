@@ -107,8 +107,8 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
     return Math.floor(correct/count*100)
   }
 
-  const backgroundStyle = backgroundImage ? 
-    {backgroundImage: `url("${backgroundImage}")`} :
+  const backgroundStyle = backgroundImage?.url ? 
+    {backgroundImage: `url("${backgroundImage.url}")`} :
     {backgroundColor: style?style.backgroundColor:"#abafbb"} 
 
   return (
