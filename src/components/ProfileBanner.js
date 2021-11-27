@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { AuthContext } from '../context/auth'
-import CreatePlatformPopUp from '../components/CreatePlatformPopUp'; 
 import { Image } from 'cloudinary-react'
 
 import { FETCH_USER_QUERY, UPDATE_USER_MUTATION,SET_FOLLOWER } from "../Calls";
@@ -49,20 +48,30 @@ const ProfileBanner = ({user, addPlatform}) => {
   if(!user) { return <div className="col-auto mx-5 my-3">  Not working </div> }
   
   return(
-    <div className="row rounded p-2 py-1 mb-3 mt-1" style={{backgroundColor: user.color}}>
-      <div className="col col-12 mx-5 mt-3"> 
-        <Image cloudName="ljaquel"  width="150" height="150" crop="fill" radius="max" publicId={user.avatar.publicId?user.avatar.publicId:"admin/profile_uvnezs"}/>      
+    <div className="px-4 rounded p-2 py-1 mb-1 mt-1 border border-2" style={{backgroundColor: user.color}}>
+      <div className="row justify-content-center">
+        <div className="col col-auto mt-3"> 
+          <Image cloudName="ljaquel"  width="170" height="170" crop="thumb" radius="5" publicId={user.avatar.publicId?user.avatar.publicId:"admin/profile_uvnezs"}/>      
+        </div>
       </div>
 
-      <div className="col mx-5 my-3"> 
-        <h1>{user?.name} - Platforms</h1>        
+      <div className="row justify-content-center">
+        <div className="col col-auto"> 
+          <span style={{fontSize: '28px'}}>{user?.name}</span>
+        </div>
       </div>
 
-      <div className="col col-auto mt-4"> 
-        {user?._id === contextUserId && 
-            <CreatePlatformPopUp addPlatform={addPlatform}/> }
-        {!(user?._id===contextUserId) &&
-          <button className="btn btn-md bg-success" onClick={followClick}> {follow ? 'Follow' : 'Unfollow'} </button> } 
+      <div className="row justify-content-center">
+        <div className="col col-auto"> 
+          <span style={{fontSize: '20px'}}>{user?.username}</span>
+        </div>
+      </div>
+
+      <div className="row justify-content-end">
+        <div className="col col-auto"> 
+          {!(user?._id===contextUserId) &&
+            <button className="btn btn-md bg-light border border-1 p-0 px-2" onClick={followClick}> {follow ? 'Follow' : 'Following'} </button> } 
+        </div>
       </div>
         
     </div>

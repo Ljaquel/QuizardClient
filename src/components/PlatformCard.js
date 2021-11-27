@@ -1,17 +1,14 @@
 import React from 'react';
-import { Link } from "react-router-dom";
-import '../styles/QuizCard.css'
-import {Image} from 'cloudinary-react'
 
-function PlatformCard({ platform }) {
+function PlatformCard({ platform, history }) {
   return (
-    <Link to={`/platform/${platform._id}`} className="searchScreencardDiv card-subtitle text-muted" >
-      <div className="p-2 border border-3 border-secondary rounded ">
-        <Image cloudName="ljaquel"  width="100" publicId={platform.image.publicId} className='me-2'/>
-        <span>{platform.name}</span> 
-        <p className="card-text" style={{fontSize: "13px"}}>{platform.description.length < 70 ? platform.description : "Description..."}</p>
+    <div className="card border border-3 platform-card rounded" style={{width: '18rem'}} onClick={() => {history.push(`/platform/${platform._id}`)}}>
+      <img className="card-img-top p-1" src={platform?.image?.url?platform.image.url:"https://res.cloudinary.com/ljaquel/image/upload/v1637970039/admin/imagePlaceholder_fxpfme.png" } alt="..."/>
+      <div className="card-body">
+        <h5 className="card-title">{platform.name}</h5>
+        <p className="card-text">{platform.description.length < 80 ? platform.description : platform.description.substring(0, 80)+"..."}</p>
       </div>
-    </Link>
+    </div>
   )
 }
 

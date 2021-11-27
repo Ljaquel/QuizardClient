@@ -1,9 +1,10 @@
-html, body {
+html,
+body {
   height: 100%;
 }
 
 #root {
-  height: 100%
+  height: 100%;
 }
 
 .editable-label {
@@ -13,16 +14,19 @@ html, body {
   outline: none;
 }
 
-.editable-label::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+.editable-label::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: rgb(255, 255, 255);
   opacity: 0.6;
 }
 
-.builder-nav-container, .nav-container {
+.builder-nav-container,
+.nav-container {
   height: 40px;
 }
 
-.workspace-container, .description-container {
+.workspace-container,
+.description-container {
   background-color: rgb(171, 175, 187);
 }
 
@@ -44,10 +48,41 @@ html, body {
 }
 
 .floating-edit-icon {
-  background-color: rgba(255, 255, 255, 0.548);
-  color: rgba(0, 0, 0, 0.493);
+  background-color: rgba(255, 255, 255, 0.425);
+  color: rgba(0, 0, 0, 0.61);
   cursor: pointer;
 }
 .floating-edit-icon:hover {
+  background-color: rgba(255, 255, 255, 0.527);
   color: rgb(0, 0, 0);
+}
+
+.workspace-screen-height {
+  height: 85%;
+}
+
+.description-screen-height {
+  height: 15%;
+}
+
+.results-card {
+  background-color: rgb(167, 188, 255);
+}
+
+.platform-card:hover {
+  background-color: rgb(240, 240, 240);
+  border-color: rgb(126, 152, 189) !important;
+  cursor: pointer;
+}
+
+.quiz-card:hover {
+  background-color: rgb(240, 240, 240);
+  border-color: rgb(126, 152, 189) !important;
+  cursor: pointer;
+}
+
+.search-quiz-card:hover {
+  background-color: rgb(240, 240, 240);
+  border-color: rgb(126, 152, 189) !important;
+  cursor: pointer;
 }

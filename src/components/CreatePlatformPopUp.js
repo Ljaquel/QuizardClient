@@ -31,9 +31,9 @@ function CreatePlatformPopUp({ addPlatform }) {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Create Platform
-      </Button>
+      <button className="btn py-1 px-2 border border-2" onClick={handleShow}>
+        Add Platform
+      </button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Create Platform</Modal.Title>

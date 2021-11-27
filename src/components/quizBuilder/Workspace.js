@@ -43,11 +43,11 @@ const Workspace = ({ backgroundImage, content, updateField, positionState, style
   }
 
   const backgroundStyle = backgroundImage?.url ? 
-    {backgroundImage: `url("${backgroundImage.url}")`} :
+    {backgroundImage: `url("${backgroundImage.url}")`, backgroundPosition: 'center', backgroundSize: 'cover'} :
     {backgroundColor: style?style.backgroundColor:"#abafbb"}
 
   return (
-    <div className="container-fluid text-white workspace-container" style={backgroundStyle}>
+    <div className="container-fluid text-white workspace-container h-100" style={backgroundStyle}>
       <div className="row mb-4 pt-4">
         <div className="col text-center">
           <label htmlFor="customRange2" className="form-label text-dark"><span className="badge bg-light text-dark">Question {position+1}</span></label>

@@ -60,11 +60,11 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
     let newRecord = [...record]
     newRecord.push({ answer:answer, correct:answer===content[currentQuestion].answer })
     setRecord(newRecord)
-    setAnswer(null)
     if(currentQuestion === count-1) {
       finishQuiz(newRecord)
     }
     else {
+      setAnswer(null)
       setCurrentQuestion(currentQuestion+1)
     }
   }
@@ -75,6 +75,7 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
 
   const finishQuiz = async (rec) => {
     let score = getScore(rec)
+    let record = rec.map((x) => x.answer)
 
     if(result === null || result === undefined ) {
       let newResult = {
@@ -83,17 +84,24 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
         score: score,
         time: timer,
         badges: [],
-        record: rec.map((x) => x.answer),
+        record: record,
+        last: score,
+        lastRecord: record
       }
       createResult({ variables: { input: {...newResult} }})
       updateU( { points: user.points + score } )
     }
     else {
       if(result.score < score) {
-        updateResult({ variables: { resultId: result._id, update: { score: score, time: timer, record: rec.map((x) => x.answer) } }})
+        updateResult({ variables: { resultId: result._id, update: { score: score, time: timer, record: rec.map((x) => x.answer), last: score, lastRecord: record } }})
         updateU( { points: user.points+(score-result.score) } )
       }
+      else if(score <= result.score) {
+        updateResult({ variables: { resultId: result._id, update: { last: score, lastRecord: record } }})
+      }
     }
+    setCurrentQuestion(currentQuestion+1)
+    await new Promise(r => setTimeout(r, 1500));
     setScreen(3)
   }
 
@@ -108,35 +116,49 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
   }
 
   const backgroundStyle = backgroundImage?.url ? 
-    {backgroundImage: `url("${backgroundImage.url}")`} :
+    {backgroundImage: `url("${backgroundImage.url}")`, backgroundPosition: 'center', backgroundSize: 'cover', repeat: 'no-repeat'} :
     {backgroundColor: style?style.backgroundColor:"#abafbb"} 
 
   return (
-    <div className="container-fluid p-0 m-0">
+    <>
       <QuizInSessionNav count={count} currentQuestion={currentQuestion} time={time} timerState={[timer, setTimer]} answer={answer} setScreen={setScreen}/>
-      <div className="container-fluid text-white workspace-container p-5 pt-2" style={backgroundStyle}>
-        <div className="row px-0 mx-0 mb-5 mt-2">
-          <div className="col">
-            <div className="progress">
-              <div className="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style={{width: progressPercentage}}
-                aria-valuenow="25" aria-valuemin="0" aria-valuemax={"100"}> {progressPercentage} </div>
+      <div className="container-fluid text-white workspace-container p-5 pt-2 flex-grow-1" style={backgroundStyle}>
+        <div className="container-md px-5">
+          <div className="row pb-5 pt-2">
+            <div className="col"></div>
+            <div className="col-8">
+              <div className="progress" style={{height: "12px"}}>
+                <div className="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style={{width: progressPercentage}}
+                  aria-valuenow="25" aria-valuemin="0" aria-valuemax={"100"}> {progressPercentage} </div>
+              </div>
             </div>
+            <div className="col"></div>
           </div>
-        </div>
-        <div className="row pb-4">
-          <div className="col p-0 m-0">
-            <div className="container-fluid text-white">
+          <div className="row py-5">
+            <div className="col"></div>
+            <div className="col-8 justify-content-center">
               {(currentQuestion >= 0) && (currentQuestion < count) && <Question question={content[currentQuestion]} style={style} answer={answer} setAnswer={setAnswer} /> }
+              { currentQuestion === count && 
+                <div className="row mt-5">
+                  <div className="col"></div>
+                  <div className="col-auto bg-dark p-5 rounded">
+                    <h2>You have finished the Quiz!</h2>
+                  </div>
+                  <div className="col"></div>
+                </div> }
             </div>
+            <div className="col"></div>
           </div>
-        </div>
-        <div className="row">
-          <div className="col p-0 m-0 align-self-center">
-            <button className="btn btn-sm btn-primary" disabled={!canGoNext} onClick={() => goNextQ() }>{currentQuestion === count-1 ? "Finish" : "Next Question"}</button>
+          <div className="row pb-5 pt-2">
+            <div className='col'></div>
+            <div className="col-auto align-self-center">
+              {currentQuestion !== count && <button className="btn btn-sm btn-light text-dark" disabled={!canGoNext} onClick={() => goNextQ() }>{currentQuestion === count-1 ? "Finish" : "Next Question"}</button> }
+            </div>
+            <div className="col-2"></div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -4,6 +4,7 @@ import { NavLink, useHistory } from "react-router-dom"
 import { Dropdown } from 'react-bootstrap'
 import { useLazyQuery } from '@apollo/client'
 import { FETCH_USER_QUERY } from '../Calls';
+import { MdSearch } from "react-icons/md";
 
 const Navbar=() =>{
   const { contextUserId, logout } = useContext(AuthContext)
@@ -18,15 +19,15 @@ const Navbar=() =>{
   const history = useHistory();
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark nav-container p-1 bg-dark">
+    <nav className="navbar navbar-expand navbar-dark nav-container p-1 bg-dark">
       <div className="container-fluid px-2">
 
         <div className="collapse navbar-collapse">
 
           {contextUserId &&
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0" >
+            <ul className="navbar-nav me-auto" >
               <li className="nav-item">
-                <NavLink className="nav-link" to="/" exact={true} >Home</NavLink>
+                <NavLink className="nav-link" to="/" exact={true}> Home </NavLink>
               </li>
             </ul>
           }
@@ -43,8 +44,8 @@ const Navbar=() =>{
           :
             <>
               <ul className="navbar-nav">
-                <li className="nav-item me-3">
-                  <NavLink className="nav-link" activeClassName="active" to="/searchscreen">Search</NavLink>
+                <li className="nav-item pe-3">
+                  <NavLink className="nav-link" activeClassName="active" to="/searchscreen"><MdSearch size={30}/></NavLink>
                 </li>
               </ul>
               <Dropdown className="myclass">
