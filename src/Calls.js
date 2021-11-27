@@ -113,6 +113,8 @@ const RESULT_ATTRIBUTES = gql`
     time
     badges
     record
+    last
+    lastRecord
     createdAt
   }
 `

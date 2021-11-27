@@ -6,7 +6,7 @@ import Loading from '../components/Loading';
 import { AuthContext } from '../context/auth';
 import { FETCH_QUIZZES_QUERY } from '../Calls';
 
-const Home = () => {
+const Home = (props) => {
   const { contextUserId } = useContext(AuthContext);
   const { data, refetch } = useQuery(FETCH_QUIZZES_QUERY, {
     variables: {filters: { published: true }}
@@ -27,7 +27,7 @@ const Home = () => {
       <div className="row row-cols-auto g-3"> 
         {contextUserId && quizzes && quizzes.map((quiz, index) =>
           <div className="col"  key={index}>  
-            <QuizCard quiz={quiz} home={true}/>
+            <QuizCard quiz={quiz} home={true} history={props.history}/>
           </div>
         )}
       </div>

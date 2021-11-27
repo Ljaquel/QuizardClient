@@ -10,6 +10,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+        <div className="container-fluid p-0 d-flex flex-column h-100">
         <Navbar/>
         <Switch>
           <Route exact path='/' component={Home}/>
@@ -23,6 +24,7 @@ function App() {
           <AuthRoute exact path='/settings' component={Settings}/>
           <Route component={PageNotFound}></Route>
         </Switch>
+        </div>
       </Router>
     </AuthProvider>
   );

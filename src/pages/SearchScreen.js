@@ -3,10 +3,10 @@ import { useQuery } from '@apollo/client';
 
 import { FETCH_SEARCH_RESULTS_QUERY } from '../Calls';
 import PlatformCard from '../components/PlatformCard';
-import QuizCard from '../components/QuizCard';
+import SearchQuizCard from '../components/SearchQuizCard';
 import UserCard from '../components/UserCard';
 
-const SearchScreen = () => {
+const SearchScreen = (props) => {
   const [searchInput, setSearchInput] = useState("")
   const [value, setValue] = useState("Quiz");
  
@@ -43,14 +43,14 @@ const SearchScreen = () => {
         </div>
 
         <div className = "row-cols-auto" style={{overflow:"auto"}}> 
-          {searchNotEmpty && value==="Quiz" && quizzes && quizzes?.map((quiz, index) => <QuizCard key={index} quiz={quiz} home={true}/> )}
-          {searchNotEmpty && value==="Tag" && taggedQuizzes && taggedQuizzes?.map((quiz, index) => <QuizCard key={index} quiz={quiz} home={true}/> )}
-          {searchNotEmpty && value==="Platform" && platforms && platforms?.map((platform, index) => <PlatformCard key={index} platform={platform} home={true}/> )}
+          {searchNotEmpty && value==="Quiz" && quizzes && quizzes?.map((quiz, index) => <SearchQuizCard key={index} quiz={quiz} home={true} history={props.history}/> )}
+          {searchNotEmpty && value==="Tag" && taggedQuizzes && taggedQuizzes?.map((quiz, index) => <SearchQuizCard key={index} quiz={quiz} home={true} history={props.history}/> )}
+          {searchNotEmpty && value==="Platform" && platforms && platforms?.map((platform, index) => <PlatformCard key={index} platform={platform} home={true} history={props.history}/> )}
         </div>
         <div className="row row-cols-auto g-3"> 
           {searchNotEmpty && value==="User" && users && users.map((currentUser, index) =>
             <div className="col"  key={index}>  
-              <UserCard currentUser={currentUser} />
+              <UserCard currentUser={currentUser}  history={props.history}/>
             </div>
           )}
         </div>

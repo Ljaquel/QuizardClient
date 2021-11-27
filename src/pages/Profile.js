@@ -7,9 +7,10 @@ import Loading from '../components/Loading'
 import PageNotFound from '../pages/PageNotFound'
 import { CREATE_PLATFORM, FETCH_PLATFORMS, FETCH_USER_QUERY } from '../Calls'
 import { useParams } from 'react-router'
+import CreatePlatformPopUp from '../components/CreatePlatformPopUp'; 
 import { AuthContext } from '../context/auth'
 
-const Profile = () => {
+const Profile = (props) => {
   const { contextUserId } = useContext(AuthContext);
   const { _id:siteUserId } = useParams();
   const  { data:userData}  = useQuery(FETCH_USER_QUERY, { variables: { userId: siteUserId } });
@@ -40,10 +41,22 @@ const Profile = () => {
     <div className="container">  
       <ProfileBanner user={user} addPlatform={addPlatform}/>
       <div className="container">
-        <div className="row row-cols-auto g-3"> 
+
+
+        <div className="row pb-2">
+          <div className="col px-0"> 
+            <h6 className="display-6">Platforms:</h6>
+          </div>
+          <div className="col col-auto px-0 align-self-center"> 
+            {user?._id === contextUserId && <CreatePlatformPopUp addPlatform={addPlatform}/> }
+          </div>
+        </div>
+
+
+        <div className="row row-cols-auto g-2 pb-3"> 
           {platforms && platforms.map((platform, index) =>
-            <div className="mcol"  key={index}>           
-              <PlatformCard platform={platform}/>
+            <div className="col"  key={index}>           
+              <PlatformCard platform={platform} history={props.history}/>
             </div>
           )}
         </div>

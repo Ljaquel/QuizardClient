@@ -23,10 +23,9 @@ const BuilderSideBar = ({ quiz, updateField, positionState }) => {
   }
   
   return (
-    <div className="container-fluid bg-light px-0">
+    <div className="container-fluid px-0 h-100 bg-light">
 
-
-      <div className="row mx-0 px-0 bg-light mt-2">
+      <div className="row mx-0 px-0 bg-light pt-2">
         <div className="col-12">
           {tags && tags.map((t, index) => 
             <span className="badge rounded-pill bg-dark m-1" key={index} index={index}>

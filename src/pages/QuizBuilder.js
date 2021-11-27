@@ -88,8 +88,8 @@ const QuizBuilder = (props) => {
         updateReqs={updateReqs}
         published={quizState?.published}
       />
-      <div className="container-fluid" >
-        <div className="row d-flex flex-row">
+      <div className="container-fluid flex-grow-1" >
+        <div className="row h-100">
           <div className="col-3 p-0">
             <BuilderSideBar
               quiz={quizState}
@@ -99,12 +99,12 @@ const QuizBuilder = (props) => {
             />
           </div>
           <div className="col-9">
-            <div className="row">
+            <div className="row workspace-screen-height">
               <div className="col p-0">
                 {quizState.content && <Workspace content={quizState.content} backgroundImage={quizState?.backgroundImage} updateField={updateField} positionState={[position, setPosition]} style={quizState?.style}/> }
               </div>
             </div>
-            <div className="row">
+            <div className="row description-screen-height">
               <div className="col p-0">
                 <Description description={quizState?.description} updateField={updateField}/>
               </div>

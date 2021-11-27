@@ -9,7 +9,7 @@ import { CREATE_QUIZ, FETCH_QUIZZES_QUERY,FETCH_USER_QUERY } from '../Calls'
 import { useParams } from 'react-router'
 import { AuthContext } from '../context/auth'
 
-const Profile = () => {
+const Profile = (props) => {
   const { contextUserId } = useContext(AuthContext);
   const { _id:siteUserId } = useParams();
   const  { data:userData}  = useQuery(FETCH_USER_QUERY, { variables: { userId: siteUserId } });
@@ -40,8 +40,8 @@ const Profile = () => {
       <div className="container">
         <div className="row row-cols-auto g-3"> 
           {quizzes && quizzes.map((quiz, index) =>
-            <div className="mcol"  key={index}>           
-              <QuizCard quiz={quiz}/>
+            <div className="col"  key={index}>           
+              <QuizCard quiz={quiz}  history={props.history}/>
             </div>
           )}
         </div>

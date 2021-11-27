@@ -9,7 +9,7 @@ import PageNotFound from './PageNotFound'
 import { FETCH_QUIZZES_QUERY } from '../Calls'
 import { useParams } from 'react-router'
 
-const GuestProfile = () => {
+const GuestProfile = (props) => {
   
   const { contextUserId } = useContext(AuthContext);
   let { _id:userId } = useParams();
@@ -29,8 +29,8 @@ const GuestProfile = () => {
     <div className="container">
       <div className="row row-cols-auto g-3">
         {quizzes && quizzes.map((quiz, index) =>
-          <div className="mcol"  key={index}>
-            <QuizCard quiz={quiz}/>
+          <div className="col"  key={index}>
+            <QuizCard quiz={quiz}  history={props.history}/>
           </div>
         )}
         <h1>{userId}</h1>

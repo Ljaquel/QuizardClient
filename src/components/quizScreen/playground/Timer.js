@@ -48,12 +48,11 @@ const Timer = ({ time, timerState, setScreen}) => {
     return () => {if(intervalRef.current) clearInterval(intervalRef.current)}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
   return (
-    <div>
+    <>
       <SModal setScreen={setScreen}  show={show} setShow={setShow}/>
-      <span className="badge rounded-pill bg-white text-dark" style={{fontSize: "15px"}}>{timer}</span>
-    </div>
+      <span className="text-light">Time Left: </span><span className="badge rounded-pill bg-white text-dark" style={{fontSize: "15px"}}>{timer.substring(0, 6) === '00:00:' ? timer.substring(4, 8) : timer.substring(3, 8)}</span>
+    </>
   )
 }
 

@@ -11,7 +11,7 @@ import { AuthContext } from '../context/auth'
 const Platform = (props) => {
   const { contextUserId } = useContext(AuthContext)
   const { _id:sitePlatformId } = useParams()
-  const  { data:platformData}  = useQuery(FETCH_PLATFORM, { variables: { platformId: sitePlatformId } });
+  const  { data:platformData, refetch:refetchPlatform, loading:loadingPlatform}  = useQuery(FETCH_PLATFORM, { variables: { platformId: sitePlatformId } });
   const platform = platformData?.getPlatform
 
   //   const filters = contextUserId === siteUserId ? { creator: siteUserId } : { creator: siteUserId, published: true }
@@ -32,18 +32,20 @@ const Platform = (props) => {
   });
 
   const quizzes = data?.getQuizzes;
-  if(loading) { return <Loading/> }
+  if(loading || loadingPlatform) { return <Loading/> }
   return (
     <div className="container">  
-      <PlatformBanner platform={platform} addQuiz={addQuiz} count={quizzes.length} history={props.history}/>
+      <PlatformBanner platform={platform} addQuiz={addQuiz} count={quizzes.length} history={props.history} refetch={refetchPlatform} sitePlatformId={sitePlatformId}/>
       <div className="container">
+        
         <div className="row row-cols-auto g-3"> 
           {quizzes && quizzes.map((quiz, index) =>
-            <div className="mcol"  key={index}>           
-              <QuizCard quiz={quiz}/>
+            <div className="col"  key={index}>           
+              <QuizCard quiz={quiz} history={props.history}/>
             </div>
           )}
         </div>
+
       </div>
     </div>
   )
