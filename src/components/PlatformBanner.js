@@ -8,8 +8,6 @@ import { Image } from 'cloudinary-react'
 import EditPlatformPopUp from '../components/EditPlatformPopUp'
 import { UPDATE_PLATFORM } from "../Calls";
 
-// import { FETCH_USER_QUERY, UPDATE_PLATFORM, SET_FOLLOWER } from "../Calls";
-
 const PlatformBanner = ({platform, addQuiz, count, history, refetch, sitePlatformId}) => {
   const { contextUserId } = useContext(AuthContext);
   const [follow, setFollow] = useState(false)

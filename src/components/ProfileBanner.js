@@ -2,50 +2,42 @@ import React, { useContext, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { AuthContext } from '../context/auth'
 import { Image } from 'cloudinary-react'
+import Loading from './Loading'
 
-import { FETCH_USER_QUERY, UPDATE_USER_MUTATION,SET_FOLLOWER } from "../Calls";
+import { FETCH_USER_QUERY, UPDATE_USER } from "../Calls";
 
-const ProfileBanner = ({user, addPlatform}) => {
+const ProfileBanner = ({ user }) => {
   const { contextUserId } = useContext(AuthContext);
-  const [follow, setfollow] = useState()
+  const [following, setFollowing] = useState()
 
-  const [ updateUserFollowing ] = useMutation(UPDATE_USER_MUTATION, {
-    onError(err) { console.log(JSON.stringify(err, null, 2)) }, variables: {}
+  const  { data:visitorData }  = useQuery(FETCH_USER_QUERY, {
+    onCompleted() { setFollowing(!visitor?.following?.includes(user._id)) }, 
+    variables: { userId: contextUserId } 
   });
-  const  { data: followerUserData}  = useQuery(FETCH_USER_QUERY, {
-    onCompleted() {
-      setfollow(!follower?.following?.includes(user._id))
-    }, 
-     variables: { userId: contextUserId } 
-  });
-  const follower = followerUserData?.getUser
+  const visitor = visitorData?.getUser
 
-  const [ setFollower ] = useMutation(SET_FOLLOWER, {
-    onError(err) { console.log(JSON.stringify(err, null, 2)) }, 
-    variables: {}
-  });
+  const [ updateUser ] = useMutation(UPDATE_USER, {
+    onError(err) { console.log(JSON.stringify(err, null, 2)) },
+    variables: { userId: contextUserId }
+  })
 
-
-  var newfollowing = follower ? [...follower.following] : [] 
-  var newfollowers = user ? [...user.followers] : []
- 
-
-  const followClick=() =>{   
-
-    if (follow) {
-     newfollowing.push(user._id) 
-     newfollowers.push(follower._id)
+  const onFollow=() => {   
+    let newFollowing = [ ...visitor.following ]
+    var newFollowers = [ ...user.followers ]
+    if (following) {
+     newFollowing.push(user._id) 
+     newFollowers.push(visitor._id)
     }
     else{  
-       newfollowing=newfollowing.filter(el => el !== user._id) 
-       newfollowers=newfollowers.filter(el => el !== follower._id) 
+       newFollowing = newFollowing.filter(el => el !== user._id)
+       newFollowers = newFollowers.filter(el => el !== visitor._id)
     }
-    const following = { following: newfollowing } 
-    setFollower({variables: {creatorId: user?._id , newFollowers: newfollowers}})
-    updateUserFollowing({ variables: { fields: following }})
-    setfollow(!follow)
+    updateUser({ variables: { userId: user?._id, update: { followers: newFollowers }}})
+    updateUser({ variables: { userId: visitor?._id, update: { following: newFollowing } }})
+    setFollowing(!following)
   }
-  if(!user) { return <div className="col-auto mx-5 my-3">  Not working </div> }
+
+  if(!user || !visitor) return <Loading/>
   
   return(
     <div className="px-4 rounded p-2 py-1 mb-1 mt-1 border border-2" style={{backgroundColor: user.color}}>
@@ -70,7 +62,7 @@ const ProfileBanner = ({user, addPlatform}) => {
       <div className="row justify-content-end">
         <div className="col col-auto"> 
           {!(user?._id===contextUserId) &&
-            <button className="btn btn-md bg-light border border-1 p-0 px-2" onClick={followClick}> {follow ? 'Follow' : 'Following'} </button> } 
+            <button className="btn btn-md bg-light border border-1 p-0 px-2" onClick={onFollow}> {following ? 'Follow' : 'Following'} </button> } 
         </div>
       </div>
         

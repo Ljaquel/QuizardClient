@@ -45,7 +45,7 @@ const Profile = (props) => {
 
         <div className="row pb-2">
           <div className="col px-0"> 
-            <h6 className="display-6">Platforms:</h6>
+            {platforms && platforms.length > 0 &&<h6 className="display-6">Platforms:</h6>}
           </div>
           <div className="col col-auto px-0 align-self-center"> 
             {user?._id === contextUserId && <CreatePlatformPopUp addPlatform={addPlatform}/> }

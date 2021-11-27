@@ -4,22 +4,19 @@ import Axios from 'axios'
 import { Image } from 'cloudinary-react'
 
 import Loading from '../components/Loading'
-import { CHANGE_PASSWORD, UPDATE_USER_MUTATION, UPDATE_IMAGE, FETCH_USER_QUERY } from '../Calls'
+import { CHANGE_PASSWORD, UPDATE_USER, UPDATE_IMAGE, FETCH_USER_QUERY } from '../Calls'
 import { AuthContext } from '../context/auth';
 
 const Settings = () => {
+  const {contextUserId} = useContext(AuthContext)
+
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [status, setStatus] = useState('')
-
-  const[newNameStatus,setnewNameStatus]= useState('')
-  const [newName,setNewName] = useState('')
-
-  const [newUserName,setNewUserName] = useState('')
-  const [newUserNameStatus,setnewUserNameStatus]= useState('')
-
-  const {contextUserId} = useContext(AuthContext)
-
+  const [newNameStatus, setnewNameStatus]= useState('')
+  const [newName, setNewName] = useState('')
+  const [newUserName, setNewUserName] = useState('')
+  const [newUserNameStatus, setnewUserNameStatus]= useState('')
   const [imageState, setImageState] = useState("")
 
   const { data:userData, refetch} = useQuery(FETCH_USER_QUERY, {
@@ -64,53 +61,34 @@ const Settings = () => {
     variables: {newPassword: newPassword, confirmPassword: confirmPassword}
   });
 
-  const [ updateUser ] = useMutation(UPDATE_USER_MUTATION, {
-    onCompleted(){ },
-    onError(err) { console.log(JSON.stringify(err, null, 2)) },
-    variables: {}
+  const [ updateUser ] = useMutation(UPDATE_USER, {
+    onCompleted() { refetch() },
+    onError(err) { console.log(JSON.stringify(err, null, 2)) }
   });
 
-  const [ updateUserName ] = useMutation(UPDATE_USER_MUTATION, {
-    onCompleted(){
-      setNewUserName('')
-      setnewUserNameStatus('success')
-    },
+  const [ updateUserName ] = useMutation(UPDATE_USER, {
+    onCompleted(){ setNewUserName(''); setnewUserNameStatus('success'); refetch() },
     onError(err) { 
       setnewNameStatus('Error')
       console.log(JSON.stringify(err, null, 2)) },
     variables: {}
   });
 
-  const [ updateName ] = useMutation(UPDATE_USER_MUTATION, {
-    onCompleted(){
-      setNewName('')
-      setnewNameStatus('success')
-    },
+  const [ updateName ] = useMutation(UPDATE_USER, {
+    onCompleted(){ setNewName(''); setnewNameStatus('success'); refetch() },
     onError(err) { 
       setnewNameStatus('Error')
-      console.log(JSON.stringify(err, null, 2)) },
-    variables: {}
-  }); 
-  const changeP = () => { 
-    changePassword()
-  }
-  const handleChangeUserName= ()=>{   
-    const username = { username: newUserName }
-    updateUserName({ variables: { fields: username }})
-  } 
+      console.log(JSON.stringify(err, null, 2)) }
+  })
 
-  const handleChangeName= ()=>{   
-    const name = { name: newName }
-    updateName({ variables: { fields: name }})
-  }
+  useEffect(() => { refetch() }, [refetch]);
 
+  const changeP = () => changePassword() 
+  const handleChangeUserName = () => updateUserName({ variables: { userId: contextUserId, update: {username: newUserName} }})
+  const handleChangeName = () => updateName({ variables: { userId: contextUserId, update: { name: newName} }})
   
-  useEffect(() => {
-    refetch()
-  }, [refetch]);
-
-
   if(!user) return <Loading />
+
   return (
     <div className="container-sm">
       <h1>Settings</h1>
@@ -161,7 +139,7 @@ const Settings = () => {
         </div>
         <div className="col col-auto w-25">
           <div className="input-group input-group-sm">
-            <input type="color" className="form-control" value={user.color} onChange={e => updateUser({ variables: { fields: {color: e.target.value}}})}></input>
+            <input type="color" className="form-control" value={user.color} onChange={e => updateUser({ variables: { userId: contextUserId, update: {color: e.target.value}}})}></input>
           </div>
         </div>
       </div>

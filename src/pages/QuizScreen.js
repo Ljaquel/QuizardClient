@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@apollo/client';
 
@@ -15,11 +15,16 @@ const QuizScreen = (props) => {
   const { _id:quizId } = useParams();
   const [screen, setScreen] = useState(1)
   
-  const { data:userData } = useQuery(FETCH_USER_QUERY, { variables: { userId: contextUserId } });
+  const { data:userData, refetch:refetchUser } = useQuery(FETCH_USER_QUERY, { variables: { userId: contextUserId } });
   const user = userData?.getUser
 
   const { data, refetch:refetchQuiz } = useQuery(FETCH_QUIZ_QUERY, { variables: { quizId: quizId } });
   const quiz = data?.getQuiz
+
+  useEffect(() => {
+    refetchUser()
+    refetchQuiz()
+  }, [refetchUser, refetchQuiz]);
   
   if(!quiz || !user) { return <Loading/> }
   if(contextUserId === quiz.creator._id && quiz.published === false) { return <PageNotFound message="No Access Error"/> }

@@ -282,17 +282,9 @@ export const UPDATE_IMAGE = gql`
   }
 `
 
-export const UPDATE_USER_MUTATION = gql`
-  mutation UpdateUser($fields: UserInput) {
-    updateUser(fields: $fields) {
-      ...userAttributes
-    }
-  }
-  ${USER_ATTRIBUTES}
-`
-export const SET_FOLLOWER = gql`
-  mutation setFollower($creatorId: String, $newFollowers:[String]) {
-    setFollower(creatorId: $creatorId, newFollowers: $newFollowers) 
+export const UPDATE_USER = gql`
+  mutation UpdateUser($userId: ID!, $update: UserInput) {
+    updateUser(userId: $userId, update: $update)
   }
 `
 

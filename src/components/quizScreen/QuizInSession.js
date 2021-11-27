@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { AuthContext } from '../../context/auth'
 import Question from './playground/Question'
 import { useMutation, useQuery } from '@apollo/client'
-import { UPDATE_USER_MUTATION, CREATE_RESULT, FETCH_RESULTS_QUERY, UPDATE_RESULT } from '../../Calls'
+import { UPDATE_USER, CREATE_RESULT, FETCH_RESULTS_QUERY, UPDATE_RESULT } from '../../Calls'
 import QuizInSessionNav from './playground/QuizInSessionNav'
 
 const QuizInSession = ({ user, quiz, setScreen}) => {
@@ -23,9 +23,9 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
     }
   })
 
-  const [ updateUser ] = useMutation(UPDATE_USER_MUTATION, {
+  const [ updateUser ] = useMutation(UPDATE_USER, {
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
-    variables: {}
+    variables: { userId: contextUserId }
   });
 
   const [ createResult ] = useMutation(CREATE_RESULT, {
@@ -69,10 +69,6 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
     }
   }
 
-  const updateU = (updates) => {
-    updateUser({ variables: { fields: updates }})
-  }
-
   const finishQuiz = async (rec) => {
     let score = getScore(rec)
     let record = rec.map((x) => x.answer)
@@ -89,12 +85,14 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
         lastRecord: record
       }
       createResult({ variables: { input: {...newResult} }})
-      updateU( { points: user.points + score } )
+      let updates = { points: user.points+score }
+      updateUser({ variables: { update: updates }})
     }
     else {
       if(result.score < score) {
         updateResult({ variables: { resultId: result._id, update: { score: score, time: timer, record: rec.map((x) => x.answer), last: score, lastRecord: record } }})
-        updateU( { points: user.points+(score-result.score) } )
+        let updates = { points: (user.points-result.score+score) }
+        updateUser({ variables: { update: updates }})
       }
       else if(score <= result.score) {
         updateResult({ variables: { resultId: result._id, update: { last: score, lastRecord: record } }})

@@ -32,9 +32,11 @@ const QuizResults = (props) => {
               <h4><span className="badge bg-success"> Score: {result ? result.last : "..."}/100</span></h4>
               {result && result.score > result.last && <h5 className="ps-1">Highest: {result.score}</h5>}
             </div>
-            <div className="col-5">
-              {quiz?.thumbnail && <img src={`${quiz.thumbnail.url}`} className="img-thumbnail" alt="..."/>}
-            </div>
+            {quiz?.thumbnail.publicId !== "" &&
+              <div className="col-5">
+                <img src={`${quiz.thumbnail.url}`} className="img-thumbnail" alt="..."/>}
+              </div>
+            }
           </div>
           <div className="row pt-4">
             <div className="col"></div>
