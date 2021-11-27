@@ -20,9 +20,9 @@ const Home = (props) => {
   const { getQuizzes: quizzes } = data;
 
   return (
-    <div className="container">
-      <div className="row">
-        <h1 className="mt-3 mb-4 col-3">Quizard</h1>
+    <div className="container-fluid">
+      <div className="row px-3 pb-2 pt-5">
+        <h1 className=" col-3">Quizard</h1>
       </div>
       <div className="row row-cols-auto g-3"> 
         {contextUserId && quizzes && quizzes.map((quiz, index) =>

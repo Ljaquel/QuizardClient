@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
-import { useHistory } from 'react-router';
 import moment from 'moment';
 import { AuthContext } from '../context/auth';
+import Rating from '@mui/material/Rating';
 
 function QuizCard({ quiz, home, history}) {
   const { contextUserId } = useContext(AuthContext);
@@ -9,7 +9,7 @@ function QuizCard({ quiz, home, history}) {
   return (
     <div className="card mb-3 quiz-card rounded" style={{maxWidth: "400px"}} onClick={() => history.push(`${destination}${quiz._id}`)}>
       <div className="row g-0">
-        <div className="col-5 ps-1 pt-1">
+        <div className="col-5 px-1 pt-1 h-100">
           <img src={quiz?.thumbnail?.url?quiz.thumbnail.url:"https://res.cloudinary.com/ljaquel/image/upload/v1637970039/admin/imagePlaceholder_fxpfme.png"} className="img-thumbnail" style={{padding: '0.10rem', backgroundColor: '#fff'}} alt="..."/>
         </div>
         <div className="col-7">
@@ -20,7 +20,14 @@ function QuizCard({ quiz, home, history}) {
         </div>
       </div>
       <div className="card-footer border-start">
-        <small className="text-muted">{quiz.publishedDate.length>0?"Published "+moment(quiz.publishedDate).fromNow():"Created "+moment(quiz.createdAt).fromNow()}</small>
+        <div className="row">
+        <div className="col align-self-center">
+          <small className="text-muted">{quiz.publishedDate.length>0?"Published "+moment(quiz.publishedDate).fromNow():"Created "+moment(quiz.createdAt).fromNow()}</small>
+        </div>
+        <div className="col-auto align-self-center pt-1">
+          <Rating name="readOnly" value={quiz.rating} size="small" readOnly/>
+        </div>
+        </div>
       </div>
     </div>
   )

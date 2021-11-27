@@ -1,11 +1,32 @@
 import React, { useState } from 'react'
 import {Image} from 'cloudinary-react'
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import moment from 'moment';
-import { CREATE_COMMENT, DELETE_COMMENT } from "../../Calls";
+import Loading from '../Loading'
+import { CREATE_COMMENT, DELETE_COMMENT, UPDATE_RESULT, UPDATE_QUIZ_MUTATION, FETCH_RESULTS_QUERY} from "../../Calls";
+import Rating from '@mui/material/Rating';
 
 const QuizHome = ({ quiz, user, setScreen, refetchQuiz }) => {
   const [comment, setComment] = useState("");
+  const [waitingOne, setWaitingOne] = useState(false);
+  const [waitingTwo, setWaitingTwo] = useState(false);
+
+  const { data, loading, refetchResult } = useQuery(FETCH_RESULTS_QUERY, {
+    onError(err) { console.log(JSON.stringify(err, null, 2)) },
+    variables: { filters: { userId: user._id, quizId: quiz._id} }
+  })
+
+  const result = data?.getResults[0]
+
+  const [updateRating] = useMutation(UPDATE_RESULT, {
+    onCompleted() { refetchResult(); setWaitingOne(false) },
+    onError(err) { console.log(JSON.stringify(err, null, 2)); setWaitingOne(false) },
+  });
+
+  const [updateQuiz] = useMutation(UPDATE_QUIZ_MUTATION, {
+    onCompleted() { refetchQuiz(); setWaitingTwo(false); console.log('success') },
+    onError(err) { console.log(JSON.stringify(err, null, 2)); setWaitingTwo(false) },
+  });
 
   const [createComment] = useMutation(CREATE_COMMENT, {
     variables: { quizId: quiz._id, user: user._id },
@@ -18,6 +39,18 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz }) => {
     onCompleted() { refetchQuiz(); },
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
   });
+
+  const onRatingClick = (v) => {
+    if(!result || waitingOne || waitingTwo) return
+    setWaitingOne(true)
+    setWaitingTwo(true)
+    let newRating = ((quiz.rating*quiz.ratingCount)+v-result.rating)/(quiz.ratingCount)
+    if(result.rating === -1) newRating = ((quiz.rating*quiz.ratingCount)+v)/(quiz.ratingCount+1)
+    updateQuiz({variables: {quizId: quiz._id, update: {rating: newRating, ratingCount: result.rating===-1?quiz.ratingCount+1:quiz.ratingCount} }})
+    updateRating({ variables: {resultId: result._id, update: {rating: v}}})
+  }
+
+  if(loading) return <Loading />
 
   return (
     <div className="container-lg pt-2">
@@ -40,6 +73,14 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz }) => {
       <h5>Difficulty: {quiz.difficulty}</h5>
       <h5>Total Questions: {quiz.content.length}</h5>
       <h5>Time Limit: {quiz.time}</h5>
+      <h5>Rating: {quiz.rating}</h5>
+
+      <Rating
+        name={waitingOne || waitingTwo || !result ? "disabled" : "simple-controlled"}
+        value={result?.rating && result.rating >= 0 ? result.rating : null}
+        disabled={!result || waitingOne || waitingTwo}
+        onChange={(e, v) => onRatingClick(v)}
+      />
 
       <div className="container-sm bg-secondary rounded p-2 mt-5">
         {quiz.comments && quiz.comments.map((comment) => (

@@ -11,6 +11,7 @@ const PLATFORM_ATTRIBUTES = gql`
       username
     }
     rating
+    ratingCount
     image {
       publicId
       url
@@ -44,6 +45,7 @@ const QUIZ_ATTRIBUTES = gql`
     timesPlayed
     time
     rating
+    ratingCount
     difficulty
     comments {
       _id
@@ -115,6 +117,7 @@ const RESULT_ATTRIBUTES = gql`
     record
     last
     lastRecord
+    rating
     createdAt
   }
 `
