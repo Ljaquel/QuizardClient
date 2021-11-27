@@ -121,7 +121,7 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
     <>
       <QuizInSessionNav count={count} currentQuestion={currentQuestion} time={time} timerState={[timer, setTimer]} answer={answer} setScreen={setScreen}/>
       <div className="container-fluid text-white workspace-container p-5 pt-2 flex-grow-1" style={backgroundStyle}>
-        <div className="container-md px-5">
+        <div className="container-fluid">
           <div className="row pb-5 pt-2">
             <div className="col"></div>
             <div className="col-8">
@@ -132,9 +132,8 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
             </div>
             <div className="col"></div>
           </div>
-          <div className="row py-5">
-            <div className="col"></div>
-            <div className="col-8 justify-content-center">
+          <div className="row py-5 justify-content-center">
+            <div className="col-lg-6 col justify-content-center">
               {(currentQuestion >= 0) && (currentQuestion < count) && <Question question={content[currentQuestion]} style={style} answer={answer} setAnswer={setAnswer} /> }
               { currentQuestion === count && 
                 <div className="row mt-5">
@@ -145,14 +144,13 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
                   <div className="col"></div>
                 </div> }
             </div>
-            <div className="col"></div>
           </div>
           <div className="row pb-5 pt-2">
             <div className='col'></div>
             <div className="col-auto align-self-center">
               {currentQuestion !== count && <button className="btn btn-sm btn-light text-dark" disabled={!canGoNext} onClick={() => goNextQ() }>{currentQuestion === count-1 ? "Finish" : "Next Question"}</button> }
             </div>
-            <div className="col-2"></div>
+            <div className="col-3"></div>
           </div>
         </div>
       </div>
