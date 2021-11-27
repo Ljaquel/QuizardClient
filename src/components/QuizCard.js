@@ -25,7 +25,7 @@ function QuizCard({ quiz, home, history}) {
           <small className="text-muted">{quiz.publishedDate.length>0?"Published "+moment(quiz.publishedDate).fromNow():"Created "+moment(quiz.createdAt).fromNow()}</small>
         </div>
         <div className="col-auto align-self-center pt-1">
-          <Rating name="readOnly" value={quiz.rating} size="small" readOnly/>
+          <Rating name="readOnly" value={quiz.rating} size="small" precision={0.5} readOnly/>
         </div>
         </div>
       </div>

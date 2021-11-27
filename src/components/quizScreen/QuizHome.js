@@ -73,14 +73,19 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz }) => {
       <h5>Difficulty: {quiz.difficulty}</h5>
       <h5>Total Questions: {quiz.content.length}</h5>
       <h5>Time Limit: {quiz.time}</h5>
-      <h5>Rating: {quiz.rating}</h5>
+      <h5>Quiz Rating: 
+        <Rating name="readOnly" value={quiz.rating} readOnly precision={0.5} />
+      </h5>
 
-      <Rating
-        name={waitingOne || waitingTwo || !result ? "disabled" : "simple-controlled"}
-        value={result?.rating && result.rating >= 0 ? result.rating : null}
-        disabled={!result || waitingOne || waitingTwo}
-        onChange={(e, v) => onRatingClick(v)}
-      />
+      <h5>Your Rating: 
+        <Rating
+          name={waitingOne || waitingTwo || !result ? "disabled" : "simple-controlled"}
+          value={result?.rating && result.rating >= 0 ? result.rating : null}
+          disabled={!result || waitingOne || waitingTwo}
+          onChange={(e, v) => onRatingClick(v)}
+          precision={0.5}
+        />
+      </h5>
 
       <div className="container-sm bg-secondary rounded p-2 mt-5">
         {quiz.comments && quiz.comments.map((comment) => (
