@@ -29,7 +29,7 @@ const PublishModal = ({ publishQuiz, reqs, updateReqs }) => {
 
 const BuilderNav = ({ name, updateField, unsavedChanges, saveQuiz, publishQuiz, deleteQuiz, reqs, updateReqs, published }) => {
   return (
-    <nav className="navbar navbar-dark p-1 builder-nav-container bg-dark border-top border-bottom border-1 border-white">
+    <nav className="navbar navbar-expand navbar-dark p-1 builder-nav-container bg-dark border-top border-bottom border-1 border-white">
       <div className="container-fluid px-2">
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">

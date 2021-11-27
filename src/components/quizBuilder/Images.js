@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import Axios from 'axios'
-import { Image } from 'cloudinary-react'
 import { useMutation } from '@apollo/client';
 
 import { UPDATE_IMAGE } from '../../Calls'
@@ -74,8 +73,6 @@ const Images = ({ thumbnail, backgroundImage, updateField, _id }) => {
             </div>
           </div>
           
-          {thumbnail?.publicId && <Image cloudName="ljaquel"  width="100" publicId={thumbnail.publicId}/> } 
-
           <div className="row px-2 mt-4">
             <div className="col">
               <span className="mx-1">Background:</span>
@@ -88,10 +85,6 @@ const Images = ({ thumbnail, backgroundImage, updateField, _id }) => {
               </div>
             </div>
           </div>
-
-          {backgroundImage?.publicId && <Image cloudName="ljaquel"  width="100" publicId={backgroundImage.publicId}/>}
-
-
         </div>
       </div>
     </div>

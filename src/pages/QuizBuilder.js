@@ -105,6 +105,9 @@ const QuizBuilder = (props) => {
               </div>
             </div>
             <div className="row description-screen-height">
+              <div className="col-auto p-1 bg-light h-100 m-0 border border-2" >
+                <div className="container-fluid h-100" style={{width: "120px", backgroundPosition: 'center', backgroundSize: 'cover', backgroundImage: quizState?.thumbnail?.url?"url("+quizState.thumbnail.url+")":"url("+"https://res.cloudinary.com/ljaquel/image/upload/v1637970039/admin/imagePlaceholder_fxpfme.png"+")"}}/>
+              </div>
               <div className="col p-0">
                 <Description description={quizState?.description} updateField={updateField}/>
               </div>

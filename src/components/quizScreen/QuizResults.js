@@ -34,7 +34,7 @@ const QuizResults = (props) => {
             </div>
             {quiz?.thumbnail.publicId !== "" &&
               <div className="col-5">
-                <img src={`${quiz.thumbnail.url}`} className="img-thumbnail" alt="..."/>}
+                <img src={`${quiz.thumbnail.url}`} className="img-thumbnail" alt="..."/>
               </div>
             }
           </div>
