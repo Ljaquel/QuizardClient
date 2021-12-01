@@ -86,3 +86,25 @@ body {
   border-color: rgb(126, 152, 189) !important;
   cursor: pointer;
 }
+
+.addPlatformCardImage {
+  margin: auto;
+  opacity: 0.3;
+}
+
+.addPlatformCardImage:hover {
+  opacity: 0.4;
+}
+
+.limit-image-height {
+  object-fit: cover;
+  max-height: 14rem;
+}
+
+.limit-height {
+  max-height: 10rem;
+}
+
+.limit-height-image {
+  height: 100%;
+}

@@ -49,7 +49,7 @@ const Navbar=() =>{
                 </li>
               </ul>
               <Dropdown className="myclass">
-                <Dropdown.Toggle variant="success" size={"sm"} id="dropdown-basic" style={{backgroundColor: user?.color, borderColor:user?.color}}>
+                <Dropdown.Toggle variant="light" size={"sm"} id="dropdown-basic" style={{backgroundColor: user?.color, borderColor:user?.color}}>
                   {user?.username}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>

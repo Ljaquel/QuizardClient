@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
+import PlatformCard from "./PlatformCard";
 
 function CreatePlatformPopUp({ addPlatform }) {
   const [values, setValues] = useState({
@@ -31,9 +32,7 @@ function CreatePlatformPopUp({ addPlatform }) {
 
   return (
     <>
-      <button className="btn py-1 px-2 border border-2" onClick={handleShow}>
-        Add Platform
-      </button>
+      <PlatformCard handleShow={handleShow} add={true}/>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Create Platform</Modal.Title>
