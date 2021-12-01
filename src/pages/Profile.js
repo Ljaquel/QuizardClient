@@ -41,11 +41,11 @@ const Profile = (props) => {
     <div className="container-fluid flex-grow-1 px-0">  
       <div className="row h-100 mx-0">
         
-        <div className="col col-4 px-0">
+        <div className="col col-2 px-0">
           <ProfileBanner user={user} addPlatform={addPlatform}/>
         </div>
         
-        <div className="col col-8 pt-1 px-0 overflow-auto">
+        <div className="col col-10 pt-1 px-0 overflow-auto">
 
           <ul className="nav nav-tabs" id="profileTab" role="tablist">
             <li className="nav-item" role="presentation">
