@@ -8,7 +8,8 @@ const Description = ({ description, updateField }) => {
           className="form-control h-100"
           placeholder="Provide a description here"
           value={description}
-          onChange={e => updateField("description", e.target.value)}
+          spellCheck="false"
+          onChange={e => updateField("description",  e.target.value?.length > 400 ? e.target.value.substring(0, 401) : e.target.value)}
           style={{resize: 'none'}}
           />
         <label htmlFor="floatingTextarea">Description</label>

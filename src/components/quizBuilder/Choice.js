@@ -10,6 +10,7 @@ const Choice = ({index, choice, answer, updateChoice, updateAnswer, deleteChoice
       <div className="col">
         <textarea 
           className="form-control editable-label px-2"
+          spellCheck="false"
           style={{color: style?style.color:"white", backgroundColor: "inherit", height: "1px", fontSize:"13px"}}
           placeholder="Write choice here"
           value={choice}

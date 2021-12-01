@@ -4,7 +4,6 @@ import PageNotFound from '../pages/PageNotFound'
 import { AuthContext } from '../context/auth'
 import DeletePlatformPopUp from '../components/DeletePlatformPopUp';
 import CreateQuizPopUp from '../components/CreateQuizPopUp';
-import { Image } from 'cloudinary-react'
 import Loading from './Loading'
 import EditPlatformPopUp from '../components/EditPlatformPopUp'
 import { UPDATE_PLATFORM, UPDATE_USER, FETCH_USER_QUERY } from "../Calls";
@@ -13,6 +12,7 @@ const PlatformBanner = ({platform, addQuiz, count, history, refetch, sitePlatfor
   const { contextUserId } = useContext(AuthContext);
   const [following, setFollowing] = useState()
   const [nameState, setNameState] = useState(platform?.name)
+  const [descriptionState, setDescriptionState] = useState(platform?.description)
 
   const  { data:visitorData }  = useQuery(FETCH_USER_QUERY, {
     onCompleted() { setFollowing(!visitor?.following?.includes(platform._id)) }, 
@@ -52,10 +52,10 @@ const PlatformBanner = ({platform, addQuiz, count, history, refetch, sitePlatfor
   if(!visitor) return <Loading/>
 
   return(
-    <div className="row rounded p-2 py-1 mb-3 mt-1" style={{backgroundColor: "#ffffff"}}>
-      <div className="row bg-primary rounded ps-4" style={{backgroundImage: 'url('+platform?.banner.url+')', backgroundPosition: 'center', backgroundSize: 'cover'}}>
-        <div className="col col-auto rounded p-1 bg-light my-5">
-          <Image cloudName="ljaquel"  width="150" height="150" crop="fill" publicId={platform.image.publicId?platform.image.publicId:"admin/profile_uvnezs"}/>      
+    <div className="rounded py-1 mb-3 mt-1">
+      <div className="row rounded px-3 mx-0" style={{backgroundImage: 'url('+platform?.banner.url+')', backgroundPosition: 'center', backgroundSize: 'cover', backgroundColor: platform ? platform.bannerColor : "#ffffff"}}>
+        <div className="col col-auto rounded p-1 bg-light" style={{marginTop: "95px", marginBottom: "16px"}}>
+          <div style={{ width:"150px", height:"150px", backgroundPosition:"center", backgroundSize: 'cover', backgroundImage: platform?.image?.url?"url("+platform.image.url+")":"url(https://res.cloudinary.com/ljaquel/image/upload/v1637970039/admin/imagePlaceholder_fxpfme.png)" }}/>
         </div>
         <div className="col"></div>
         <div className="col col-auto pe-0">
@@ -63,37 +63,58 @@ const PlatformBanner = ({platform, addQuiz, count, history, refetch, sitePlatfor
         </div>
       </div>
 
-      <div className="col col-5 my-3">
-        {isOwner ?
-          <textarea 
-            className="form-control px-1 mb-1 border-0"
-            style={{ backgroundColor: 'inherit', height: "1px", fontSize:"22px", resize:'none', maxWidht: '100px'}}
-            placeholder="Platform Name"
-            value={nameState}
-            onChange={(e) => setNameState(e.target.value)}
-            readOnly={!isOwner}
-            onBlur={() => updatePlatform({variables: {update: {name: nameState}}})}
-          />
-        :
-        <h5 className='display-6'>{nameState}</h5>
-        }      
+      <div className="row rounded px-2">
+        <div className="col col-5 mt-1">
+          {isOwner ?
+            <textarea 
+              className="form-control px-1 border-0"
+              style={{ backgroundColor: 'inherit', height: "1px", fontSize:"22px", resize:'none', maxWidht: '100px'}}
+              placeholder="Platform Name"
+              spellCheck="false"
+              value={nameState}
+              onChange={(e) => setNameState(e.target.value)}
+              readOnly={!isOwner}
+              onBlur={() => updatePlatform({variables: {update: {name: nameState}}})}
+            />
+          :
+          <h5 className='display-6'>{nameState}</h5>
+          }      
+        </div>
       </div>
 
-      <div className="col">
+      <div className="row rounded px-2">
+        <div className="col col-8 mb-1">
+          {isOwner ?
+            <textarea 
+              className="form-control px-1 mb-1 border-0"
+              style={{ backgroundColor: 'inherit', height: "80px", fontSize:"12px", resize:'none', maxWidht: '100px'}}
+              placeholder="Platform Description"
+              value={descriptionState}
+              spellCheck="false"
+              onChange={(e) => { let str = e.target.value ;if(str?.length > 400) str = str.substring(0, 401); setDescriptionState(str)}}
+              readOnly={!isOwner}
+              onBlur={() => updatePlatform({variables: {update: {description: descriptionState}}})}
+            />
+          :
+          <h5 className='display-6' style={{ fontSize:"12px" }}>{descriptionState}</h5>
+          }      
+        </div>
 
-      </div>
+        <div className="col"></div>
 
-      <div className="col col-auto mt-4"> 
-        {platform?.creator?._id === contextUserId && 
-            <CreateQuizPopUp addQuiz={addQuiz}/> }
-        {!isOwner &&
-          <button className="btn btn-md border border-2 bg-light" onClick={onFollow}> {following ? 'Follow' : 'Following'} </button> } 
-      </div>
+        <div className="col col-auto mt-4"> 
+          {platform?.creator?._id === contextUserId && 
+              <CreateQuizPopUp addQuiz={addQuiz}/> }
+          {!isOwner &&
+            <button className="btn btn-md border border-2 bg-light" onClick={onFollow}> {following ? 'Follow' : 'Following'} </button> } 
+        </div>
 
-      <div className="col col-auto mt-4">
-        {platform?.creator?._id === contextUserId && 
-          <DeletePlatformPopUp platform={platform} count={count} history={history}/>
-        }
+        <div className="col col-auto mt-4">
+          {platform?.creator?._id === contextUserId && 
+            <DeletePlatformPopUp platform={platform} count={count} history={history}/>
+          }
+        </div>
+
       </div>
 
     </div>
