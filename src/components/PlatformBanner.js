@@ -52,71 +52,71 @@ const PlatformBanner = ({platform, addQuiz, count, history, refetch, sitePlatfor
   if(!visitor) return <Loading/>
 
   return(
-    <div className="rounded py-1 mb-3 mt-1">
-      <div className="row rounded px-3 mx-0" style={{backgroundImage: 'url('+platform?.banner.url+')', backgroundPosition: 'center', backgroundSize: 'cover', backgroundColor: platform ? platform.bannerColor : "#ffffff"}}>
-        <div className="col col-auto rounded p-1 bg-light" style={{marginTop: "95px", marginBottom: "16px"}}>
-          <div style={{ width:"150px", height:"150px", backgroundPosition:"center", backgroundSize: 'cover', backgroundImage: platform?.image?.url?"url("+platform.image.url+")":"url(https://res.cloudinary.com/ljaquel/image/upload/v1637970039/admin/imagePlaceholder_fxpfme.png)" }}/>
+    <div className="mb-3">
+      <div className="row px-3 mx-0" style={{backgroundImage: 'url('+platform?.banner.url+')', backgroundPosition: 'center', backgroundSize: 'cover', backgroundColor: platform ? platform.bannerColor : "#ffffff"}}>
+        <div className="col col-auto rounded p-1 bg-light" style={{marginTop: "70px", marginBottom: "16px"}}>
+          <div style={{ width:"250px", height:"250px", backgroundPosition:"center", backgroundSize: 'cover', backgroundImage: platform?.image?.url?"url("+platform.image.url+")":"url(https://res.cloudinary.com/ljaquel/image/upload/v1637970039/admin/imagePlaceholder_fxpfme.png)" }}/>
         </div>
         <div className="col"></div>
-        <div className="col col-auto pe-0">
+        <div className="col col-auto pe-0 pt-1">
           {isOwner && <EditPlatformPopUp refetch={refetch} platform={platform}/>}
         </div>
       </div>
+      <div className="container-md">
+        <div className="row rounded">
+          <div className="col col-5 mt-1">
+            {isOwner ?
+              <textarea 
+                className="form-control px-1 border-0"
+                style={{ backgroundColor: 'inherit', height: "1px", fontSize:"22px", resize:'none', maxWidht: '100px'}}
+                placeholder="Platform Name"
+                spellCheck="false"
+                value={nameState}
+                onChange={(e) => setNameState(e.target.value)}
+                readOnly={!isOwner}
+                onBlur={() => updatePlatform({variables: {update: {name: nameState}}})}
+              />
+            :
+            <h5 className='display-6'>{nameState}</h5>
+            }      
+          </div>
+        </div>
 
-      <div className="row rounded px-2">
-        <div className="col col-5 mt-1">
-          {isOwner ?
-            <textarea 
-              className="form-control px-1 border-0"
-              style={{ backgroundColor: 'inherit', height: "1px", fontSize:"22px", resize:'none', maxWidht: '100px'}}
-              placeholder="Platform Name"
-              spellCheck="false"
-              value={nameState}
-              onChange={(e) => setNameState(e.target.value)}
-              readOnly={!isOwner}
-              onBlur={() => updatePlatform({variables: {update: {name: nameState}}})}
-            />
-          :
-          <h5 className='display-6'>{nameState}</h5>
-          }      
+        <div className="row rounded">
+          <div className="col col-8 mb-1">
+            {isOwner ?
+              <textarea 
+                className="form-control px-1 mb-1 border-0"
+                style={{ backgroundColor: 'inherit', height: "80px", fontSize:"12px", resize:'none', maxWidht: '100px'}}
+                placeholder="Platform Description"
+                value={descriptionState}
+                spellCheck="false"
+                onChange={(e) => { let str = e.target.value ;if(str?.length > 400) str = str.substring(0, 401); setDescriptionState(str)}}
+                readOnly={!isOwner}
+                onBlur={() => updatePlatform({variables: {update: {description: descriptionState}}})}
+              />
+            :
+            <h5 className='display-6' style={{ fontSize:"12px" }}>{descriptionState}</h5>
+            }      
+          </div>
+
+          <div className="col"></div>
+
+          <div className="col col-auto px-0 pe-1 self-align-center"> 
+            {platform?.creator?._id === contextUserId && 
+                <CreateQuizPopUp addQuiz={addQuiz}/> }
+            {!isOwner &&
+              <button className="btn btn-md border border-2 bg-light self-align-center" onClick={onFollow}> {following ? 'Follow' : 'Following'} </button> } 
+          </div>
+
+          <div className="col col-auto px-0 self-align-center">
+            {platform?.creator?._id === contextUserId && 
+              <DeletePlatformPopUp platform={platform} count={count} history={history}/>
+            }
+          </div>
+
         </div>
       </div>
-
-      <div className="row rounded px-2">
-        <div className="col col-8 mb-1">
-          {isOwner ?
-            <textarea 
-              className="form-control px-1 mb-1 border-0"
-              style={{ backgroundColor: 'inherit', height: "80px", fontSize:"12px", resize:'none', maxWidht: '100px'}}
-              placeholder="Platform Description"
-              value={descriptionState}
-              spellCheck="false"
-              onChange={(e) => { let str = e.target.value ;if(str?.length > 400) str = str.substring(0, 401); setDescriptionState(str)}}
-              readOnly={!isOwner}
-              onBlur={() => updatePlatform({variables: {update: {description: descriptionState}}})}
-            />
-          :
-          <h5 className='display-6' style={{ fontSize:"12px" }}>{descriptionState}</h5>
-          }      
-        </div>
-
-        <div className="col"></div>
-
-        <div className="col col-auto mt-4"> 
-          {platform?.creator?._id === contextUserId && 
-              <CreateQuizPopUp addQuiz={addQuiz}/> }
-          {!isOwner &&
-            <button className="btn btn-md border border-2 bg-light" onClick={onFollow}> {following ? 'Follow' : 'Following'} </button> } 
-        </div>
-
-        <div className="col col-auto mt-4">
-          {platform?.creator?._id === contextUserId && 
-            <DeletePlatformPopUp platform={platform} count={count} history={history}/>
-          }
-        </div>
-
-      </div>
-
     </div>
   )
 }
