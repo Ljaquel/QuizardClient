@@ -67,13 +67,28 @@ const Home = (props) => {
       </div> */}
       <div className="row row-cols-auto container-fluid">
         <div className="col">
-          <Panel title="Featured Quizzes" type="quiz" data={featuredQuizzes} />
+          <Panel
+            title="Featured Quizzes"
+            type="quiz"
+            data={featuredQuizzes}
+            history={props.history}
+          />
         </div>
         <div className="col">
-          <Panel title="Trending Quizzes" type="quiz" data={trendingQuizzes} />
+          <Panel
+            title="Trending Quizzes"
+            type="quiz"
+            data={trendingQuizzes}
+            history={props.history}
+          />
         </div>
         <div className="col">
-          <Panel title="Community Rewards" type="rewards" data={[]} />
+          <Panel
+            title="Community Rewards"
+            type="rewards"
+            data={[]}
+            history={props.history}
+          />
         </div>
       </div>
     </div>

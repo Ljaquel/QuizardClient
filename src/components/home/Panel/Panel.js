@@ -2,7 +2,7 @@ import React from "react";
 import QuizCard from "../../QuizCard";
 import "./Panel.css";
 
-const Panel = ({ title, data, type }) => {
+const Panel = ({ title, data, type, history }) => {
   return (
     <div className="container-fluid">
       <div
@@ -14,7 +14,6 @@ const Panel = ({ title, data, type }) => {
           maxWidth: "400px"
         }}
       >
-        ping_final
         <h3 className="text-white">{title}</h3>
       </div>
       <div>
@@ -23,7 +22,12 @@ const Panel = ({ title, data, type }) => {
             type === "rewards" ? (
               <div key={datum._id}>Rewards Card</div>
             ) : (
-              <QuizCard className="quiz-card" quiz={datum} key={datum._id} />
+              <QuizCard
+                className="quiz-card"
+                quiz={datum}
+                key={datum._id}
+                history={history}
+              />
             )
           )}
       </div>
