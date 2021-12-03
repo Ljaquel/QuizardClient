@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 const PLATFORM_ATTRIBUTES = gql`
   fragment platformAttributes on Platform {
@@ -24,7 +24,7 @@ const PLATFORM_ATTRIBUTES = gql`
     followers
     createdAt
   }
-`
+`;
 
 const QUIZ_ATTRIBUTES = gql`
   fragment quizAttributes on Quiz {
@@ -85,7 +85,7 @@ const QUIZ_ATTRIBUTES = gql`
     }
     createdAt
   }
-`
+`;
 
 const USER_ATTRIBUTES = gql`
   fragment userAttributes on User {
@@ -104,7 +104,7 @@ const USER_ATTRIBUTES = gql`
     following
     followers
   }
-`
+`;
 
 const RESULT_ATTRIBUTES = gql`
   fragment resultAttributes on Result {
@@ -120,7 +120,7 @@ const RESULT_ATTRIBUTES = gql`
     rating
     createdAt
   }
-`
+`;
 
 export const FETCH_SEARCH_RESULTS_QUERY = gql`
   query getSearchResultsQuery($query: String!, $searchFilter: String) {
@@ -142,7 +142,7 @@ export const FETCH_SEARCH_RESULTS_QUERY = gql`
 `;
 
 export const FETCH_USER_QUERY = gql`
-  query fetchUserQuery($userId: ID!){
+  query fetchUserQuery($userId: ID!) {
     getUser(userId: $userId) {
       ...userAttributes
     }
@@ -151,13 +151,13 @@ export const FETCH_USER_QUERY = gql`
 `;
 
 export const FETCH_QUIZZES_QUERY = gql`
-  query fetchQuizzesQuery($filters: QuizInput){
+  query fetchQuizzesQuery($filters: QuizInput) {
     getQuizzes(filters: $filters) {
       ...quizAttributes
     }
   }
   ${QUIZ_ATTRIBUTES}
-`
+`;
 
 export const FETCH_QUIZ_QUERY = gql`
   query fetchQuizQuery($quizId: ID!) {
@@ -166,16 +166,16 @@ export const FETCH_QUIZ_QUERY = gql`
     }
   }
   ${QUIZ_ATTRIBUTES}
-`
+`;
 
 export const FETCH_PLATFORMS = gql`
-  query fetchPlatforms($filters: PlatformInput){
+  query fetchPlatforms($filters: PlatformInput) {
     getPlatforms(filters: $filters) {
       ...platformAttributes
     }
   }
   ${PLATFORM_ATTRIBUTES}
-`
+`;
 
 export const FETCH_PLATFORM = gql`
   query fetchPlatform($platformId: ID!) {
@@ -184,7 +184,7 @@ export const FETCH_PLATFORM = gql`
     }
   }
   ${PLATFORM_ATTRIBUTES}
-`
+`;
 
 export const FETCH_RESULTS_QUERY = gql`
   query fetchResultsQuery($filters: ResultInput) {
@@ -193,28 +193,28 @@ export const FETCH_RESULTS_QUERY = gql`
     }
   }
   ${RESULT_ATTRIBUTES}
-`
+`;
 
 export const CREATE_COMMENT = gql`
   mutation createComment($quizId: ID!, $user: ID!, $body: String!) {
     createComment(quizId: $quizId, user: $user, body: $body)
   }
-`
+`;
 
 export const DELETE_COMMENT = gql`
   mutation deleteComment($quizId: ID!, $commentId: ID!) {
     deleteComment(quizId: $quizId, commentId: $commentId)
   }
-`
+`;
 
 export const CREATE_RESULT = gql`
-  mutation createResult($input: ResultInput){
+  mutation createResult($input: ResultInput) {
     createResult(input: $input) {
       ...resultAttributes
     }
   }
   ${RESULT_ATTRIBUTES}
-`
+`;
 
 export const DELETE_RESULT = gql`
   mutation deleteResult($resultId: ID!) {
@@ -223,7 +223,7 @@ export const DELETE_RESULT = gql`
     }
   }
   ${RESULT_ATTRIBUTES}
-`
+`;
 
 export const UPDATE_RESULT = gql`
   mutation updateResult($resultId: ID!, $update: ResultInput) {
@@ -232,61 +232,77 @@ export const UPDATE_RESULT = gql`
     }
   }
   ${RESULT_ATTRIBUTES}
-`
+`;
 
 export const DELETE_RESULTS = gql`
   mutation deleteResults($filter: ResultInput) {
     deleteResults(filter: $filter)
   }
-`
+`;
 
 export const CREATE_QUIZ = gql`
-  mutation createQuizMutation($name: String!, $creatorId: String!, $platformId: String!){
+  mutation createQuizMutation(
+    $name: String!
+    $creatorId: String!
+    $platformId: String!
+  ) {
     createQuiz(name: $name, creatorId: $creatorId, platformId: $platformId)
   }
-`
+`;
 
 export const DELETE_QUIZ_MUTATION = gql`
   mutation deleteQuizMutation($quizId: ID!) {
     deleteQuiz(quizId: $quizId)
   }
-`
+`;
 
 export const UPDATE_QUIZ_MUTATION = gql`
   mutation updateQuizMutation($quizId: ID!, $update: QuizInput) {
     updateQuiz(quizId: $quizId, update: $update)
   }
-`
+`;
 
 export const CREATE_PLATFORM = gql`
-  mutation createPlatform($name: String!, $creatorId: String!){
+  mutation createPlatform($name: String!, $creatorId: String!) {
     createPlatform(name: $name, creatorId: $creatorId)
   }
-`
+`;
 
 export const DELETE_PLATFORM = gql`
   mutation deletePlatform($platformId: ID!) {
     deletePlatform(platformId: $platformId)
   }
-`
+`;
 
 export const UPDATE_PLATFORM = gql`
   mutation updatePlatform($platformId: ID!, $update: PlatformInput) {
     updatePlatform(platformId: $platformId, update: $update)
   }
-`
+`;
 
 export const UPDATE_IMAGE = gql`
-  mutation updateImage($type: String!, $_id: ID!, $field: String!, $publicId: String!, $url: String!) {
-    updateImage(type: $type, _id: $_id, field: $field, publicId: $publicId, url : $url)
+  mutation updateImage(
+    $type: String!
+    $_id: ID!
+    $field: String!
+    $publicId: String!
+    $url: String!
+  ) {
+    updateImage(
+      type: $type
+      _id: $_id
+      field: $field
+      publicId: $publicId
+      url: $url
+    )
   }
-`
+`;
 
 export const UPDATE_USER = gql`
   mutation UpdateUser($userId: ID!, $update: UserInput) {
     updateUser(userId: $userId, update: $update)
   }
-`
+`;
 
 export const LOGIN_USER = gql`
   mutation loginUser($username: String!, $password: String!) {
@@ -345,5 +361,23 @@ export const REGISTER_USER = gql`
 export const CHANGE_PASSWORD = gql`
   mutation changePassword($newPassword: String!, $confirmPassword: String!) {
     changePassword(newPassword: $newPassword, confirmPassword: $confirmPassword)
-}
-`
+  }
+`;
+
+export const FETCH_FEATURED_QUIZZES = gql`
+  query fetchFeaturedQuizzesQuery($filters: QuizInput) {
+    getQuizzes(filters: $filters) {
+      ...quizAttributes
+    }
+  }
+  ${QUIZ_ATTRIBUTES}
+`;
+
+export const FETCH_TRENDING_QUIZZES = gql`
+  query fetchTrendingQuizzesQuery($filters: QuizInput) {
+    getQuizzes(filters: $filters) {
+      ...quizAttributes
+    }
+  }
+  ${QUIZ_ATTRIBUTES}
+`;
