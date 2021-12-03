@@ -23,9 +23,6 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz }) => {
   const { data: tagsData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, { variables: { query: "math", searchFilter:"Tag" } });
   const taggedQuizzes = tagsData?.getSearchResults
 
-
-
-
   const creator = creatorData?.getUser
   const result = data?.getResults[0]
 
@@ -73,15 +70,8 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz }) => {
           <h2 className="rounded-top text-center"  style={{backgroundColor:user.color}}> Similar   </h2>
 
           
-          {quiz.tags[0]}
-          {taggedQuizzes && taggedQuizzes?.map((myquiz, index) => <h1> {myquiz.name}  </h1>  )}
-
-
-
-
-
-
-
+          {/* {quiz.tags[0]}
+          {taggedQuizzes && taggedQuizzes?.map((myquiz, index) => <h1> {myquiz.name}  </h1>  )} */}
         </div>
 
         <div className="col-8  d-flex flex-column" style={{overflowY: "scroll",height:"90%"}}>
@@ -117,14 +107,10 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz }) => {
                       <button onClick={() => createComment({ variables: {body: comment}})} className="btn btn-primary btn-sm">Post</button>
                     </div>
                   </div>
-          </div>
-    
+          </div>    
         </div>
 
-        <div className="col-2 d-flex flex-column" style={{overflowY: "scroll",height:"90%",backgroundColor:"rgb(234,234,234)"}}>
-        
-       
-
+        <div className="col-2 d-flex flex-column" style={{overflowY: "scroll",height:"90%",backgroundColor:"rgb(234,234,234)"}}>      
         
           <h2 className="rounded-top text-center"  style={{backgroundColor:user.color}}> Creator   </h2>
           {creator?.avatar?.publicId? 
@@ -141,14 +127,14 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz }) => {
           <li className="list-group-item ">  <small> Quiz Rating: </small>  <Rating name="readOnly" value={quiz.rating} readOnly precision={0.5} />
           </li>
           <li className="list-group-item ">
-              Your Rating: 
-                <Rating
-                  name={waitingOne || waitingTwo || !result ? "disabled" : "simple-controlled"}
-                  value={result?.rating && result.rating >= 0 ? result.rating : null}
-                  disabled={!result || waitingOne || waitingTwo}
-                  onChange={(e, v) => onRatingClick(v)}
-                  precision={0.5}
-                />     
+            Your Rating: 
+            <Rating
+              name={waitingOne || waitingTwo || !result ? "disabled" : "simple-controlled"}
+              value={result?.rating && result.rating >= 0 ? result.rating : null}
+              disabled={!result || waitingOne || waitingTwo}
+              onChange={(e, v) => onRatingClick(v)}
+              precision={0.5}
+            />     
           </li>
            
         </div>
