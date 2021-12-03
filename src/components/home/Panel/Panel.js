@@ -2,7 +2,7 @@ import React from "react";
 import QuizCard from "../../QuizCard";
 import "./Panel.css";
 
-const Panel = ({ title, data, type, history }) => {
+const Panel = ({ title, data, type, history, home }) => {
   return (
     <div className="container-fluid">
       <div
@@ -23,6 +23,7 @@ const Panel = ({ title, data, type, history }) => {
               <div key={datum._id}>Rewards Card</div>
             ) : (
               <QuizCard
+                home={home}
                 className="quiz-card"
                 quiz={datum}
                 key={datum._id}

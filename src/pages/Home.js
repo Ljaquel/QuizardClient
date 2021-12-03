@@ -72,6 +72,7 @@ const Home = (props) => {
             type="quiz"
             data={featuredQuizzes}
             history={props.history}
+            home={true}
           />
         </div>
         <div className="col">
@@ -80,6 +81,7 @@ const Home = (props) => {
             type="quiz"
             data={trendingQuizzes}
             history={props.history}
+            home={true}
           />
         </div>
         <div className="col">
@@ -88,6 +90,7 @@ const Home = (props) => {
             type="rewards"
             data={[]}
             history={props.history}
+            home={true}
           />
         </div>
       </div>
