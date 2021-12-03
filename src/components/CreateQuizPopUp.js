@@ -31,7 +31,7 @@ function CreateQuizPopUp({ addQuiz }) {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant="success" onClick={handleShow}>
         Create Quiz
       </Button>
       <Modal show={show} onHide={handleClose}>

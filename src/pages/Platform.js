@@ -34,9 +34,9 @@ const Platform = (props) => {
   const quizzes = data?.getQuizzes;
   if(loading || loadingPlatform) { return <Loading/> }
   return (
-    <div className="container">  
+    <div className="container-fluid px-0">  
       <PlatformBanner platform={platform} addQuiz={addQuiz} count={quizzes.length} history={props.history} refetch={refetchPlatform} sitePlatformId={sitePlatformId}/>
-      <div className="container">
+      <div className="container-md">
         
         <div className="row row-cols-auto g-3"> 
           {quizzes && quizzes.map((quiz, index) =>

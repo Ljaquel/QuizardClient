@@ -25,7 +25,7 @@ function DeletePlatformPopUp(props) {
 
   return (
     <>
-      <button className="btn bg-danger text-white" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete" onClick={handleShow}>
+      <button className="btn bg-secondary text-white" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete" onClick={handleShow}>
         X
       </button>
       <Modal show={show} onHide={handleClose}>

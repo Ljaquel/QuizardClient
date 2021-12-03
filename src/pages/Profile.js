@@ -38,28 +38,47 @@ const Profile = (props) => {
   if(!user) { return <PageNotFound message="No Access Error"/> }
  
   return (
-    <div className="container">  
-      <ProfileBanner user={user} addPlatform={addPlatform}/>
-      <div className="container">
-
-
-        <div className="row pb-2">
-          <div className="col px-0"> 
-            {platforms && platforms.length > 0 &&<h6 className="display-6">Platforms:</h6>}
-          </div>
-          <div className="col col-auto px-0 align-self-center"> 
-            {user?._id === contextUserId && <CreatePlatformPopUp addPlatform={addPlatform}/> }
-          </div>
+    <div className="container-fluid flex-grow-1 px-0">  
+      <div className="row h-100 mx-0">
+        
+        <div className="col col-2 px-0">
+          <ProfileBanner user={user} addPlatform={addPlatform}/>
         </div>
+        
+        <div className="col col-10 pt-1 px-0 overflow-auto">
 
-
-        <div className="row row-cols-auto g-2 pb-3"> 
-          {platforms && platforms.map((platform, index) =>
-            <div className="col"  key={index}>           
-              <PlatformCard platform={platform} history={props.history}/>
+          <ul className="nav nav-tabs" id="profileTab" role="tablist">
+            <li className="nav-item" role="presentation">
+              <button className="nav-link active" id="platforms-tab" data-bs-toggle="tab" data-bs-target="#platforms" type="button" role="tab" aria-controls="platforms" aria-selected="true">Platforms</button>
+            </li>
+            <li className="nav-item" role="presentation">
+              <button className="nav-link" id="rewards-tab" data-bs-toggle="tab" data-bs-target="#rewards" type="button" role="tab" aria-controls="rewards" aria-selected="false">Rewards</button>
+            </li>
+            <li className="nav-item" role="presentation">
+              <button className="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab" aria-controls="history" aria-selected="false">History</button>
+            </li>
+          </ul>
+          <div className="tab-content" id="profileTabContent">
+            <div className="tab-pane fade show active" id="platforms" role="tabpanel" aria-labelledby="platforms-tab">
+              <div className="row row-cols-auto m-0 px-2 g-3"> 
+                {platforms && platforms.map((platform, index) =>
+                  <div className="col"  key={index}>           
+                    <PlatformCard platform={platform} history={props.history}/>
+                  </div>
+                )}
+                {user?._id === contextUserId &&
+                  <div className="col">           
+                    <CreatePlatformPopUp addPlatform={addPlatform}/>
+                  </div>
+                }
+              </div>
             </div>
-          )}
+            <div className="tab-pane fade" id="rewards" role="tabpanel" aria-labelledby="rewards-tab">...</div>
+            <div className="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">...</div>
+          </div>
+
         </div>
+
       </div>
     </div>
   )

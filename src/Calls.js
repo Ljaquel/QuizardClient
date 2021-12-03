@@ -20,6 +20,7 @@ const PLATFORM_ATTRIBUTES = gql`
       publicId
       url
     }
+    bannerColor
     following
     followers
     createdAt

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
-import { UPDATE_IMAGE } from '../Calls'
+import { UPDATE_IMAGE, UPDATE_PLATFORM } from '../Calls'
 import { MdOutlineEdit } from "react-icons/md";
 import { useParams } from 'react-router'
 import Cloudinary from '../util/Cloudinary'
@@ -17,6 +17,12 @@ const EditPlatformPopUp = ({refetch, platform}) => {
     variables: { type: "Platform", _id: sitePlatformId }
   })
 
+  const [ updatePlatform ] = useMutation(UPDATE_PLATFORM, {
+    onCompleted() { refetch() },
+    onError(err) { console.log(JSON.stringify(err, null, 2)) },
+    variables: { platformId: sitePlatformId }
+  })
+
   return (
     <>
       <button className="btn btn-sm floating-edit-icon rounded mt-2 pt-0 px-1" data-bs-toggle="modal" data-bs-target="#editPlatformModal">
@@ -27,7 +33,7 @@ const EditPlatformPopUp = ({refetch, platform}) => {
       <div className="modal-dialog modal-lg">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title" id="editPlatformModalLabel">Edit Platform</h5>
+            <h5 className="modal-title" id="editPlatformModalLabel">Edit Platform Style</h5>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div className="modal-body">
@@ -77,6 +83,16 @@ const EditPlatformPopUp = ({refetch, platform}) => {
                       x
                   </button>
                 </div>
+              </div>
+            </div>
+
+            <div className="row px-2 mt-4">
+              <div className="col col-auto align-self-center">
+                <label>Banner Color:</label>
+              </div>
+              <div className="col"></div>
+              <div className="col col-auto align-self-center">
+                <input type="color" className="form-control form-control-color" value={platform.bannerColor} onInput={(e) => updatePlatform({ variables: { update: { bannerColor: e.target.value }} })}></input>
               </div>
             </div>
 

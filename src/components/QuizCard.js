@@ -11,26 +11,13 @@ function QuizCard({ quiz, home, history }) {
     ? "/quizbuilder/"
     : "/quizscreen/";
   return (
-    <div
-      className="card mb-3 quiz-card rounded"
-      style={{ maxWidth: "400px" }}
-      onClick={() => history.push(`${destination}${quiz._id}`)}
-    >
-      <div className="row g-0">
-        <div className="col-5 px-1 pt-1 h-100">
-          <img
-            src={
-              quiz?.thumbnail?.url
-                ? quiz.thumbnail.url
-                : "https://res.cloudinary.com/ljaquel/image/upload/v1637970039/admin/imagePlaceholder_fxpfme.png"
-            }
-            className="img-thumbnail"
-            style={{ padding: "0.10rem", backgroundColor: "#fff" }}
-            alt="..."
-          />
+    <div className="card mb-3 quiz-card rounded h-100" style={{maxWidth: "400px"}} onClick={() => history.push(`${destination}${quiz._id}`)}>
+      <div className="row g-0 h-100">
+        <div className="col-5 px-1 py-1 h-100">
+          <img className="img-thumbnail" src={quiz?.thumbnail?.url?quiz.thumbnail.url:"https://res.cloudinary.com/ljaquel/image/upload/v1637970039/admin/imagePlaceholder_fxpfme.png"} style={{padding: '0.10rem', backgroundColor: '#fff'}} alt="..."/>
         </div>
-        <div className="col-7">
-          <div className="card-body border-start">
+        <div className="col-7 border-start h-100">
+          <div className="card-body">
             <h5 className="card-title">{quiz.name}</h5>
             <p className="card-text">
               {quiz.description.length < 80

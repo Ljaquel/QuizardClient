@@ -73,6 +73,7 @@ const Question = ({ question, updateQuestion:update, style }) => {
         style={{color: style?style.color:"white", backgroundColor: "inherit", height: "1px", fontSize:"18px"}}
         placeholder="Write question here"
         value={question?.question}
+        spellCheck="false"
         onChange={(e) => updateQuestion(e.target.value)}
       />
 
