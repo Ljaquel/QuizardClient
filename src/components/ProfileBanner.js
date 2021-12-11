@@ -42,7 +42,7 @@ const ProfileBanner = ({ user }) => {
     <div className="container-fluid px-0 h-100 pt-5" style={{backgroundColor: user.color}}>
   
           <div className="row mx-0 justify-content-center pt-5">
-            <div className="col col-auto mt-3 rounded" style={{ width:"170px", height:"170px", backgroundPosition:"center", backgroundSize: 'cover', backgroundImage: user.avatar.url ? "url("+user.avatar.url+")" : "url(https://res.cloudinary.com/ljaquel/image/upload/v1637536528/admin/profile_uvnezs.png)" }}/>
+            <div className="col col-auto my-3 rounded-circle border border-1" style={{ width:"190px", height:"190px", backgroundPosition:"center", backgroundSize: 'cover', backgroundImage: user.avatar.url ? "url("+user.avatar.url+")" : "url(https://res.cloudinary.com/ljaquel/image/upload/v1637536528/admin/profile_uvnezs.png)" }}/>
           </div>
 
           <div className="row mx-0 justify-content-center">

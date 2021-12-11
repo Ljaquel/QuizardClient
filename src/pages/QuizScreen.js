@@ -30,7 +30,7 @@ const QuizScreen = (props) => {
   if(contextUserId === quiz.creator._id && quiz.published === false) { return <PageNotFound message="No Access Error"/> }
   
   return (
-    screen === 1 ? <QuizHome quiz={quiz} user={user} setScreen={setScreen} refetchQuiz={refetchQuiz}/> :
+    screen === 1 ? <QuizHome quiz={quiz} user={user} setScreen={setScreen} refetchQuiz={refetchQuiz} history={props.history}/> :
     screen === 2 ? <QuizInSession quiz={quiz} user={user} setScreen={setScreen}/> :
     screen === 3 ? <QuizResults quiz={quiz} user={user} setScreen={setScreen} history={props.history}/> :
     <PageNotFound message="Error" />
