@@ -119,6 +119,7 @@ const RESULT_ATTRIBUTES = gql`
     last
     lastRecord
     rating
+    modifiedAt
     createdAt
   }
 `;

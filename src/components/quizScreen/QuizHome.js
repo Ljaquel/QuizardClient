@@ -15,12 +15,12 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz, history }) => {
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
     variables: { filters: { userId: user._id, quizId: quiz._id} }
   })
-  const { data:creatorData, refetch} = useQuery(FETCH_USER_QUERY, {
+  const { data:creatorData } = useQuery(FETCH_USER_QUERY, {
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
     variables: { userId: quiz?.creator._id }
   })
-  const { data: tagsData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, { variables: { query: "math", searchFilter:"Tag" } });
-  const taggedQuizzes = tagsData?.getSearchResults
+  // const { data: tagsData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, { variables: { query: "math", searchFilter:"Tag" } });
+  // const taggedQuizzes = tagsData?.getSearchResults
 
   const creator = creatorData?.getUser
   const result = data?.getResults[0]
@@ -70,17 +70,19 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz, history }) => {
       
       <div className="row vh-100 px-1"> 
         <div className="col-2 px-0 rounded-top border border-1">
-          <h2 className="rounded-top text-center"  style={{backgroundColor:user.color}}> Similar </h2>
+          <h2 className="rounded-top text-center"  style={{backgroundColor:creator.color}}> Similar </h2>
           {/* {quiz.tags[0]}
           {taggedQuizzes && taggedQuizzes?.map((myquiz, index) => <h1> {myquiz.name}  </h1>  )} */}
         </div>
 
         <div className="col-8 d-flex flex-column px-1">
-          <div className="d-flex flex-column" style={{ height:"500px", backgroundImage: `url("${quiz.thumbnail?.url}")`, backgroundPosition:"center", backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>      
-            <div className="bg-dark rounded w-50 py-3" style={{opacity: "0.85", margin: 'auto'}}>   
+          <div className="d-flex flex-column rounded-top" style={{position: 'relative', height:"500px", backgroundImage: `url("${quiz.thumbnail?.url}")`, backgroundPosition:"center", backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>      
+            <div className="bg-dark rounded w-100 pt-1 pb-2" style={{opacity: "0.85", position: 'absolute', bottom: '0px'}}>   
               <h3 className="text-light text-center">{quiz.name}</h3>
               <p className="text-light text-center mx-auto px-3">{quiz.description}</p>
-              <button className=" btn btn-success d-flex mx-auto" style={{opacity: "1"}} disabled={!user} onClick={() => setScreen(2)}> <BsFillPlayFill size="50"/> </button>                
+              <div className="row p-0 m-0 justify-content-center">
+                <button className="btn col-auto" style={{backgroundColor: creator.color, opacity: "1", width: '200px', height: '70px'}} disabled={!user} onClick={() => setScreen(2)}> <BsFillPlayFill size="50"/> </button>          
+              </div>
             </div>
           </div>
 
@@ -114,18 +116,35 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz, history }) => {
         <div className="col-2 d-flex flex-column pt-1 px-1" style={{overflow: "auto"}}>      
         
           <div className="border border-1 rounded-top mb-2 pointer card-hover" onClick={goToC}>
-            <h4 className="rounded-top text-center py-1" style={{backgroundColor:user.color}}>Creator</h4>
+            <h4 className="rounded-top text-center py-1" style={{backgroundColor:creator.color}}>Creator</h4>
             <div className="mx-auto my-2 rounded-circle border border-2" style={{width: '130px', height: '130px', ...bProps, backgroundImage: `url(${creator?.avatar?.url ? creator?.avatar?.url : `https://res.cloudinary.com/ljaquel/image/upload/v1637536528/admin/profile_uvnezs.png`})`}}/>     
             <h5 className="text-center">{quiz.creator.name} </h5> 
           </div>
           
-          <h4 className="rounded-top text-center mb-0 py-1" style={{backgroundColor:user.color}}>Quiz Information </h4> 
-          <div className="list-group-item d-flex justify-content-between"> <small>Time: </small> <small>  { quiz.time.substring(3, 5)} mins </small> </div>
-          <div className="list-group-item d-flex justify-content-between"> <small>points: </small> <small> 100 </small> </div>        
-          <div className="list-group-item d-flex justify-content-between"> <small>Questions: </small> <small>  {quiz.content.length} </small> </div>
-          <div className="list-group-item d-flex justify-content-between"> <small>Dificulty: </small> <small>  {quiz.difficulty} </small> </div>    
-          <div className="list-group-item "> <small> Quiz Rating: </small> <small> <Rating name="readOnly" value={quiz.rating} readOnly precision={0.5}/> </small> </div>
-          <div className="list-group-item "> <small> Your Rating: </small> <Rating name={waitingOne || waitingTwo || !result ? "disabled" : "simple-controlled"} value={result?.rating && result.rating >= 0 ? result.rating : null} disabled={!result || waitingOne || waitingTwo} onChange={(e, v) => onRatingClick(v)} precision={0.5} /> </div>
+          <div className="rounded-top mb-2">
+            <h4 className="rounded-top text-center py-1 m-0" style={{backgroundColor:creator.color}}>Quiz Information </h4> 
+            <div className="list-group-item d-flex justify-content-between"> <small>Time: </small> <small>  { quiz.time.substring(3, 5)} mins </small> </div>
+            <div className="list-group-item d-flex justify-content-between"> <small>points: </small> <small> 100 </small> </div>        
+            <div className="list-group-item d-flex justify-content-between"> <small>Questions: </small> <small>  {quiz.content.length} </small> </div>
+            <div className="list-group-item d-flex justify-content-between"> <small>Dificulty: </small> <small>  {quiz.difficulty} </small> </div>    
+            <div className="list-group-item "> <small> Quiz Rating: </small> <small> <Rating name="readOnly" value={quiz.rating} readOnly precision={0.5}/> </small> </div>
+            <div className="list-group-item "> <small> Your Rating: </small> <Rating name={waitingOne || waitingTwo || !result ? "disabled" : "simple-controlled"} value={result?.rating && result.rating >= 0 ? result.rating : null} disabled={!result || waitingOne || waitingTwo} onChange={(e, v) => onRatingClick(v)} precision={0.5} /> </div>
+          </div>
+          
+          <div className="rounded-top">
+            <h4 className="rounded-top text-center py-1 m-0" style={{backgroundColor:creator.color}}>Result</h4>
+            {result ?
+              <>
+                <div className="list-group-item d-flex justify-content-between"> <small>Last Score: </small> <small>  {result.last}  </small> </div>
+                <div className="list-group-item d-flex justify-content-between"> <small>Highest Score: </small> <small> { result.score }</small> </div>
+                <div className="list-group-item d-flex justify-content-between"> <small>Last Taken: </small> <small> { moment(result.modifiedAt).fromNow() }</small> </div>
+                <div className="list-group-item d-flex justify-content-between"> <small>First Taken: </small> <small> { moment(result.createdAt).fromNow() }</small> </div>
+              </>
+              :
+              <div className="list-group-item d-flex justify-content-between"> <small>Not taken yet</small> <small> N/A </small> </div>
+            }
+            </div>
+
         </div>
       </div> 
     </div>
