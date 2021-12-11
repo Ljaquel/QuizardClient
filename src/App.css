@@ -81,6 +81,14 @@ body {
   cursor: pointer;
 }
 
+.card-hover:hover {
+  background-color: rgb(240, 240, 240);
+}
+
+.creator-card-hover:hover {
+  background-color: rgb(255, 255, 255);
+}
+
 .search-quiz-card:hover {
   background-color: rgb(240, 240, 240);
   border-color: rgb(126, 152, 189) !important;
@@ -107,4 +115,21 @@ body {
 
 .limit-height-image {
   height: 100%;
+}
+
+.carousel-image:hover {
+  cursor: pointer;
+}
+
+.pointer:hover {
+  cursor: pointer;
+}
+
+.header-color{
+  background-color: #9FA300;
+  color: #9FA300;
+}
+
+.accent-color{
+  background-color: #9FA300;
 }

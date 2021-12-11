@@ -1,20 +1,19 @@
 import React from "react";
 import QuizCard from "../../QuizCard";
-import "./Panel.css";
 
 const Panel = ({ title, data, type, history, home }) => {
   return (
     <div className="container-fluid">
       <div
+        className="rounded mb-1"
         style={{
           backgroundColor: "#9FA300",
           textAlign: "center",
           padding: "7px",
           width: "100%",
           maxWidth: "400px"
-        }}
-      >
-        <h3 className="text-white">{title}</h3>
+        }}>
+        <h4 className="text-white">{title}</h4>
       </div>
       <div>
         {data &&
