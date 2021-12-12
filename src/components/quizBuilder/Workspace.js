@@ -1,5 +1,7 @@
 import React from 'react'
 import Question from './Question'
+import { GrNext, GrPrevious } from "react-icons/gr";
+import { TiDocumentAdd } from "react-icons/ti";
 
 const newQuestion = {
   question: "Question?",
@@ -15,10 +17,9 @@ const Workspace = ({ backgroundImage, content, updateField, positionState, style
   const canAdd = count < 10
   const canDelete = count > 1
 
-  const Add = () => <button className="btn btn-sm btn-primary" disabled={!canAdd} onClick={() => AddQuestion()}>Add</button>
-  const Prev = () => <button className="btn btn-sm btn-primary" disabled={position < 1}  onClick={() => { if(position>0) setPosition(position-1)}}>Previous</button>
-  const Next = () => <button className="btn btn-sm btn-primary" disabled={position >= count-1} onClick={() => setPosition(position+1)}>Next</button>
-  const Delete = () => <button className="btn btn-sm btn-danger" disabled={!canDelete} onClick={() => DeleteQuestion(position)}>Delete</button>
+  const Add = () => <button className="btn btn-sm btn-light builder-btn-hover" disabled={!canAdd} onClick={() => AddQuestion()}><TiDocumentAdd size={20}/></button>
+  const Prev = () => <button className="btn btn-sm btn-light builder-btn-hover" disabled={position < 1}  onClick={() => { if(position>0) setPosition(position-1)}}><GrPrevious/></button>
+  const Next = () => <button className="btn btn-sm btn-light builder-btn-hover" disabled={position >= count-1} onClick={() => setPosition(position+1)}><GrNext/></button>
   
   const AddQuestion = () => {
     if (!canAdd) return
@@ -48,16 +49,18 @@ const Workspace = ({ backgroundImage, content, updateField, positionState, style
 
   return (
     <div className="container-fluid text-white workspace-container h-100" style={backgroundStyle}>
-      <div className="row mb-4 pt-4">
+      <div className="row mb-4 pt-4 pb-5">
         <div className="col text-center">
-          <label htmlFor="customRange2" className="form-label text-dark"><span className="badge bg-light text-dark">Question {position+1}</span></label>
+          <div className="row justify-content-between mb-2">
+            <div className="col-auto p-0 m-0 ps-3"></div>
+            <div className="col-auto p-0 m-0">
+              <label htmlFor="customRange2" className="form-label text-dark"><span className="badge bg-light text-dark">Question {position+1}</span></label>
+            </div>
+            <div className="col-auto p-0 m-0 pe-3">
+              <Add/>
+            </div>
+          </div>
           <input type="range" className="form-range" min={0} max={count-1} value={position} onChange={(e) => setPosition(parseInt(e.target.value))} id="customRange2" ></input>
-        </div>
-      </div>
-      <div className="row justify-content-end mb-2">
-        <div className="col-auto p-0 m-0">
-          <Add/>
-          <Delete/>
         </div>
       </div>
       <div className="row pb-4">
@@ -66,7 +69,7 @@ const Workspace = ({ backgroundImage, content, updateField, positionState, style
         </div>
         <div className="col p-0 m-0">
           <div className="container-fluid text-white">
-            {(position >= 0) && (position < count) && <Question question={content[position]} updateQuestion={updateQuestion} style={style}/> }
+            {(position >= 0) && (position < count) && <Question question={content[position]} updateQuestion={updateQuestion} style={style} canDelete={canDelete} deleteQuestion={DeleteQuestion} position={position}/> }
           </div>
         </div>
         <div className="col-auto p-0 m-0 align-self-center">

@@ -56,7 +56,8 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
   const result = data?.getResults[0]
 
   const handleDocumentKeyPress = (e) => {
-    if (e.keyCode === 13) {
+    if (e.keyCode === 13 && canGoNext) {
+      console.log(answer)
       e.preventDefault();
       goNextQ();
     }
@@ -117,7 +118,7 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
     setScreen(3)
   }
 
-  const canGoNext = answer !== null && currentQuestion >= 0 && currentQuestion < count
+  const canGoNext = answer >= 0 && answer !== null && answer !== undefined && currentQuestion >= 0 && currentQuestion < count
 
   const progressPercentage = Math.floor(currentQuestion/count*100) + "%"
 

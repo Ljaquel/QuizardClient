@@ -15,14 +15,14 @@ const QuizHomeCard = ({ quiz, home, history}) => {
     //    </div>
     //  </div> 
     //</div>
-    <div class="card platform-card rounded w-100 mb-1" onClick={() => history.push(`${destination}${quiz._id}`)}>
-      <div class="row g-0">
-        <div class="col-5 p-1">
+    <div className="card platform-card rounded w-100 mb-1" onClick={() => history.push(`${destination}${quiz._id}`)}>
+      <div className="row g-0">
+        <div className="col-5 p-1">
           <img className="img-fluid rounded-start" src={quiz?.thumbnail?.url? quiz.thumbnail.url: "https://res.cloudinary.com/ljaquel/image/upload/v1637970039/admin/imagePlaceholder_fxpfme.png"} alt="..."/>
         </div>
-        <div class="col-7">
-          <div class="card-body">
-            <h6 class="card-title">{quiz.name}</h6>
+        <div className="col-7">
+          <div className="card-body">
+            <h6 className="card-title">{quiz.name}</h6>
           </div>
         </div>
       </div>

@@ -96,6 +96,7 @@ const QuizBuilder = (props) => {
               updateField={updateField}
               positionState={[position, setPosition]}
               updateQuiz={updateQuiz}
+              content={quizState.content}
             />
           </div>
           <div className="col-9">

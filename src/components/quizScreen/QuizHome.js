@@ -94,7 +94,7 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz, history }) => {
             <div className="list-group-item d-flex justify-content-between"> <small>Questions: </small> <small>  {quiz.content.length} </small> </div>
             <div className="list-group-item d-flex justify-content-between"> <small>Dificulty: </small> <small>  {quiz.difficulty} </small> </div>    
             <div className="list-group-item d-flex justify-content-between"> <small>Category: </small> <small>  {quiz.category} </small> </div>
-            <div className="list-group-item d-flex justify-content-between"> <small>Played {quiz.timesPlayed} times among {quiz.usersThatPlayed} distinct user{quiz.usersThatPlayed===1?'':'s'} </small> </div>    
+            <div className="list-group-item d-flex justify-content-between"> <small>Played {quiz.timesPlayed} time{quiz.timesPlayed===1?'':'s'} among {quiz.usersThatPlayed} distinct user{quiz.usersThatPlayed===1?'':'s'} </small> </div>    
             <div className="list-group-item "> <small> Quiz Rating: </small> <small> <Rating name="readOnly" value={quiz.rating} readOnly precision={0.5}/> </small> </div>
             <div className="list-group-item "> <small> Your Rating: </small> <Rating name={waitingOne || waitingTwo || !result ? "disabled" : "simple-controlled"} value={result?.rating && result.rating >= 0 ? result.rating : null} disabled={!result || waitingOne || waitingTwo} onChange={(e, v) => onRatingClick(v)} precision={0.5} /> </div>
           </div>

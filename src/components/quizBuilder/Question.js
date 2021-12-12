@@ -1,10 +1,11 @@
 import React from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { TiDeleteOutline } from "react-icons/ti";
 
 import '../../App.css'
 import Choice from './Choice'
 
-const Question = ({ question, updateQuestion:update, style }) => {
+const Question = ({ question, updateQuestion:update, style, position, canDelete, deleteQuestion }) => {
   const { choices, answer } = question
 
   const updateQuestion = (str) => {
@@ -66,16 +67,26 @@ const Question = ({ question, updateQuestion:update, style }) => {
     update(newQuestion)
   }
 
+  const Delete = () => <button className="btn btn-sm btn-delete-question" disabled={!canDelete} onClick={() => deleteQuestion(position)}><TiDeleteOutline color="white" size={20}/></button>
+
   return (
     <div className="container-fluid mx-0 px-3 py-1 question-card rounded" style={{color: style?style.color:"white", backgroundColor: style?style.questionColor:"#475047"}}>
-      <textarea 
-        className="form-control editable-label px-0 mb-1"
-        style={{color: style?style.color:"white", backgroundColor: "inherit", height: "1px", fontSize:"18px"}}
-        placeholder="Write question here"
-        value={question?.question}
-        spellCheck="false"
-        onChange={(e) => updateQuestion(e.target.value)}
-      />
+      <div className="row px-0 mx-0">
+        <div className="col px-0">
+          <textarea 
+            className="form-control editable-label px-0 mb-1"
+            style={{color: style?style.color:"white", backgroundColor: "inherit", height: "1px", fontSize:"18px"}}
+            placeholder="Write question here"
+            value={question?.question}
+            spellCheck="false"
+            onChange={(e) => updateQuestion(e.target.value)}
+          />
+        </div>
+        <div className="col col-auto px-0 ps-3 pt-2">
+          <Delete/>
+        </div>
+      </div>
+
 
       <DragDropContext onDragEnd={({source, destination}) => reorderChoice(source?.index, destination?.index)}>
         <Droppable id="ChoicesListDroppable" droppableId={"choicesListDroppable"}>
