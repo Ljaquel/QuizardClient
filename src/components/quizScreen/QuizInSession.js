@@ -2,8 +2,9 @@ import React, { useState, useEffect, useContext } from 'react'
 import { AuthContext } from '../../context/auth'
 import Question from './playground/Question'
 import { useMutation, useQuery } from '@apollo/client'
-import { UPDATE_USER, CREATE_RESULT, FETCH_RESULTS_QUERY, UPDATE_RESULT } from '../../Calls'
+import { UPDATE_USER, CREATE_RESULT, FETCH_RESULTS_QUERY, UPDATE_RESULT, UPDATE_QUIZ_MUTATION } from '../../Calls'
 import QuizInSessionNav from './playground/QuizInSessionNav'
+import moment from 'moment'
 
 const QuizInSession = ({ user, quiz, setScreen}) => {
   const { contextUserId } = useContext(AuthContext)
@@ -26,6 +27,11 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
   const [ updateUser ] = useMutation(UPDATE_USER, {
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
     variables: { userId: contextUserId }
+  });
+
+  const [ updateQuiz ] = useMutation(UPDATE_QUIZ_MUTATION, {
+    onError(err) { console.log(JSON.stringify(err, null, 2)) },
+    variables: { quizId: quiz._id }
   });
 
   const [ createResult ] = useMutation(CREATE_RESULT, {
@@ -71,6 +77,7 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
 
   const finishQuiz = async (rec) => {
     let score = getScore(rec)
+    let time = getTime(timer)
     let record = rec.map((x) => x.answer)
 
     if(result === null || result === undefined ) {
@@ -78,7 +85,9 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
         userId: contextUserId,
         quizId: quiz._id,
         score: score,
-        time: timer,
+        time: time,
+        lastTime: time,
+        timesTaken: 1,
         badges: [],
         record: record,
         last: score,
@@ -87,15 +96,20 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
       createResult({ variables: { input: {...newResult} }})
       let updates = { points: user.points+score }
       updateUser({ variables: { update: updates }})
+      updateQuiz({ variables: { update: { timesPlayed: quiz.timesPlayed+1, usersThatPlayed: quiz.usersThatPlayed+1 } }})
     }
     else {
       if(result.score < score) {
-        updateResult({ variables: { resultId: result._id, update: { score: score, time: timer, record: rec.map((x) => x.answer), last: score, lastRecord: record } }})
+        updateResult({ variables: { resultId: result._id, update: { score: score, time: time, record: rec.map((x) => x.answer), last: score, lastRecord: record, lastTime: time, timesTaken: result.timesTaken+1 } }})
         let updates = { points: (user.points-result.score+score) }
         updateUser({ variables: { update: updates }})
+        updateQuiz({ variables: { update: { timesPlayed: quiz.timesPlayed+1 } }})
       }
       else if(score <= result.score) {
-        updateResult({ variables: { resultId: result._id, update: { last: score, lastRecord: record } }})
+        let updates = { last: score, lastRecord: record, lastTime: time, timesTaken: result.timesTaken+1 }
+        if(score === result.score && time < result.time) updates = {...updates, time: time}
+        updateResult({ variables: { resultId: result._id, update: updates }})
+        updateQuiz({ variables: { update: { timesPlayed: quiz.timesPlayed+1 } }})
       }
     }
     setCurrentQuestion(currentQuestion+1)
@@ -111,6 +125,15 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
     let correct = 0
     for(let i = 0; i < count; i++) { if(rec[i].correct) correct = correct+1 }
     return Math.floor(correct/count*100)
+  }
+
+  const getTime = (timer) => {
+    let time1 = moment(quiz.time, "hh:mm:ss");
+    let time2 = moment(timer, "hh:mm:ss");
+    let subtract = time1.subtract(time2);
+    let format = moment(subtract).format("mm:ss")
+    console.log('quiz.time: ' + quiz.time + ' timer: ' + timer + ' result: ' + subtract)
+    return '00:'+format
   }
 
   const backgroundStyle = backgroundImage?.url ? 

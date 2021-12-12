@@ -12,12 +12,14 @@ const SearchScreen = (props) => {
  
   const { data: usersData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, { onError(err) { console.log(JSON.stringify(err, null, 2)) },variables: {  query: searchInput, searchFilter:"User" } });
   const { data: quizzesData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, {onError(err) { console.log(JSON.stringify(err, null, 2)) }, variables: {  query: searchInput, searchFilter:"Quiz" } });
+  const { data: categoriesData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, {onError(err) { console.log(JSON.stringify(err, null, 2)) }, variables: {  query: searchInput, searchFilter:"Category" } });
   const { data: tagsData } = useQuery(FETCH_SEARCH_RESULTS_QUERY,  { onError(err) { console.log(JSON.stringify(err, null, 2)) }, variables: { query: searchInput, searchFilter:"Tag" } });
   const { data: platformsData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, { onError(err) { console.log(JSON.stringify(err, null, 2)) }, variables: { query: searchInput, searchFilter:"Platform" } });
 
   const users = usersData?.getSearchResults
   const platforms = platformsData?.getSearchResults
   const quizzes = quizzesData?.getSearchResults
+  const categories = categoriesData?.getSearchResults
   const taggedQuizzes = tagsData?.getSearchResults
  
   const searchNotEmpty = searchInput !== ""
@@ -39,11 +41,13 @@ const SearchScreen = (props) => {
           <li style={{listStyle:"none"}}> <input type="radio" value="Quiz" name="option" defaultChecked /> Quiz </li>
           <li style={{listStyle:"none"}}> <input type="radio" value="Platform" name="option" /> Platform </li>
           <li style={{listStyle:"none"}}> <input type="radio" value="User" name="option" /> User </li>
+          <li style={{listStyle:"none"}}> <input type="radio" value="Category" name="option" /> Category </li>
           <li style={{listStyle:"none"}}> <input type="radio" value="Tag" name="option" /> Tag </li>
         </div>
 
         <div className = "row-cols-auto" style={{overflow:"auto"}}> 
           {searchNotEmpty && value==="Quiz" && quizzes && quizzes?.map((quiz, index) => <SearchQuizCard key={index} quiz={quiz} home={true} history={props.history}/> )}
+          {searchNotEmpty && value==="Category" && categories && categories?.map((quiz, index) => <SearchQuizCard key={index} quiz={quiz} home={true} history={props.history}/> )}
           {searchNotEmpty && value==="Tag" && taggedQuizzes && taggedQuizzes?.map((quiz, index) => <SearchQuizCard key={index} quiz={quiz} home={true} history={props.history}/> )}
           {searchNotEmpty && value==="Platform" && platforms && platforms?.map((platform, index) => <PlatformCard key={index} platform={platform} home={true} history={props.history}/> )}
         </div>

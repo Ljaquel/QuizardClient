@@ -3,9 +3,10 @@ import React, { useState } from 'react'
 import Style from './Style'
 import QuestionsList from './QuestionsList'
 import Images from './Images'
+import categories from '../../util/Categories'
 
 const BuilderSideBar = ({ quiz, updateField, positionState }) => {
-  const { _id, tags, difficulty, time, style, backgroundImage, content, thumbnail } = quiz
+  const { _id, tags, difficulty, time, style, backgroundImage, content, thumbnail, category } = quiz
   const [tag, setTag] = useState("")
 
   const AddTag = () => {
@@ -45,12 +46,26 @@ const BuilderSideBar = ({ quiz, updateField, positionState }) => {
       <div className="row px-2">
         <div className="col">
           <div className="input-group mb-3">
+            <label className="input-group-text" htmlFor="categorySelect">Category</label>
+            <select id="categorySelect" className="form-select form-select-sm" value={category} onInput={e => updateField("category", e.target.value)}>
+              {categories && categories.map((c, i) => 
+                <option value={c} key={i} >{c}</option>
+              )}
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+      <div className="row px-2">
+        <div className="col">
+          <div className="input-group mb-3">
             <label className="input-group-text" htmlFor="difficultySelect">Dificulty</label>
             <select id="dificultySelect" className="form-select form-select-sm" value={difficulty} onInput={e => updateField("difficulty", e.target.value)}>
-              <option value="easy" >Easy</option>
-              <option value="medium" >Medium</option>
-              <option value="hard" >Hard</option>
-              <option value="expert">Expert</option>
+              <option value="Easy" >Easy</option>
+              <option value="Medium" >Medium</option>
+              <option value="Hard" >Hard</option>
+              <option value="Expert">Expert</option>
             </select>
           </div>
         </div>
