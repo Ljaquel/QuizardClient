@@ -31,13 +31,14 @@ const Home = (props) => {
       <div className="row px-3 pb-2 pt-5">
         <h1 className=" col-3">Quizard</h1>
       </div>
-      <div className="row container-fluid">
+      <div className="d-flex align-items-center justify-content-between">
         <div className="col left-panel">
           <div
             style={{
               width: "300px",
               height: "75vh",
-              backgroundColor: "#1C8E96"
+              backgroundColor: "#1C8E96",
+              float: "left"
             }}
           >
             {" "}
@@ -51,7 +52,8 @@ const Home = (props) => {
             style={{
               width: "300px",
               height: "75vh",
-              backgroundColor: "#BD3939"
+              backgroundColor: "#BD3939",
+              float: "right"
             }}
           ></div>
         </div>
@@ -65,8 +67,8 @@ const Home = (props) => {
             </div>
           ))}
       </div> */}
-      <div className="row row-cols-auto container-fluid">
-        <div className="col">
+      <div className="row">
+        <div className="col align-self-start">
           <Panel
             title="Featured Quizzes"
             type="quiz"
@@ -75,7 +77,7 @@ const Home = (props) => {
             home={true}
           />
         </div>
-        <div className="col">
+        <div className="col align-self-center">
           <Panel
             title="Trending Quizzes"
             type="quiz"
@@ -84,7 +86,7 @@ const Home = (props) => {
             home={true}
           />
         </div>
-        <div className="col">
+        <div className="col align-self-end">
           <Panel
             title="Community Rewards"
             type="rewards"
