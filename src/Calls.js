@@ -130,8 +130,8 @@ const RESULT_ATTRIBUTES = gql`
 `;
 
 export const FETCH_SEARCH_RESULTS_QUERY = gql`
-  query getSearchResultsQuery($query: String!, $searchFilter: String) {
-    getSearchResults(query: $query, searchFilter: $searchFilter) {
+  query getSearchResultsQuery($query: String!, $searchFilter: String, $filter: SearchResultFilter) {
+    getSearchResults(query: $query, searchFilter: $searchFilter, filter: $filter) {
       ... on User {
         ...userAttributes
       }
