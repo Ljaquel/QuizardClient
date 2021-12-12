@@ -5,6 +5,7 @@ import Loading from '../Loading'
 import { BsFillPlayFill } from 'react-icons/bs';
 import { CREATE_COMMENT, DELETE_COMMENT, UPDATE_RESULT, UPDATE_QUIZ_MUTATION, FETCH_RESULTS_QUERY,FETCH_USER_QUERY,FETCH_SEARCH_RESULTS_QUERY} from "../../Calls";
 import Rating from '@mui/material/Rating';
+import QuizHomeCard from './QuizHomeCard';
 
 const QuizHome = ({ quiz, user, setScreen, refetchQuiz, history }) => {
   const [comment, setComment] = useState("");
@@ -19,8 +20,8 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz, history }) => {
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
     variables: { userId: quiz?.creator._id }
   })
-  // const { data: tagsData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, { variables: { query: "math", searchFilter:"Tag" } });
-  // const taggedQuizzes = tagsData?.getSearchResults
+  const { data: tagsData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, { variables: { query: quiz?.tags[0], searchFilter:"Tag" } });
+  const taggedQuizzes = tagsData?.getSearchResults
 
   const creator = creatorData?.getUser
   const result = data?.getResults[0]
@@ -65,14 +66,14 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz, history }) => {
   if(loading || !creator) return <Loading />
 
 
+
   return (
     <div className="container-fluid d-flex flex-column overflow-auto">
       
       <div className="row vh-100 px-1"> 
         <div className="col-2 px-0 rounded-top border border-1">
-          <h2 className="rounded-top text-center"  style={{backgroundColor:creator.color}}> Similar </h2>
-          {/* {quiz.tags[0]}
-          {taggedQuizzes && taggedQuizzes?.map((myquiz, index) => <h1> {myquiz.name}  </h1>  )} */}
+          <h2 className="rounded-top text-center"  style={{backgroundColor:creator.color}}> Similar </h2> 
+          {taggedQuizzes && taggedQuizzes?.map((myquiz, index) => myquiz._id===quiz._id? <></>:<QuizHomeCard   key={index} quiz={myquiz} home={true} history={history}/> )} 
         </div>
 
         <div className="col-8 d-flex flex-column px-1">
