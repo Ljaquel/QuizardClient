@@ -11,18 +11,32 @@ const SearchScreen = (props) => {
   const [value, setValue] = useState("Quiz");
 
   const { data: usersData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, {
+    onError(err) {
+      console.log(JSON.stringify(err, null, 2));
+    },
     variables: { query: searchInput, searchFilter: "User" }
   });
   const { data: quizzesData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, {
+    onError(err) {
+      console.log(JSON.stringify(err, null, 2));
+    },
     variables: { query: searchInput, searchFilter: "Quiz" }
   });
   const { data: tagsData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, {
+    onError(err) {
+      console.log(JSON.stringify(err, null, 2));
+    },
     variables: { query: searchInput, searchFilter: "Tag" }
   });
-  // const { data: platformsData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, { onError(err) { console.log(JSON.stringify(err, null, 2)) }, variables: { query: searchInput, searchFilter:"Platform" } });
+  const { data: platformsData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, {
+    onError(err) {
+      console.log(JSON.stringify(err, null, 2));
+    },
+    variables: { query: searchInput, searchFilter: "Platform" }
+  });
 
   const users = usersData?.getSearchResults;
-  // const platforms = platformsData?.getSearchResults
+  const platforms = platformsData?.getSearchResults;
   const quizzes = quizzesData?.getSearchResults;
   const taggedQuizzes = tagsData?.getSearchResults;
 
