@@ -62,7 +62,7 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz, history }) => {
 
   const goToC = () => { history.push(`/profile/${creator._id}`) }
 
-  if(loading) return <Loading />
+  if(loading || !creator) return <Loading />
 
 
   return (
