@@ -1,0 +1,2 @@
+const categories = ["Other", 'Animal', 'Art', 'Automotive', 'Baseball', 'Basketball', 'Biology', 'Canada', 'Chemistry', 'Computer Science', 'Finance', 'Food', 'Football', 'Geography', 'History', 'Languages', 'Movies', 'Music', 'Physics', 'Political', 'Science', 'Space', 'Sports', 'Stony Brook University', 'Technology', 'United States', 'Gaming', 'World']
+export default categories

@@ -26,16 +26,16 @@ const Home = (props) => {
   const { getQuizzes: quizzes } = data;
   const featuredQuizzes = quizzes.filter((quiz) => quiz?.rating > 0);
   const trendingQuizzes = quizzes.filter((quiz) => quiz?.ratingCount > 0);
-  let sortedRating = [...quizzes].sort((a, b) => a.rating<b.rating?1:a.rating===b.rating?0:-1).slice(0, 3)
+  let carouselQuizzes = [...quizzes].sort((a, b) => a?.rating<b?.rating?1:a?.rating===b?.rating?0:-1).slice(0, 3)
 
   return (
-    <div className="container-fluid pb-5">
+    <div className="container-fluid pb-3">
 
-      <div className="row px-0 mb-5">
-        <HomeCarousel quizzes={sortedRating} history={props.history}/>
+      <div className="row px-0">
+        <HomeCarousel quizzes={carouselQuizzes} history={props.history}/>
       </div>
 
-      <div className="row row-cols-auto container-fluid">
+      <div className="row row-cols-auto container-fluid pt-1">
         <div className="col">
           <Panel
             title="Featured Quizzes"
@@ -72,13 +72,11 @@ const Home = (props) => {
       </div>
 
       <div className="row row-cols-auto g-3">
-        {contextUserId &&
-          quizzes &&
-          quizzes.map((quiz, index) => (
-            <div className="col" key={index}>
-              <QuizCard quiz={quiz} home={true} history={props.history} />
-            </div>
-          ))}
+        {quizzes && quizzes.map((quiz, index) => (
+          <div className="col" key={index}>
+            <QuizCard quiz={quiz} home={true} history={props.history} />
+          </div>
+        ))}
       </div>
 
     </div>

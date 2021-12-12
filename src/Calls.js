@@ -44,6 +44,7 @@ const QUIZ_ATTRIBUTES = gql`
       name
     }
     timesPlayed
+    usersThatPlayed
     time
     rating
     ratingCount
@@ -65,6 +66,7 @@ const QUIZ_ATTRIBUTES = gql`
       choiceColor
     }
     tags
+    category
     stats {
       averageScore
       lowestScore
@@ -114,11 +116,14 @@ const RESULT_ATTRIBUTES = gql`
     quizId
     score
     time
+    timesTaken
     badges
     record
     last
+    lastTime
     lastRecord
     rating
+    bestAttemptAt
     modifiedAt
     createdAt
   }
