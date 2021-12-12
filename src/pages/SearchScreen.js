@@ -119,9 +119,9 @@ const SearchScreen = (props) => {
           {searchNotEmpty &&
             value === "User" &&
             users &&
-            users.map((currentUser, index) => (
+            users.map((user, index) => (
               <div className="col" key={index}>
-                <UserCard currentUser={currentUser} history={props.history} />
+                <UserCard user={user} history={props.history} />
               </div>
             ))}
         </div>

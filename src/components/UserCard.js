@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-function UserCard({ home, user }) {
+function UserCard({ user }) {
   const history = useHistory();
   // const { contextUserId } = useContext(AuthContext);
   return (
@@ -13,22 +13,30 @@ function UserCard({ home, user }) {
       <div className="row g-0 h-100">
         <div className="col-5 px-1 py-1 h-100">
           <img
-            className="img-thumbnail"
+            className=" rounded-circle"
             src={
               user?.avatar?.url
                 ? user?.avatar?.url
                 : "https://res.cloudinary.com/ljaquel/image/upload/v1637970039/admin/imagePlaceholder_fxpfme.png"
             }
-            style={{ padding: "0.10rem", backgroundColor: "#fff" }}
+            style={{
+              // padding: "0.10rem",
+              backgroundColor: "#fff",
+              maxWidth: "150px",
+              // maxHeight: "150px",
+              height: "80%",
+              width: "100%"
+            }}
             alt="..."
           />
         </div>
         <div className="col-7 border-start h-100">
           <div className="card-body">
             <h5 className="card-title">{user?.name}</h5>
+            <p className="card-text">Level: {user?.level}</p>
             <p className="card-text">Points: {user?.points}</p>
             <p className="card-text">
-              Followers: {user?.followers.length} | Following:{" "}
+              Followers: {user?.followers?.length} | Following:{" "}
               {user?.following.length}
             </p>
           </div>
