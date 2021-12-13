@@ -175,6 +175,17 @@ export const FETCH_QUIZ_QUERY = gql`
   ${QUIZ_ATTRIBUTES}
 `;
 
+export const FETCH_QUIZ_STATS = gql `
+  query getQuizStats($quizId: ID!) {
+    getQuizStats(quizId: $quizId) {
+      averageScore
+      lowestScore
+      highestScore
+      averageTime
+    }
+  }
+`;
+
 export const FETCH_PLATFORMS = gql`
   query fetchPlatforms($filters: PlatformInput) {
     getPlatforms(filters: $filters) {

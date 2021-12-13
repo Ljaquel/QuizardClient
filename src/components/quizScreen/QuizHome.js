@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import moment from 'moment';
 import Loading from '../Loading'
 import { BsFillPlayFill } from 'react-icons/bs';
-import { CREATE_COMMENT, DELETE_COMMENT, UPDATE_RESULT, UPDATE_QUIZ_MUTATION, FETCH_RESULTS_QUERY,FETCH_USER_QUERY,FETCH_QUIZZES_QUERY} from "../../Calls";
+import { CREATE_COMMENT, DELETE_COMMENT, UPDATE_RESULT, FETCH_QUIZ_STATS, UPDATE_QUIZ_MUTATION, FETCH_RESULTS_QUERY,FETCH_USER_QUERY,FETCH_QUIZZES_QUERY} from "../../Calls";
 import Rating from '@mui/material/Rating';
 import QuizHomeCard from './QuizHomeCard';
 
@@ -11,6 +11,13 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz, history }) => {
   const [comment, setComment] = useState("");
   const [waitingOne, setWaitingOne] = useState(false);
   const [waitingTwo, setWaitingTwo] = useState(false);
+
+  const { data:statsData } = useQuery(FETCH_QUIZ_STATS, {
+    onError(err) { console.log(JSON.stringify(err, null, 2)) },
+    variables: { quizId: quiz?._id }
+  })
+
+  const quizStats = statsData?.getQuizStats
 
   const { data, loading, refetchResult } = useQuery(FETCH_RESULTS_QUERY, {
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
@@ -88,15 +95,29 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz, history }) => {
           </div>
 
           <div className="rounded-top mb-2">
-            <h4 className="rounded-top text-center py-1 m-0" style={{backgroundColor:creator.color}}>Quiz Info</h4> 
+            <h4 className="rounded-top text-center py-1 m-0" style={{backgroundColor:creator.color}}>Info</h4> 
             <div className="list-group-item d-flex justify-content-between"> <small>Time: </small> <small>  { quiz.time.substring(3, 5)} mins </small> </div>
             <div className="list-group-item d-flex justify-content-between"> <small>Points: </small> <small> 100 </small> </div>        
             <div className="list-group-item d-flex justify-content-between"> <small>Questions: </small> <small>  {quiz.content.length} </small> </div>
             <div className="list-group-item d-flex justify-content-between"> <small>Dificulty: </small> <small>  {quiz.difficulty} </small> </div>    
-            <div className="list-group-item d-flex justify-content-between"> <small>Category: </small> <small>  {quiz.category} </small> </div>
-            <div className="list-group-item d-flex justify-content-between"> <small>Played {quiz.timesPlayed} time{quiz.timesPlayed===1?'':'s'} among {quiz.usersThatPlayed} distinct user{quiz.usersThatPlayed===1?'':'s'} </small> </div>    
-            <div className="list-group-item "> <small> Quiz Rating: </small> <small> <Rating name="readOnly" value={quiz.rating} readOnly precision={0.5}/> </small> </div>
-            <div className="list-group-item "> <small> Your Rating: </small> <Rating name={waitingOne || waitingTwo || !result ? "disabled" : "simple-controlled"} value={result?.rating && result.rating >= 0 ? result.rating : null} disabled={!result || waitingOne || waitingTwo} onChange={(e, v) => onRatingClick(v)} precision={0.5} /> </div>
+            <div className="list-group-item d-flex justify-content-between"> <small>Category: </small> <small>  {quiz.category} </small> </div>    
+            
+            <div className="list-group-item p-0 pt-2">
+              <div className="d-flex justify-content-center pt-2 pb-1"><small>Ratings</small></div>
+              <div className="list-group-item d-flex justify-content-between"> <small>Count: </small> <small>  {quiz.ratingCount}  </small> </div>
+              <div className="list-group-item d-flex justify-content-between"> <small>Overall: </small> <small>  <Rating name="readOnly" value={quiz.rating} readOnly precision={0.5}/>  </small> </div>
+              <div className="list-group-item d-flex justify-content-between"> <small>Yours: </small> <small> <Rating name={waitingOne || waitingTwo || !result ? "disabled" : "simple-controlled"} value={result?.rating && result.rating >= 0 ? result.rating : null} disabled={!result || waitingOne || waitingTwo} onChange={(e, v) => onRatingClick(v)} precision={0.5} /> </small> </div>
+            </div>
+            
+          </div>
+
+          <div className="rounded-top mb-2">
+            <h4 className="rounded-top text-center py-1 m-0" style={{backgroundColor:creator.color}}>Stats</h4> 
+            <div className="list-group-item d-flex justify-content-between"> <small>Played {quiz.timesPlayed} time{quiz.timesPlayed===1?'':'s'} among {quiz.usersThatPlayed} distinct user{quiz.usersThatPlayed===1?'':'s'} </small> </div>
+            <div className="list-group-item d-flex justify-content-between"> <small>Avg Score: </small> <small>  {quizStats?.averageScore} points </small> </div>
+            <div className="list-group-item d-flex justify-content-between"> <small>Avg Time: </small> <small> {quizStats?.averageTime} mins </small> </div>        
+            <div className="list-group-item d-flex justify-content-between"> <small>Lowest Score: </small> <small>  {quizStats?.lowestScore} points  </small> </div>
+            <div className="list-group-item d-flex justify-content-between"> <small>Highest Score: </small> <small>  {quizStats?.highestScore} points  </small> </div>    
           </div>
 
         </div>
@@ -144,7 +165,7 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz, history }) => {
         <div className="col-2 px-0 pt-1 px-1">
 
           <div className="rounded-top mb-2">
-            <h4 className="rounded-top text-center py-1 m-0" style={{backgroundColor:creator.color}}>History</h4>
+            <h4 className="rounded-top text-center py-1 m-0" style={{backgroundColor:creator.color}}>Your History</h4>
             {result ?
               <>
                 <div className="list-group-item p-0">
@@ -158,6 +179,7 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz, history }) => {
                   <div className="list-group-item d-flex justify-content-between"> <small>Time: </small> <small> { result.lastTime.substring(3, 8) }</small> </div>
                 </div>
                 <div className="list-group-item d-flex justify-content-center px-2"> <small>First taken { moment(result.createdAt).fromNow() }</small> </div>
+                <div className="list-group-item d-flex justify-content-between"> <small>Total # of attempts: </small> <small>  {result.timesTaken}  </small> </div>
               </>
               :
               <div className="list-group-item d-flex justify-content-between"> <small>Not taken yet</small> <small> N/A </small> </div>

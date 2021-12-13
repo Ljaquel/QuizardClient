@@ -63,14 +63,21 @@ const ProfileBanner = ({ user }) => {
             </div>
           </div>
 
+          <div className="row mx-0 justify-content-center pt-1 pb-1">
+            <div className="col col-auto"> 
+              {!(user?._id===contextUserId) &&
+                <button className={`btn btn-lg btn${following?'-outline':''}-dark p-0 px-2`} onClick={onFollow}> {following ? 'Follow' : 'Following'} </button> } 
+            </div>
+          </div>
+
           <div className="row mx-0 mt-3 pb-1 justify-content-center">
             <div className="col-auto px-0 pt-4"> 
-              <span className="badge bg-light text-dark" style={{fontSize: '20px'}}>Level {user?.level}</span>
+              <span className="badge bg-dark" style={{fontSize: '17px'}}>Level {user?.level}</span>
             </div>
           </div>
           <div className="row mx-0 justify-content-center">
             <div className="col-auto px-0"> 
-              <span className="badge bg-light text-dark" style={{fontSize: '20px'}}>{user?.points} Points</span>
+              <span className="badge bg-dark" style={{fontSize: '16px'}}>{user?.points} Points</span>
             </div>
           </div>
 
@@ -87,13 +94,6 @@ const ProfileBanner = ({ user }) => {
             <div className="col"></div>
             <div className="col-auto">
               <span className="badge bg-light text-success p-1">{end}</span>
-            </div>
-          </div>
-
-          <div className="row mx-0 justify-content-end">
-            <div className="col col-auto"> 
-              {!(user?._id===contextUserId) &&
-                <button className="btn btn-md bg-light border border-1 p-0 px-2" onClick={onFollow}> {following ? 'Follow' : 'Following'} </button> } 
             </div>
           </div>
         
