@@ -69,10 +69,10 @@ const ProfileBanner = ({ user, history }) => {
   return(
     <div className="container-fluid px-0 h-100 pt-3" style={{backgroundColor: user.color}}>
           <div className="row mx-0 justify-content-end">
-            <div className="col col-auto"> 
+            {/* <div className="col col-auto"> 
               {!(user?._id===contextUserId) &&
                 <button className= {following? "btn btn-secondary btn-sm": "btn btn-success btn-sm"}   onClick={onFollow} > {following ? 'Follow' : 'Following'} </button> } 
-            </div>
+            </div> */}
           </div>
           <div className="row justify-content-center"  >
             <div className="ms-auto me-auto d  col-auto my-3 rounded-circle border border-1" style={{ width: "150px", height:"150px", backgroundPosition:"center", backgroundSize: 'cover', 
@@ -110,15 +110,6 @@ const ProfileBanner = ({ user, history }) => {
             </div>
           </div>
 
-          <div className="row mx-0 mt-3 ">
-            <div className="col-6">  
-              <Button variant="success" className=" btn text-light  " style={{}} onClick={handleShowFollowers}> Followers </Button>
-            </div>
-            <div className="col-6"> 
-              <Button variant="success" className=" btn text-light  " style={{}} onClick={handleShowFollowing}> Following </Button>
-          </div>
-        </div>
-{/* -------------------------------------------------- */}
           <div className="row mx-0 justify-content-center px-1">
             <div className="col-12 pt-2"> 
               <div className="progress" style={{height: '10px'}}>
@@ -133,14 +124,25 @@ const ProfileBanner = ({ user, history }) => {
               <span className="badge bg-light text-success p-1">{end}</span>
             </div>
           </div>
+          <div className="row mx-0 mt-3 pb-1 justify-content-center">
+            <div className="col-auto px-0 pt-4"> 
+            <Button variant="success" className=" btn text-light  " style={{}} onClick={handleShowFollowers}> Followers {[ ...userMain?.followers ].length} </Button>
+            </div>
+          </div>
+          <div className="row mx-0 justify-content-center">
+            <div className="col-auto px-0"> 
+            <Button variant="success" className=" btn text-light  " style={{}} onClick={handleShowFollowing}> Following {[ ...userMain?.following ].length}</Button>
+            </div>
+          </div>
 
           <Modal show={showFollowers} onHide={handleCloseFollowers}>
             <Modal.Header closeButton> <Modal.Title>Followers</Modal.Title> </Modal.Header>
             <Modal.Body>
               <div style={{ maxWidth: "800px" }}> 
                 <div className="row">
-                  <div className="col-5"> <p>Name </p> </div> 
-                  <div className="col-5"> <p>Username </p> </div>
+                <div className="col-4"> <p>Avatar </p> </div> 
+                  <div className="col-4"> <p>Name </p> </div> 
+                  <div className="col-4"> <p>Username </p> </div>
                 </div> 
                 { [ ...userMain?.followers ] && [ ...userMain?.followers ].map((userId, index) => <ProfileBannerFollow history={history} userId={userId} /> )} 
               </div>   
@@ -153,8 +155,9 @@ const ProfileBanner = ({ user, history }) => {
             <Modal.Body>
               <div style={{ maxWidth: "800px" }}> 
                 <div className="row">
-                  <div className="col-5"> <p>Name </p> </div> 
-                  <div className="col-5"> <p>Username </p> </div>
+                <div className="col-4"> <p>Avatar </p> </div> 
+                  <div className="col-4"> <p>Name </p> </div> 
+                  <div className="col-4"> <p>Username </p> </div>
                 </div> 
                 { [ ...userMain?.following ] && [ ...userMain?.following ].map((userId, index) => <ProfileBannerFollow history={history} userId={userId} /> )} 
               </div>   
