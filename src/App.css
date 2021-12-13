@@ -141,3 +141,9 @@ body {
 .builder-btn-hover:hover {
   background-color: rgb(213, 235, 255);
 }
+
+.profile-banner-followers:hover {
+  background-color: rgb(240, 240, 240);
+  border-color: rgb(126, 152, 189) !important;
+  cursor: pointer;
+}
