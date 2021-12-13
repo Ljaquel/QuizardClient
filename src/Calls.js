@@ -130,8 +130,8 @@ const RESULT_ATTRIBUTES = gql`
 `;
 
 export const FETCH_SEARCH_RESULTS_QUERY = gql`
-  query getSearchResultsQuery($query: String!, $searchFilter: String, $filter: SearchResultFilter) {
-    getSearchResults(query: $query, searchFilter: $searchFilter, filter: $filter) {
+  query getSearchResultsQuery($query: String!, $searchFilter: String, $sorting: SortingInput, $filter: SearchResultFilter) {
+    getSearchResults(query: $query, searchFilter: $searchFilter, sorting: $sorting, filter: $filter) {
       ... on User {
         ...userAttributes
       }
@@ -173,6 +173,17 @@ export const FETCH_QUIZ_QUERY = gql`
     }
   }
   ${QUIZ_ATTRIBUTES}
+`;
+
+export const FETCH_QUIZ_STATS = gql `
+  query getQuizStats($quizId: ID!) {
+    getQuizStats(quizId: $quizId) {
+      averageScore
+      lowestScore
+      highestScore
+      averageTime
+    }
+  }
 `;
 
 export const FETCH_PLATFORMS = gql`

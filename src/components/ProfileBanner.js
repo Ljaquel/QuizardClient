@@ -8,6 +8,9 @@ import { Modal, Button } from "react-bootstrap";
 import ProfileBannerFollow from "./ProfileBannerFollow";
 import { useParams } from "react-router";
 
+
+const breaks = [0, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200]
+
 const ProfileBanner = ({ user, history }) => {
   const { contextUserId } = useContext(AuthContext);
   const [following, setFollowing] = useState()
@@ -58,6 +61,10 @@ const ProfileBanner = ({ user, history }) => {
   const handleShowFollowing = () => setShowFollowing(true); 
 
   if(!user || !visitor) return <Loading/>
+
+  let percentage = user?.level ? ( (user.points-breaks[user.level-1]) / (breaks[user.level]-breaks[user.level-1]) * 100 )   : '0'
+  let start = user?.level ?  breaks[user.level-1]+'' : '0'
+  let end = user?.level ? breaks[user.level]+''  : '100'
   
   return(
     <div className="container-fluid px-0 h-100 pt-3" style={{backgroundColor: user.color}}>
@@ -82,13 +89,24 @@ const ProfileBanner = ({ user, history }) => {
               <span style={{fontSize: '20px'}}>@{user?.username}</span>
             </div>
           </div>
-
-          <div className="row mx-0 mt-3 justify-content-center">
-            <div className="col col-auto px-0 pe-2"> 
-              <span className="badge bg-dark" style={{fontSize: '20px'}}>{user?.points} Points</span>
+                 
+          <div className="row mx-0 justify-content-center pt-1 pb-1">
+            <div className="col col-auto">
+             
+               
+              {!(user?._id===contextUserId) &&
+                <button className={`btn btn-lg btn${following?'-outline':''}-dark p-0 px-2`} onClick={onFollow}> {following ? 'Follow' : 'Following'} </button> } 
             </div>
-            <div className="col col-auto px-0"> 
-              <span className="badge bg-dark" style={{fontSize: '20px'}}>Level {user?.level}</span>
+          </div>
+
+          <div className="row mx-0 mt-3 pb-1 justify-content-center">
+            <div className="col-auto px-0 pt-4"> 
+              <span className="badge bg-dark" style={{fontSize: '17px'}}>Level {user?.level}</span>
+            </div>
+          </div>
+          <div className="row mx-0 justify-content-center">
+            <div className="col-auto px-0"> 
+              <span className="badge bg-dark" style={{fontSize: '16px'}}>{user?.points} Points</span>
             </div>
           </div>
 
@@ -98,6 +116,21 @@ const ProfileBanner = ({ user, history }) => {
             </div>
             <div className="col-6"> 
               <Button variant="success" className=" btn text-light  " style={{}} onClick={handleShowFollowing}> Following </Button>
+          </div>
+        </div>
+{/* -------------------------------------------------- */}
+          <div className="row mx-0 justify-content-center px-1">
+            <div className="col-12 pt-2"> 
+              <div className="progress" style={{height: '10px'}}>
+                <div className="progress-bar progress-bar-striped bg-success" role="progressbar" style={{ width: percentage+'%' }} aria-valuenow={percentage} aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div className="col-auto">
+              <span className="badge bg-light text-success p-1">{start}</span>
+            </div>
+            <div className="col"></div>
+            <div className="col-auto">
+              <span className="badge bg-light text-success p-1">{end}</span>
             </div>
           </div>
 

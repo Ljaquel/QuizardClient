@@ -14,7 +14,7 @@ const Workspace = ({ backgroundImage, content, updateField, positionState, style
   const [position, setPosition] = positionState
   if (count === 0) setPosition(-1)
 
-  const canAdd = count < 10
+  const canAdd = count < 20
   const canDelete = count > 1
 
   const Add = () => <button className="btn btn-sm btn-light builder-btn-hover" disabled={!canAdd} onClick={() => AddQuestion()}><TiDocumentAdd size={20}/></button>
