@@ -5,6 +5,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { UPDATE_USER, CREATE_RESULT, FETCH_RESULTS_QUERY, UPDATE_RESULT, UPDATE_QUIZ_MUTATION } from '../../Calls'
 import QuizInSessionNav from './playground/QuizInSessionNav'
 import moment from 'moment'
+import { getLevel } from "../../util/level";
 
 const QuizInSession = ({ user, quiz, setScreen}) => {
   const { contextUserId } = useContext(AuthContext)
@@ -95,14 +96,18 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
         lastRecord: record
       }
       createResult({ variables: { input: {...newResult} }})
-      let updates = { points: user.points+score }
+      let points = user.points + score;
+      let level = getLevel(user.level, points);
+      let updates = { points, level };
       updateUser({ variables: { update: updates }})
       updateQuiz({ variables: { update: { timesPlayed: quiz.timesPlayed+1, usersThatPlayed: quiz.usersThatPlayed+1 } }})
     }
     else {
       if(result.score < score) {
         updateResult({ variables: { resultId: result._id, update: { score: score, time: time, record: rec.map((x) => x.answer), last: score, lastRecord: record, lastTime: time, timesTaken: result.timesTaken+1 } }})
-        let updates = { points: (user.points-result.score+score) }
+        const points = user.points - result.score + score;
+        const level = getLevel(user.level, points);
+        let updates = { points, level };
         updateUser({ variables: { update: updates }})
         updateQuiz({ variables: { update: { timesPlayed: quiz.timesPlayed+1 } }})
       }
