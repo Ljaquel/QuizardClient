@@ -129,6 +129,32 @@ const RESULT_ATTRIBUTES = gql`
   }
 `;
 
+const NOTIFICATION_ATTRIBUTES = gql`
+  fragment notificationAttributes on Notification {
+    _id
+    type
+    to {
+      _id
+      name
+    }
+    fromU {
+      _id
+      name
+    }
+    fromP {
+      _id
+      name
+    }
+    subject {
+      _id
+      name
+    }
+    message
+    seen
+    createdAt
+  }
+`;
+
 export const FETCH_SEARCH_RESULTS_QUERY = gql`
   query getSearchResultsQuery($query: String!, $searchFilter: String, $sorting: SortingInput, $filter: SearchResultFilter) {
     getSearchResults(query: $query, searchFilter: $searchFilter, sorting: $sorting, filter: $filter) {
@@ -176,7 +202,7 @@ export const FETCH_QUIZ_QUERY = gql`
 `;
 
 export const FETCH_QUIZ_STATS = gql `
-  query getQuizStats($quizId: ID!) {
+  query getQuizStats($quizId: ID) {
     getQuizStats(quizId: $quizId) {
       averageScore
       lowestScore
@@ -277,6 +303,21 @@ export const DELETE_QUIZ_MUTATION = gql`
 export const UPDATE_QUIZ_MUTATION = gql`
   mutation updateQuizMutation($quizId: ID!, $update: QuizInput) {
     updateQuiz(quizId: $quizId, update: $update)
+  }
+`;
+
+export const FETCH_NOTIFICATIONS = gql`
+  query getNotifications($filters: NotificationInput) {
+    getNotifications(filters: $filters) {
+      ...notificationAttributes
+    }
+  }
+  ${NOTIFICATION_ATTRIBUTES}
+`;
+
+export const UPDATE_NOTIFICATION_MUTATION = gql`
+  mutation updateNotificationMutation($notificationId: ID, $seen: Boolean) {
+    updateNotification(notificationId: $notificationId, seen: $seen)
   }
 `;
 
