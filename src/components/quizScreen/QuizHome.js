@@ -139,17 +139,17 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz, history }) => {
               <h5>Comments</h5>
             </div>
             <div className="row pt-2 px-0">
-                <div className="col-12">
+                <div className="col">
                   <input type="text" className="form-control" placeholder="Enter a comment" value={comment} onChange={e => setComment(e.target.value)} />
                 </div>
                 <div className="col-auto ms-auto">
                   <button onClick={() => createComment({ variables: {body: comment}})} className="btn btn-primary btn-sm">Post</button>
                 </div>
               </div>
-            {quiz.comments && quiz.comments.map((comment) => (
+            {quiz.comments && quiz.comments.length > 1 && quiz.comments.map((comment) => (
               <div key={comment._id} className="row rounded border border-1 m-0">
                 <div className="col">
-                  <span className="badge bg-primary">{comment.user.username}</span>
+                  <span className="badge bg-primary">{comment.user?.username}</span>
                   <span> - <small>{moment(comment.createdAt).fromNow()}</small></span>
                   <p>{comment.body}</p>
                 </div>

@@ -1,11 +1,12 @@
 import React, { useContext, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
+import moment from 'moment'
 
 import ProfileBanner from '../components/ProfileBanner'
 import PlatformCard from '../components/PlatformCard'
 import Loading from '../components/Loading'
 import PageNotFound from '../pages/PageNotFound'
-import { CREATE_PLATFORM, FETCH_PLATFORMS, FETCH_USER_QUERY } from '../Calls'
+import { CREATE_PLATFORM, FETCH_PLATFORMS, FETCH_USER_QUERY, FETCH_RESULTS_QUERY } from '../Calls'
 import { useParams } from 'react-router'
 import CreatePlatformPopUp from '../components/CreatePlatformPopUp'; 
 import { AuthContext } from '../context/auth'
@@ -22,9 +23,17 @@ const Profile = (props) => {
     },
     variables: { filters: { creator: user?._id } } });
 
+  const { data:resultsData, refetch:refetchResult } = useQuery(FETCH_RESULTS_QUERY, {
+    onError(err) { console.log(JSON.stringify(err, null, 2));console.log("refetchResult Error") },
+    variables: { filters: { userId: siteUserId } }
+  })
+
+  const results = resultsData?resultsData.getResults:[]
+
   useEffect(() => {
     refetch()
-  }, [refetch]);
+    refetchResult()
+  }, [refetch, refetchResult]);
 
   const [addPlatform] = useMutation(CREATE_PLATFORM, {
     variables: { name: "Default Platform Name", creatorId: contextUserId },
@@ -74,7 +83,35 @@ const Profile = (props) => {
               </div>
             </div>
             <div className="tab-pane fade" id="rewards" role="tabpanel" aria-labelledby="rewards-tab">...</div>
-            <div className="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">...</div>
+            <div className="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+              <div className="row row-cols-auto g-3 p-1">
+                {results && results.map((r, i) => (
+                  <div className="col p-2" key={i}>
+                    <div className="container-fluid border border-2 p-2 leaderboard-card pointer" style={{width: '400px'}}>
+                      <div className="row p-0 m-0 justify-content-center border-bottom">
+                        <div className="col-auto m-auto pb-2">Quiz Name</div>
+                      </div>
+                      <div className="row p-0 m-0">
+                        <div className="col-auto border-end">
+                          <div>Best Score: {r.score}</div>
+                          <div>Best Time: {r.time.substring(3, 8)} mins</div>
+                          <div>{moment(r?.bestAttemptAt).fromNow()}</div>
+
+                        </div>
+
+                        <div className="col-auto">
+                          <div>Last Score: {r.last}</div>
+                          <div>Last Time: {r.lastTime.substring(3, 8)} mins</div>
+                        </div>
+                      </div>
+                      <div className="row p-0 m-0 justify-content-center border-top pt-2">
+                        <div className="col-auto m-auto pb-2">Taken {r.timesTaken} time{r.timesTaken===1?'':'s'} in total</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
         </div>
