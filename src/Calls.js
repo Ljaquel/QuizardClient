@@ -1,5 +1,18 @@
 import { gql } from "@apollo/client";
 
+const BADGE_ATTRIBUTES = gql`
+  fragment badgeAttributes on Badge {
+    _id
+    resultId
+    description
+    title
+    points
+    createdAt
+    modifiedAt
+    badgeType
+  }
+`;
+
 const PLATFORM_ATTRIBUTES = gql`
   fragment platformAttributes on Platform {
     _id
@@ -472,4 +485,13 @@ export const FETCH_TRENDING_QUIZZES = gql`
     }
   }
   ${QUIZ_ATTRIBUTES}
+`;
+
+export const FETCH_BADGES = gql`
+  query fetchBadges($filter: BadgeInput, $limit: Int) {
+    getBadges(filter: $filter, limit: $limit) {
+      ...badgeAttributes
+    }
+  }
+  ${BADGE_ATTRIBUTES}
 `;
