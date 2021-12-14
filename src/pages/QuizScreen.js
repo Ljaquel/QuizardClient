@@ -32,7 +32,7 @@ const QuizScreen = (props) => {
   return (
     screen === 1 ? <QuizHome quiz={quiz} user={user} setScreen={setScreen} refetchQuiz={refetchQuiz} history={props.history}/> :
     screen === 2 ? <QuizInSession quiz={quiz} user={user} setScreen={setScreen}/> :
-    screen === 3 ? <QuizResults quiz={quiz} user={user} setScreen={setScreen} history={props.history}/> :
+    screen === 3 ? <QuizResults quiz={quiz} user={user} setScreen={setScreen} refetchQuiz={refetchQuiz} history={props.history}/> :
     <PageNotFound message="Error" />
   )
 }

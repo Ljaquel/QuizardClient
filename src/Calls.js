@@ -44,6 +44,7 @@ const QUIZ_ATTRIBUTES = gql`
       name
     }
     timesPlayed
+    usersThatPlayed
     time
     rating
     ratingCount
@@ -65,6 +66,7 @@ const QUIZ_ATTRIBUTES = gql`
       choiceColor
     }
     tags
+    category
     stats {
       averageScore
       lowestScore
@@ -114,19 +116,22 @@ const RESULT_ATTRIBUTES = gql`
     quizId
     score
     time
+    timesTaken
     badges
     record
     last
+    lastTime
     lastRecord
     rating
+    bestAttemptAt
     modifiedAt
     createdAt
   }
 `;
 
 export const FETCH_SEARCH_RESULTS_QUERY = gql`
-  query getSearchResultsQuery($query: String!, $searchFilter: String) {
-    getSearchResults(query: $query, searchFilter: $searchFilter) {
+  query getSearchResultsQuery($query: String!, $searchFilter: String, $sorting: SortingInput, $filter: SearchResultFilter) {
+    getSearchResults(query: $query, searchFilter: $searchFilter, sorting: $sorting, filter: $filter) {
       ... on User {
         ...userAttributes
       }
@@ -168,6 +173,17 @@ export const FETCH_QUIZ_QUERY = gql`
     }
   }
   ${QUIZ_ATTRIBUTES}
+`;
+
+export const FETCH_QUIZ_STATS = gql `
+  query getQuizStats($quizId: ID!) {
+    getQuizStats(quizId: $quizId) {
+      averageScore
+      lowestScore
+      highestScore
+      averageTime
+    }
+  }
 `;
 
 export const FETCH_PLATFORMS = gql`

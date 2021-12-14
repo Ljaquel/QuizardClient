@@ -125,11 +125,25 @@ body {
   cursor: pointer;
 }
 
-.header-color{
-  background-color: #9FA300;
-  color: #9FA300;
+.header-color {
+  background-color: #9fa300;
+  color: #9fa300;
 }
 
-.accent-color{
-  background-color: #9FA300;
+.accent-color {
+  background-color: #9fa300;
+}
+
+.btn-delete-question {
+  background-color: rgb(59, 0, 0);
+}
+
+.builder-btn-hover:hover {
+  background-color: rgb(213, 235, 255);
+}
+
+.profile-banner-followers:hover {
+  background-color: rgb(240, 240, 240);
+  border-color: rgb(126, 152, 189) !important;
+  cursor: pointer;
 }

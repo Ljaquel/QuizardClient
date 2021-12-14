@@ -10,49 +10,32 @@ function UserCard({ user }) {
       style={{ maxWidth: "400px" }}
       onClick={() => history.push(`/profile/${user._id}`)}
     >
-      <div className="row g-0 h-100">
-        <div className="col-5 px-1 py-1 h-100">
-          <img
-            className=" rounded-circle"
-            src={
-              user?.avatar?.url
-                ? user?.avatar?.url
-                : "https://res.cloudinary.com/ljaquel/image/upload/v1637970039/admin/imagePlaceholder_fxpfme.png"
-            }
+      <div className="row g-0">
+        <div className="col-auto p-1">
+          <div
+            className="rounded-circle"
             style={{
-              // padding: "0.10rem",
-              backgroundColor: "#fff",
-              maxWidth: "150px",
-              // maxHeight: "150px",
-              height: "80%",
-              width: "100%"
+              backgroundImage: user.avatar?.url? ("url("+user?.avatar?.url+")") :"url(https://res.cloudinary.com/ljaquel/image/upload/v1637970039/admin/imagePlaceholder_fxpfme.png)",
+              height: "125px",
+              width: "125px",
+              backgroundPosition: 'center',
+              backgroundSize: 'cover'
             }}
             alt="..."
           />
         </div>
-        <div className="col-7 border-start h-100">
+        <div className="col border-start">
           <div className="card-body">
             <h5 className="card-title">{user?.name}</h5>
-            <p className="card-text">Level: {user?.level}</p>
-            <p className="card-text">Points: {user?.points}</p>
-            <p className="card-text">
+            <p className="card-text m-0">Level: {user?.level}</p>
+            <p className="card-text m-0">Points: {user?.points}</p>
+            <p className="card-text m-0">
               Followers: {user?.followers?.length} | Following:{" "}
               {user?.following.length}
             </p>
           </div>
         </div>
       </div>
-      {/* <div className="card-footer border-start">
-        <div className="row">
-          <div className="col align-self-center">
-            <small className="text-muted">
-              {quiz.publishedDate.length > 0
-                ? "Published " + moment(quiz.publishedDate).fromNow()
-                : "Created " + moment(quiz.createdAt).fromNow()}
-            </small>
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 }

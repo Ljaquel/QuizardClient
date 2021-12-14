@@ -1,26 +1,22 @@
-import React, { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../../context/auth";
-import Question from "./playground/Question";
-import { useMutation, useQuery } from "@apollo/client";
-import {
-  UPDATE_USER,
-  CREATE_RESULT,
-  FETCH_RESULTS_QUERY,
-  UPDATE_RESULT
-} from "../../Calls";
-import QuizInSessionNav from "./playground/QuizInSessionNav";
+import React, { useState, useEffect, useContext } from 'react'
+import { AuthContext } from '../../context/auth'
+import Question from './playground/Question'
+import { useMutation, useQuery } from '@apollo/client'
+import { UPDATE_USER, CREATE_RESULT, FETCH_RESULTS_QUERY, UPDATE_RESULT, UPDATE_QUIZ_MUTATION } from '../../Calls'
+import QuizInSessionNav from './playground/QuizInSessionNav'
+import moment from 'moment'
 import { getLevel } from "../../util/level";
 
-const QuizInSession = ({ user, quiz, setScreen }) => {
-  const { contextUserId } = useContext(AuthContext);
-  const [record, setRecord] = useState([]);
-  const [time] = useState(quiz?.time);
-  const [timer, setTimer] = useState("00:00:00");
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answer, setAnswer] = useState(null);
+const QuizInSession = ({ user, quiz, setScreen}) => {
+  const { contextUserId } = useContext(AuthContext)
+  const [record, setRecord] = useState([])
+  const [time] = useState(quiz?.time)
+  const [timer, setTimer] = useState("00:00:00")
+  const [currentQuestion, setCurrentQuestion] = useState(0)
+  const [answer, setAnswer] = useState(null)
 
-  const { content, style, backgroundImage } = quiz;
-  const count = content.length;
+  const { content, style, backgroundImage } = quiz
+  const count = content.length
 
   useEffect(() => {
     document.addEventListener("keydown", handleDocumentKeyPress);
@@ -36,10 +32,13 @@ const QuizInSession = ({ user, quiz, setScreen }) => {
     variables: { userId: contextUserId }
   });
 
-  const [createResult] = useMutation(CREATE_RESULT, {
-    onError(err) {
-      console.log(JSON.stringify(err, null, 2));
-    },
+  const [ updateQuiz ] = useMutation(UPDATE_QUIZ_MUTATION, {
+    onError(err) { console.log(JSON.stringify(err, null, 2)) },
+    variables: { quizId: quiz._id }
+  });
+
+  const [ createResult ] = useMutation(CREATE_RESULT, {
+    onError(err) { console.log(JSON.stringify(err, null, 2)) },
     variables: { input: {} }
   });
 
@@ -64,7 +63,8 @@ const QuizInSession = ({ user, quiz, setScreen }) => {
   const result = data?.getResults[0];
 
   const handleDocumentKeyPress = (e) => {
-    if (e.keyCode === 13) {
+    if (e.keyCode === 13 && canGoNext) {
+      console.log(answer)
       e.preventDefault();
       goNextQ();
     }
@@ -86,50 +86,44 @@ const QuizInSession = ({ user, quiz, setScreen }) => {
   };
 
   const finishQuiz = async (rec) => {
-    let score = getScore(rec);
-    let record = rec.map((x) => x.answer);
+    let score = getScore(rec)
+    let time = getTime(timer)
+    let record = rec.map((x) => x.answer)
 
     if (result === null || result === undefined) {
       let newResult = {
         userId: contextUserId,
         quizId: quiz._id,
         score: score,
-        time: timer,
+        time: time,
+        lastTime: time,
+        timesTaken: 1,
         badges: [],
         record: record,
         last: score,
         lastRecord: record
-      };
-      createResult({ variables: { input: { ...newResult } } });
+      }
+      createResult({ variables: { input: {...newResult} }})
       let points = user.points + score;
       let level = getLevel(user.level, points);
       let updates = { points, level };
-      updateUser({ variables: { update: updates } });
-    } else {
-      if (result.score < score) {
-        updateResult({
-          variables: {
-            resultId: result._id,
-            update: {
-              score: score,
-              time: timer,
-              record: rec.map((x) => x.answer),
-              last: score,
-              lastRecord: record
-            }
-          }
-        });
+      updateUser({ variables: { update: updates }})
+      updateQuiz({ variables: { update: { timesPlayed: quiz.timesPlayed+1, usersThatPlayed: quiz.usersThatPlayed+1 } }})
+    }
+    else {
+      if(result.score < score) {
+        updateResult({ variables: { resultId: result._id, update: { score: score, time: time, record: rec.map((x) => x.answer), last: score, lastRecord: record, lastTime: time, timesTaken: result.timesTaken+1 } }})
         const points = user.points - result.score + score;
         const level = getLevel(user.level, points);
         let updates = { points, level };
-        updateUser({ variables: { update: updates } });
-      } else if (score <= result.score) {
-        updateResult({
-          variables: {
-            resultId: result._id,
-            update: { last: score, lastRecord: record }
-          }
-        });
+        updateUser({ variables: { update: updates }})
+        updateQuiz({ variables: { update: { timesPlayed: quiz.timesPlayed+1 } }})
+      }
+      else if(score <= result.score) {
+        let updates = { last: score, lastRecord: record, lastTime: time, timesTaken: result.timesTaken+1 }
+        if(score === result.score && time < result.time) updates = {...updates, time: time}
+        updateResult({ variables: { resultId: result._id, update: updates }})
+        updateQuiz({ variables: { update: { timesPlayed: quiz.timesPlayed+1 } }})
       }
     }
     setCurrentQuestion(currentQuestion + 1);
@@ -137,8 +131,7 @@ const QuizInSession = ({ user, quiz, setScreen }) => {
     setScreen(3);
   };
 
-  const canGoNext =
-    answer !== null && currentQuestion >= 0 && currentQuestion < count;
+  const canGoNext = answer >= 0 && answer !== null && answer !== undefined && currentQuestion >= 0 && currentQuestion < count
 
   const progressPercentage = Math.floor((currentQuestion / count) * 100) + "%";
 
@@ -150,14 +143,18 @@ const QuizInSession = ({ user, quiz, setScreen }) => {
     return Math.floor((correct / count) * 100);
   };
 
-  const backgroundStyle = backgroundImage?.url
-    ? {
-        backgroundImage: `url("${backgroundImage.url}")`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        repeat: "no-repeat"
-      }
-    : { backgroundColor: style ? style.backgroundColor : "#abafbb" };
+  const getTime = (timer) => {
+    let time1 = moment(quiz.time, "hh:mm:ss");
+    let time2 = moment(timer, "hh:mm:ss");
+    let subtract = time1.subtract(time2);
+    let format = moment(subtract).format("mm:ss")
+    console.log('quiz.time: ' + quiz.time + ' timer: ' + timer + ' result: ' + subtract)
+    return '00:'+format
+  }
+
+  const backgroundStyle = backgroundImage?.url ? 
+    {backgroundImage: `url("${backgroundImage.url}")`, backgroundPosition: 'center', backgroundSize: 'cover', repeat: 'no-repeat'} :
+    {backgroundColor: style?style.backgroundColor:"#abafbb"} 
 
   return (
     <>

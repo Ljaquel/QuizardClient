@@ -191,11 +191,11 @@ const Settings = () => {
             : <>  
               <div className="input-group ms-auto me-auto d-flex mt-auto mb-auto">
                 <form className="ms-auto me-auto">
-                  <div class="form-group d-flex">
+                  <div className="form-group d-flex">
                     <label className="col-5" >New Password</label>
                     <input type="password"  autoComplete="off" value ={newPassword} className="form-control" placeholder="Enter New Password" aria-describedby="basic-addon1" onChange={e => setNewPassword(e.target.value)}/>                   
                   </div>
-                  <div class="form-group d-flex">
+                  <div className="form-group d-flex">
                     <label className="col-5">Confirm Password</label>
                     <input value={confirmPassword} type="password" autoComplete="off" onChange={e => setConfirmPassword(e.target.value)} className="form-control" placeholder="Confirm Password" aria-describedby="button-addon2"/>
                   </div>
