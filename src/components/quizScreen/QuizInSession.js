@@ -94,7 +94,13 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
         time: time,
         lastTime: time,
         timesTaken: 1,
-        badge: {},
+        badge: score>=60 ?{
+          key: score===100?'gold':score>=80?'silver':'bronze',
+          title: score===100?'Gold Trophy':score>=80?'Silver Trophy':'Bronze Trophy',
+          description: score===100?'For scoring 100 points':score>=80?'For scoring 80+ points':'For scoring 60+ points',
+          quiz: quiz._id,
+          createdAt: new Date().toISOString(),
+        } : {},
         badges: [],
         record: record,
         last: score,
@@ -112,7 +118,17 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
         updateResult({ variables: { resultId: result._id, update: { score: score, time: time, record: rec.map((x) => x.answer), last: score, lastRecord: record, lastTime: time, timesTaken: result.timesTaken+1 } }})
         const points = user.points - result.score + score;
         const level = getLevel(user.level, points);
-        let updates = { points, level };
+
+        let badge = score>=60 ?
+        {
+          key: score===100?'gold':score>=80?'silver':'bronze',
+          title: score===100?'Gold Trophy':score>=80?'Silver Trophy':'Bronze Trophy',
+          description: score===100?'For scoring 100 points':score>=80?'For scoring 80+ points':'For scoring 60+ points',
+          quiz: quiz._id,
+          createdAt: new Date().toISOString(),
+        } : {}
+
+        let updates = { points, level, badge };
         updateUser({ variables: { update: updates }})
         updateQuiz({ variables: { update: { timesPlayed: quiz.timesPlayed+1 } }})
       }
