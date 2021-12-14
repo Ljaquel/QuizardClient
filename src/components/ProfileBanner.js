@@ -143,7 +143,7 @@ const ProfileBanner = ({ user, history }) => {
                   <div className="col-4"> <p>Name </p> </div> 
                   <div className="col-4"> <p>Username </p> </div>
                 </div> 
-                { [ ...userMain?.followers ] && [ ...userMain?.followers ].map((userId, index) => <ProfileBannerFollow history={history} userId={userId} /> )} 
+                { [ ...userMain?.followers ] && [ ...userMain?.followers ].map((userId, index) => <ProfileBannerFollow key={index} history={history} userId={userId} /> )} 
               </div>   
             </Modal.Body>
             <Modal.Footer> <Button variant="secondary" onClick={handleCloseFollowers}> Close  </Button> </Modal.Footer>
@@ -158,7 +158,7 @@ const ProfileBanner = ({ user, history }) => {
                   <div className="col-4"> <p>Name </p> </div> 
                   <div className="col-4"> <p>Username </p> </div>
                 </div> 
-                { [ ...userMain?.following ] && [ ...userMain?.following ].map((userId, index) => <ProfileBannerFollow history={history} userId={userId} /> )} 
+                { [ ...userMain?.following ] && [ ...userMain?.following ].map((userId, index) => <ProfileBannerFollow history={history} key={index} userId={userId} /> )} 
               </div>   
             </Modal.Body>
             <Modal.Footer> <Button variant="secondary" onClick={handleCloseFollowing}> Close  </Button> </Modal.Footer>
