@@ -5,7 +5,7 @@ import QuizCard from "../components/QuizCard";
 import Loading from "../components/Loading";
 import { AuthContext } from "../context/auth";
 import { FcGenericSortingAsc, FcGenericSortingDesc } from "react-icons/fc";
-import { FETCH_USER_QUERY, FETCH_QUIZZES_ADVANCED, FETCH_LEADERBOARD } from "../Calls";
+import { FETCH_USER_QUERY, FETCH_QUIZZES_ADVANCED, FETCH_LEADERBOARD, FETCH_PLATFORMS_ADVANCED } from "../Calls";
 import HomeCarousel from "../components/home/HomeCarousel";
 import Panel from "../components/home/Panel/Panel";
 
@@ -28,6 +28,11 @@ const Home = (props) => {
     variables: { filters: { published: true }, sorting: {quiz: 'timesPlayed', dir: -1}, limit: 3 }
   });
 
+  const { data:platformData, refetch:refetchPlatforms } = useQuery(FETCH_PLATFORMS_ADVANCED, {
+    onError(err) { console.log(JSON.stringify(err, null, 2)) },
+    variables: { sorting: {platform: 'followers'}, limit: 3 }
+  });
+
   const { data:leaderboardData, refetch:refetchLeaderboard } = useQuery(FETCH_LEADERBOARD, {
     variables: { userId: contextUserId }
   });
@@ -37,7 +42,8 @@ const Home = (props) => {
     refetchUser()
     refetchQuizzesAdvanced()
     refetchLeaderboard()
-  }, [refetch, refetchLeaderboard, refetchQuizzesAdvanced, refetchUser])
+    refetchPlatforms()
+  }, [refetch, refetchLeaderboard, refetchQuizzesAdvanced, refetchUser, refetchPlatforms])
 
   if (!leaderboardData) {
     return <Loading />;
@@ -46,6 +52,7 @@ const Home = (props) => {
   const leaderboardUsers = leaderboardData?leaderboardData.getLeaderboard:[]
 
   const quizzes = data?data.getQuizzesAdvanced:[];
+  const platforms = platformData?platformData.getPlatformsAdvanced:[];
   let trendingQuizzes = trendingQuizzesData ? trendingQuizzesData.getQuizzesAdvanced : []
 
   return (
@@ -55,7 +62,7 @@ const Home = (props) => {
         <HomeCarousel quizzes={trendingQuizzes} history={props.history}/>
       </div>
 
-      <div className="row container-fluid pt-2">
+      <div className="row container-fluid pt-2 px-0">
         <div className="col">
 
           <div className="row pb-4 ps-3">
@@ -98,7 +105,7 @@ const Home = (props) => {
           <Panel
             title="Trending Platforms"
             type="platforms"
-            data={[]}
+            data={platforms}
             history={props.history}
             home={true}
             color={user?.color}

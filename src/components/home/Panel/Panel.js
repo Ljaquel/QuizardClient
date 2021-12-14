@@ -1,5 +1,6 @@
 import React from "react";
 import QuizCard from "../../QuizCard";
+import PlatformCard from "../../PlatformCard";
 
 const Panel = ({ title, data, type, history, home, color }) => {
   return (
@@ -12,7 +13,18 @@ const Panel = ({ title, data, type, history, home, color }) => {
         type === "rewards" ? (
           <div key={datum._id}>Rewards Card</div>
         )
-        : 
+        :
+        type==='platforms' ?
+        (
+          <div className="py-1 ps-4 border border-1" key={i}>
+            <PlatformCard
+              platform={datum}
+              key={datum._id}
+              history={history}
+            />
+          </div>
+        )
+        :
         type==="leaderboard" ?
           <div key={i} className="container-fluid px-1 border border-1 py-1 pointer leaderboard-card" onClick={() => history.push('/profile/'+datum._id)}>
             <div className="row p-0 m-0" style={{height: '65px'}}>

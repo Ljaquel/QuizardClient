@@ -183,6 +183,15 @@ export const FETCH_QUIZZES_ADVANCED = gql`
   ${QUIZ_ATTRIBUTES}
 `
 
+export const FETCH_PLATFORMS_ADVANCED = gql`
+  query GetPlatformsAdvanced($filters: PlatformInput, $sorting: SortingInput, $limit: Int) {
+    getPlatformsAdvanced(filters: $filters, sorting: $sorting, limit: $limit) {
+      ...platformAttributes
+    }
+  }
+  ${PLATFORM_ATTRIBUTES}
+`
+
 export const FETCH_LEADERBOARD = gql`
   query GetLeaderboard {
     getLeaderboard {
