@@ -127,13 +127,35 @@ const Profile = (props) => {
                         <div className="col">
                           <div>{r.badge.title}</div>
                           <div>{r.badge.description}</div>
-                          <div onClick={() => props.history.push('/quizscreen/'+r?.quizId)}>Quiz:{namesValues[namesIds.indexOf(r?.quizId)]}</div>
+                          <div onClick={() => props.history.push('/quizscreen/'+r?.quizId)}>Quiz: {namesValues[namesIds.indexOf(r?.quizId)]}</div>
                         </div>
                       </div>
                     </div>
                   </div>
                 }</div>
                 )}
+
+                {results && results.length > 0 && results.map((r, i) => 
+                <div className="p-0 m-0" key={i}>
+                  {r?.badges?.length>0 && namesIds.includes(r?.quizId) &&
+                  <div className="col p-2" >
+                    <div className="container-fluid border border-2 p-2" style={{width: '330px'}}>
+                      <div className="row p-0 m-0">
+                        <div className="col-auto border-end p-0">
+                          <div className="" style={{minWidth:'70px', minHeight: '70px', backgroundImage: 'url('+badgesImages[r.badges[0].key]+')', backgroundPosition: 'center', backgroundSize: 'cover'}}/>
+                        </div>
+                        <div className="col">
+                          <div>{r.badges[0].title}</div>
+                          <div>{r.badges[0].description}</div>
+                          <div onClick={() => props.history.push('/quizscreen/'+r?.quizId)}>Quiz: {namesValues[namesIds.indexOf(r?.quizId)]}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }</div>
+                )}
+
+
               </div>
             </div>
 
