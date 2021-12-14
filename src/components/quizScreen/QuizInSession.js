@@ -97,7 +97,14 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
           quiz: quiz._id,
           createdAt: new Date().toISOString(),
         } : {},
-        badges: [],
+        badges: score===100?[{
+          key: 'firstTime',
+          title: 'Gold Medal',
+          description: 'For full score on first try',
+          quiz: quiz._id,
+          createdAt: new Date().toISOString(),
+        }]
+        :[],
         record: record,
         last: score,
         lastRecord: record

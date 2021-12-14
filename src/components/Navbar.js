@@ -55,7 +55,7 @@ const Navbar=() =>{
           {contextUserId &&
             <ul className="navbar-nav me-auto" >
               <li className="nav-item">
-                <NavLink className="nav-link" to="/" exact={true}> Home </NavLink>
+                <NavLink className="nav-link" to="/" exact={true}> Quizard </NavLink>
               </li>
             </ul>
           }

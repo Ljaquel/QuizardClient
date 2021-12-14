@@ -114,11 +114,12 @@ const Profile = (props) => {
 
 
             <div className="tab-pane fade" id="rewards" role="tabpanel" aria-labelledby="rewards-tab">
-              <div className="row row-cols-auto g-3 p-1 ps-3">
+              <div className="row row-cols-auto g-3 p-3 ps-3">
                 {results && results.length > 1 && results.map((r, i) => 
-                <>{r?.badge?.key &&
-                  <div className="col p-2" key={i}>
-                    <div className="container-fluid border border-2 p-2" style={{width: '300px'}}>
+                <div className="p-0 m-0" key={i}>
+                  {r?.badge?.key && namesIds.includes(r.quizId) &&
+                  <div className="col p-2" >
+                    <div className="container-fluid border border-2 p-2" style={{width: '330px'}}>
                       <div className="row p-0 m-0">
                         <div className="col-auto border-end p-0">
                           <div className="" style={{minWidth:'70px', minHeight: '70px', backgroundImage: 'url('+badgesImages[r.badge.key]+')', backgroundPosition: 'center', backgroundSize: 'cover'}}/>
@@ -126,11 +127,12 @@ const Profile = (props) => {
                         <div className="col">
                           <div>{r.badge.title}</div>
                           <div>{r.badge.description}</div>
+                          <div onClick={() => props.history.push('/quizscreen/'+r.quizId)}>Quiz:{namesValues[namesIds.indexOf(r?.quizId)]}</div>
                         </div>
                       </div>
                     </div>
                   </div>
-                }</>
+                }</div>
                 )}
               </div>
             </div>
@@ -145,29 +147,30 @@ const Profile = (props) => {
 
 
             <div className="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
-              <div className="row row-cols-auto g-3 p-1">
+              <div className="row row-cols-auto p-3 g-3 p-1">
                 {results && names && names.length > 0 && results.map((r, i) => 
-                  
-                  <div className="col p-2" key={i}>
+                  <div className="p-0 m-0" key={i}>
                     {namesIds.includes(r.quizId)&& names.length>0 &&
-                    <div className="container-fluid border border-2 p-2 leaderboard-card pointer" onClick={() => props.history.push('/quizscreen/'+r.quizId)} style={{width: '400px'}}>
-                      <div className="row p-0 m-0 justify-content-center border-bottom">
-                        <div className="col-auto m-auto pb-2">{namesValues[namesIds.indexOf(r?.quizId)]}</div>
-                      </div>
-                      <div className="row p-0 m-0">
-                        <div className="col-auto border-end">
-                          <div>Best Score: {r.score}</div>
-                          <div>Best Time: {r.time.substring(3, 8)} mins</div>
-                          <div>{moment(r?.bestAttemptAt).fromNow()}</div>
+                    <div className="col p-2" key={i}>
+                      <div className="container-fluid border border-2 p-2 leaderboard-card pointer" onClick={() => props.history.push('/quizscreen/'+r.quizId)} style={{width: '400px'}}>
+                        <div className="row p-0 m-0 justify-content-center border-bottom">
+                          <div className="col-auto m-auto pb-2">{namesValues[namesIds.indexOf(r?.quizId)]}</div>
                         </div>
+                        <div className="row p-0 m-0">
+                          <div className="col-auto border-end">
+                            <div>Best Score: {r.score}</div>
+                            <div>Best Time: {r.time.substring(3, 8)} mins</div>
+                            <div>{moment(r?.bestAttemptAt).fromNow()}</div>
+                          </div>
 
-                        <div className="col-auto">
-                          <div>Last Score: {r.last}</div>
-                          <div>Last Time: {r.lastTime.substring(3, 8)} mins</div>
+                          <div className="col-auto">
+                            <div>Last Score: {r.last}</div>
+                            <div>Last Time: {r.lastTime.substring(3, 8)} mins</div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="row p-0 m-0 justify-content-center border-top pt-2">
-                        <div className="col-auto m-auto pb-2">Taken {r.timesTaken} time{r.timesTaken===1?'':'s'} in total</div>
+                        <div className="row p-0 m-0 justify-content-center border-top pt-2">
+                          <div className="col-auto m-auto pb-2">Taken {r.timesTaken} time{r.timesTaken===1?'':'s'} in total</div>
+                        </div>
                       </div>
                     </div>
                     }
