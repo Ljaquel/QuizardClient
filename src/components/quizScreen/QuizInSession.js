@@ -118,10 +118,6 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
     }
     else {
       if(result.score < score) {
-        updateResult({ variables: { resultId: result._id, update: { score: score, time: time, record: rec.map((x) => x.answer), last: score, lastRecord: record, lastTime: time, timesTaken: result.timesTaken+1 } }})
-        const points = user.points - result.score + score;
-        const level = getLevel(user.level, points);
-
         let badge = score>=60 ?
         {
           key: score===100?'gold':score>=80?'silver':'bronze',
@@ -131,7 +127,12 @@ const QuizInSession = ({ user, quiz, setScreen}) => {
           createdAt: new Date().toISOString(),
         } : {}
 
-        let updates = { points, level, badge };
+
+        updateResult({ variables: { resultId: result._id, update: { score: score, time: time, record: rec.map((x) => x.answer), last: score, lastRecord: record, lastTime: time, timesTaken: result.timesTaken+1, badge } }})
+        const points = user.points - result.score + score;
+        const level = getLevel(user.level, points);
+
+        let updates = { points, level };
         updateUser({ variables: { update: updates }})
         updateQuiz({ variables: { update: { timesPlayed: quiz.timesPlayed+1 } }})
       }
