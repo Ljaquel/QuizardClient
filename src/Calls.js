@@ -174,6 +174,24 @@ export const FETCH_SEARCH_RESULTS_QUERY = gql`
   ${PLATFORM_ATTRIBUTES}
 `;
 
+export const FETCH_QUIZZES_ADVANCED = gql`
+  query GetQuizzesAdvanced($filters: QuizInput, $sorting: SortingInput, $limit: Int) {
+    getQuizzesAdvanced(filters: $filters, sorting: $sorting, limit: $limit) {
+      ...quizAttributes
+    }
+  }
+  ${QUIZ_ATTRIBUTES}
+`
+
+export const FETCH_LEADERBOARD = gql`
+  query GetLeaderboard {
+    getLeaderboard {
+      ...userAttributes
+    }
+  }
+  ${USER_ATTRIBUTES}
+`
+
 export const FETCH_USER_QUERY = gql`
   query fetchUserQuery($userId: ID!) {
     getUser(userId: $userId) {

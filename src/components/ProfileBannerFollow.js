@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { FETCH_USER_QUERY } from "../Calls";
 
-const ProfileBannerFollow = ({userId,history}) => {
-  const destination =  "/profile/"
+const ProfileBannerFollow = ({userId, history}) => {
+  //const destination =  "/profile/"
 
   const  { data:userData }  = useQuery(FETCH_USER_QUERY, {  
     variables: { userId: userId } 

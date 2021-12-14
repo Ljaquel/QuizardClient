@@ -147,3 +147,7 @@ body {
   border-color: rgb(126, 152, 189) !important;
   cursor: pointer;
 }
+
+.leaderboard-card:hover {
+  background-color: rgb(240, 240, 240);
+}

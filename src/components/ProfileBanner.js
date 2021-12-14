@@ -6,7 +6,6 @@ import Loading from './Loading'
 import { FETCH_USER_QUERY, UPDATE_USER } from "../Calls";
 import { Modal, Button } from "react-bootstrap";
 import ProfileBannerFollow from "./ProfileBannerFollow";
-import { useParams } from "react-router";
 
 
 const breaks = [0, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200]

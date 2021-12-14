@@ -22,6 +22,7 @@ const Settings = () => {
   const [newUserNameStatus, setnewUserNameStatus]= useState('')
   const [imageState, setImageState] = useState("")
 
+
   const { data:userData, refetch} = useQuery(FETCH_USER_QUERY, {
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
     variables: { userId: contextUserId }
@@ -208,7 +209,8 @@ const Settings = () => {
             </>}
 
             <hr className="bg-black opacity-100 m-0" style={{ height: "2px" }}/>
-            <h5 className= "ps-3 mb-0">Theme:</h5>  
+            <h5 className= "ps-3 mb-0">Theme:</h5>
+            {false && <span>{newUserNameStatus + '' + newNameStatus}</span>}  
             <div className=" mt-2 pb-2 d-flex col-lg-8 input-group d-flex justify-content-between">
               <p className="ms-5 mt-auto mb-auto"> Theme Color: </p>             
               <input type="color" className="" value={user.color} onChange={e => updateUser({ variables: { userId: contextUserId, update: {color: e.target.value}}})}></input>                 

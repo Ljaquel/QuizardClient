@@ -1,6 +1,4 @@
-import React, {useContext} from 'react';
-import moment from 'moment';
-import { AuthContext } from '../../context/auth'
+import React from 'react';
 
 const QuizHomeCard = ({ quiz, home, history}) => { 
   const destination = "/quizscreen/" 

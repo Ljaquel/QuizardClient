@@ -1,20 +1,20 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Modal, Button } from "react-bootstrap";
-import { BsFillPlayFill } from 'react-icons/bs';
+//import { BsFillPlayFill } from 'react-icons/bs';
 import Rating from '@mui/material/Rating';
 import moment from 'moment';
 
-import { AuthContext } from '../../context/auth'
+//import { AuthContext } from '../../context/auth'
 import { useMutation, useQuery } from '@apollo/client'
-import { CREATE_COMMENT, DELETE_COMMENT, UPDATE_RESULT,FETCH_USER_QUERY, UPDATE_QUIZ_MUTATION, FETCH_RESULTS_QUERY,FETCH_QUIZZES_QUERY,FETCH_SEARCH_RESULTS_QUERY} from "../../Calls";
+import { CREATE_COMMENT, DELETE_COMMENT, UPDATE_RESULT,FETCH_USER_QUERY, UPDATE_QUIZ_MUTATION, FETCH_RESULTS_QUERY,FETCH_QUIZZES_QUERY} from "../../Calls";
 
 import Loading from '../Loading'
 import QuestionResult from '../quizResults/QuestionResult'
-import QuizHomeCard from './QuizHomeCard';
+//import QuizHomeCard from './QuizHomeCard';
 
 const QuizResults = ({ quiz, user, setScreen, refetchQuiz, history } ) => {
   // const { quiz } = props
-  const { contextUserId } = useContext(AuthContext)
+  //const { contextUserId } = useContext(AuthContext)
   // const { user } = props
   
   const [comment, setComment] = useState("");
@@ -31,8 +31,7 @@ const QuizResults = ({ quiz, user, setScreen, refetchQuiz, history } ) => {
     onError(err) { console.log(JSON.stringify(err, null, 2));console.log("refetchResult Error") },
     variables: { filters: { userId: user._id, quizId: quiz._id} }
   })
-  const { data: tagsData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, { variables: { query: "math", searchFilter:"Tag" } });
-
+  
   const { data:creatorData } = useQuery(FETCH_USER_QUERY, {
     onError(err) { console.log(JSON.stringify(err, null, 2)) },
     variables: { userId: quiz?.creator._id }
@@ -108,7 +107,7 @@ const QuizResults = ({ quiz, user, setScreen, refetchQuiz, history } ) => {
                 :
                 <div className="list-group-item d-flex justify-content-between"> <small>Quiz Not Taken{quiz?.name}</small> </div>
               } 
-            <div class="card platform-card rounded w-100 mb-1" ></div>
+            <div className="card platform-card rounded w-100 mb-1" ></div>
           </div>
 
           <div className="col-8 d-flex flex-column px-1"> 

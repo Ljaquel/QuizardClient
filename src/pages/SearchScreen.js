@@ -16,7 +16,7 @@ const SearchScreen = (props) => {
   const [dir, setDir] = useState(-1);
  
   const { data: usersData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, { onError(err) { console.log(JSON.stringify(err, null, 2)) },variables: {  query: searchInput, searchFilter:"User", sorting: {...sorting, dir}, filter: {} } });
-  const { data: quizzesData, refetch:refetchQuizzes } = useQuery(FETCH_SEARCH_RESULTS_QUERY, {onError(err) { console.log(JSON.stringify(err, null, 2)) }, variables: {  query: searchInput, searchFilter:"Quiz", sorting: {...sorting, dir}, filter: filter } });
+  const { data: quizzesData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, {onError(err) { console.log(JSON.stringify(err, null, 2)) }, variables: {  query: searchInput, searchFilter:"Quiz", sorting: {...sorting, dir}, filter: filter } });
   const { data: tagsData } = useQuery(FETCH_SEARCH_RESULTS_QUERY,  { onError(err) { console.log(JSON.stringify(err, null, 2)) }, variables: { query: searchInput, searchFilter:"Tag", sorting: {...sorting, dir}, filter: filter } });
   const { data: platformsData } = useQuery(FETCH_SEARCH_RESULTS_QUERY, { onError(err) { console.log(JSON.stringify(err, null, 2)) }, variables: { query: searchInput, searchFilter:"Platform", sorting: {...sorting, dir}, filter: {} } });
 
