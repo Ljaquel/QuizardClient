@@ -192,6 +192,12 @@ export const FETCH_PLATFORMS_ADVANCED = gql`
   ${PLATFORM_ATTRIBUTES}
 `
 
+export const FETCH_QUIZZES_NAMES_LIST = gql`
+  query fetchQuizzesNamesList($list: [ID]) {
+    getQuizzesNamesList(list: $list)
+  }
+`
+
 export const FETCH_LEADERBOARD = gql`
   query GetLeaderboard {
     getLeaderboard {

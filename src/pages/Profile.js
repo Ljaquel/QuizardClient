@@ -6,7 +6,7 @@ import ProfileBanner from '../components/ProfileBanner'
 import PlatformCard from '../components/PlatformCard'
 import Loading from '../components/Loading'
 import PageNotFound from '../pages/PageNotFound'
-import { CREATE_PLATFORM, FETCH_PLATFORMS, FETCH_USER_QUERY, FETCH_RESULTS_QUERY } from '../Calls'
+import { CREATE_PLATFORM, FETCH_PLATFORMS, FETCH_USER_QUERY, FETCH_RESULTS_QUERY, FETCH_QUIZZES_NAMES_LIST } from '../Calls'
 import { useParams } from 'react-router'
 import CreatePlatformPopUp from '../components/CreatePlatformPopUp'; 
 import { AuthContext } from '../context/auth'
@@ -28,7 +28,20 @@ const Profile = (props) => {
     variables: { filters: { userId: siteUserId } }
   })
 
+  const { data:namesData } = useQuery(FETCH_QUIZZES_NAMES_LIST, {
+    onError(err) { console.log(JSON.stringify(err, null, 2));console.log("refetchResult Error") },
+    variables: { list: (resultsData?resultsData.getResults.map(function(r) {return r.quizId}):[]) }
+  })
+
   const results = resultsData?resultsData.getResults:[]
+  let names = namesData?namesData.getQuizzesNamesList:[]
+  let namesIds = []
+  let namesValues = []
+  for(let i=0; i<names.length;i++) {
+    let arr = names[i].split(' - - - ')
+    namesIds.push(arr[0])
+    namesValues.push(arr[1])
+  }
 
   useEffect(() => {
     refetch()
@@ -45,7 +58,6 @@ const Profile = (props) => {
 
   if(loading) { return <Loading/> }
   if(!user) { return <PageNotFound message="No Access Error"/> }
- 
   return (
     <div className="container-fluid flex-grow-1 px-0">  
       <div className="row h-100 mx-0">
@@ -85,18 +97,19 @@ const Profile = (props) => {
             <div className="tab-pane fade" id="rewards" role="tabpanel" aria-labelledby="rewards-tab">...</div>
             <div className="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
               <div className="row row-cols-auto g-3 p-1">
-                {results && results.map((r, i) => (
+                {results && names && names.length > 0 && results.map((r, i) => 
+                  
                   <div className="col p-2" key={i}>
-                    <div className="container-fluid border border-2 p-2 leaderboard-card pointer" style={{width: '400px'}}>
+                    {namesIds.includes(r.quizId)&& names.length>0 &&
+                    <div className="container-fluid border border-2 p-2 leaderboard-card pointer" onClick={() => props.history.push('/quizscreen/'+r.quizId)} style={{width: '400px'}}>
                       <div className="row p-0 m-0 justify-content-center border-bottom">
-                        <div className="col-auto m-auto pb-2">Quiz Name</div>
+                        <div className="col-auto m-auto pb-2">{namesValues[namesIds.indexOf(r?.quizId)]}</div>
                       </div>
                       <div className="row p-0 m-0">
                         <div className="col-auto border-end">
                           <div>Best Score: {r.score}</div>
                           <div>Best Time: {r.time.substring(3, 8)} mins</div>
                           <div>{moment(r?.bestAttemptAt).fromNow()}</div>
-
                         </div>
 
                         <div className="col-auto">
@@ -108,8 +121,9 @@ const Profile = (props) => {
                         <div className="col-auto m-auto pb-2">Taken {r.timesTaken} time{r.timesTaken===1?'':'s'} in total</div>
                       </div>
                     </div>
+                    }
                   </div>
-                ))}
+                )}
               </div>
             </div>
           </div>

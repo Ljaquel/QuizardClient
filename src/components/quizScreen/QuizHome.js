@@ -146,8 +146,8 @@ const QuizHome = ({ quiz, user, setScreen, refetchQuiz, history }) => {
                   <button onClick={() => createComment({ variables: {body: comment}})} className="btn btn-primary btn-sm">Post</button>
                 </div>
               </div>
-            {quiz.comments && quiz.comments.length > 1 && quiz.comments.map((comment) => (
-              <div key={comment._id} className="row rounded border border-1 m-0">
+            {quiz.comments && quiz.comments.length > 0 && quiz.comments.map((comment, i) => (
+              <div key={i} className="row rounded border border-1 m-0">
                 <div className="col">
                   <span className="badge bg-primary">{comment.user?.username}</span>
                   <span> - <small>{moment(comment.createdAt).fromNow()}</small></span>
