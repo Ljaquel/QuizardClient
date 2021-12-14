@@ -42,17 +42,17 @@ function UserCard({ user }) {
           </div>
         </div>
       </div>
-      <div className="card-footer border-start">
+      {/* <div className="card-footer border-start">
         <div className="row">
           <div className="col align-self-center">
             <small className="text-muted">
-              {/* {quiz.publishedDate.length > 0
+              {quiz.publishedDate.length > 0
                 ? "Published " + moment(quiz.publishedDate).fromNow()
-                : "Created " + moment(quiz.createdAt).fromNow()} */}
+                : "Created " + moment(quiz.createdAt).fromNow()}
             </small>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
