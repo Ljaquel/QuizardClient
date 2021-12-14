@@ -22,7 +22,8 @@ const PlatformBanner = ({platform, addQuiz, count, history, refetch, sitePlatfor
 
   const [ updatePlatform ] = useMutation(UPDATE_PLATFORM, {
     variables: { platformId: sitePlatformId },
-    onError(err) { console.log(JSON.stringify(err, null, 2)) }
+    onError(err) { console.log(JSON.stringify(err, null, 2)) },
+    onCompleted() { refetch() }
   })
 
   const [ updateUser ] = useMutation(UPDATE_USER, {
@@ -41,8 +42,8 @@ const PlatformBanner = ({platform, addQuiz, count, history, refetch, sitePlatfor
        newFollowing = newFollowing.filter(el => el !== platform._id)
        newFollowers = newFollowers.filter(el => el !== visitor._id)
     }
-    updatePlatform({ variables: { platformId: platform?._id, update: { followers: newFollowers }}})
     updateUser({ variables: { userId: visitor?._id, update: { following: newFollowing } }})
+    updatePlatform({ variables: { platformId: platform?._id, update: { followers: newFollowers }}})
     setFollowing(!following)
   }
 
@@ -55,11 +56,20 @@ const PlatformBanner = ({platform, addQuiz, count, history, refetch, sitePlatfor
     <div className="mb-3">
       <div className="row px-3 mx-0" style={{backgroundImage: 'url('+platform?.banner.url+')', backgroundPosition: 'center', backgroundSize: 'cover', backgroundColor: platform ? platform.bannerColor : "#ffffff"}}>
         <div className="col col-auto rounded p-1 bg-light" style={{marginTop: "70px", marginBottom: "16px"}}>
-          <div style={{ width:"250px", height:"250px", backgroundPosition:"center", backgroundSize: 'cover', backgroundImage: platform?.image?.url?"url("+platform.image.url+")":"url(https://res.cloudinary.com/ljaquel/image/upload/v1637970039/admin/imagePlaceholder_fxpfme.png)" }}/>
+          <div onClick={() => history.push('/profile/'+platform?.creator._id)} className="pointer" style={{ width:"250px", height:"250px", backgroundPosition:"center", backgroundSize: 'cover', backgroundImage: platform?.image?.url?"url("+platform.image.url+")":"url(https://res.cloudinary.com/ljaquel/image/upload/v1637970039/admin/imagePlaceholder_fxpfme.png)" }}/>
         </div>
         <div className="col"></div>
         <div className="col col-auto pe-0 pt-1">
           {isOwner && <EditPlatformPopUp refetch={refetch} platform={platform}/>}
+        </div>
+        <div className="row p-0 m-0 pb-2">
+          <div className="col-auto p-0">
+            <span className="badge bg-light text-dark pointer" onClick={() => history.push('/profile/'+platform?.creator._id)} style={{fontSize:"17px"}}>By {platform?.creator.name} ({platform?.creator.username})</span>
+          </div>
+          <div className="col"></div>
+          <div className="col-auto p-0">
+            <span className="badge bg-light text-dark" style={{fontSize:"17px"}}>{platform?.followers.length} follower{platform?.followers.length===1?'':'s'}</span>
+          </div>
         </div>
       </div>
       <div className="container-md">

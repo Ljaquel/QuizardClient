@@ -16,6 +16,9 @@ function PlatformCard({ platform, history, add, handleShow }) {
         <h5 className="card-title">{platform.name}</h5>
         <p className="card-text">{platform.description.length < 80 ? platform.description : platform.description.substring(0, 80)+"..."}</p>
       </div>
+      <div className="card-footer">
+        <span className='badge bg-light text-dark border'>{platform?.followers.length} follower{platform?.followers.length===1?'':'s'}</span>
+      </div>
     </div>
   )
 }
