@@ -115,7 +115,7 @@ const Profile = (props) => {
 
             <div className="tab-pane fade" id="rewards" role="tabpanel" aria-labelledby="rewards-tab">
               <div className="row row-cols-auto g-3 p-3 ps-3">
-                {results && results.length > 1 && results.map((r, i) => 
+                {results && results.length > 0 && results.map((r, i) => 
                 <div className="p-0 m-0" key={i}>
                   {r?.badge?.key && namesIds.includes(r?.quizId) &&
                   <div className="col p-2" >
