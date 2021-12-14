@@ -7,10 +7,6 @@ import QuizInSessionNav from './playground/QuizInSessionNav'
 import moment from 'moment'
 import { getLevel } from "../../util/level";
 
-const badgesImages = {
-  
-}
-
 const QuizInSession = ({ user, quiz, setScreen}) => {
   const { contextUserId } = useContext(AuthContext)
   const [record, setRecord] = useState([])

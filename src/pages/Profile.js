@@ -11,6 +11,14 @@ import { useParams } from 'react-router'
 import CreatePlatformPopUp from '../components/CreatePlatformPopUp'; 
 import { AuthContext } from '../context/auth'
 
+const badgesImages = {
+  gold: "https://res.cloudinary.com/ljaquel/image/upload/v1639502319/admin/trophy_gold_zgl9eg.png",
+  silver: 'https://res.cloudinary.com/ljaquel/image/upload/v1639502318/admin/trophy_silver_kvqmdz.png',
+  bronze: 'https://res.cloudinary.com/ljaquel/image/upload/v1639502318/admin/trophy_bronze_pv02cq.png',
+  firstTime: 'https://res.cloudinary.com/ljaquel/image/upload/v1639502319/admin/gold_medal_h3hxnw.png'
+}
+
+
 const Profile = (props) => {
   const { contextUserId } = useContext(AuthContext);
   const { _id:siteUserId } = useParams();
@@ -94,7 +102,48 @@ const Profile = (props) => {
                 }
               </div>
             </div>
-            <div className="tab-pane fade" id="rewards" role="tabpanel" aria-labelledby="rewards-tab">...</div>
+
+
+
+
+
+
+
+
+
+
+
+            <div className="tab-pane fade" id="rewards" role="tabpanel" aria-labelledby="rewards-tab">
+              <div className="row row-cols-auto g-3 p-1 ps-3">
+                {results && results.length > 1 && results.map((r, i) => 
+                <>{r?.badge?.key &&
+                  <div className="col p-2" key={i}>
+                    <div className="container-fluid border border-2 p-2" style={{width: '300px'}}>
+                      <div className="row p-0 m-0">
+                        <div className="col-auto border-end p-0">
+                          <div className="" style={{minWidth:'70px', minHeight: '70px', backgroundImage: 'url('+badgesImages[r.badge.key]+')', backgroundPosition: 'center', backgroundSize: 'cover'}}/>
+                        </div>
+                        <div className="col">
+                          <div>{r.badge.title}</div>
+                          <div>{r.badge.description}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }</>
+                )}
+              </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
             <div className="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
               <div className="row row-cols-auto g-3 p-1">
                 {results && names && names.length > 0 && results.map((r, i) => 
