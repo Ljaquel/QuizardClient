@@ -38,7 +38,7 @@ const Profile = (props) => {
 
   const { data:namesData } = useQuery(FETCH_QUIZZES_NAMES_LIST, {
     onError(err) { console.log(JSON.stringify(err, null, 2));console.log("refetchResult Error") },
-    variables: { list: (resultsData?resultsData.getResults.map(function(r) {return r.quizId}):[]) }
+    variables: { list: (resultsData?resultsData.getResults.map(function(r) {return r?.quizId}):[]) }
   })
 
   const results = resultsData?resultsData.getResults:[]
@@ -117,7 +117,7 @@ const Profile = (props) => {
               <div className="row row-cols-auto g-3 p-3 ps-3">
                 {results && results.length > 1 && results.map((r, i) => 
                 <div className="p-0 m-0" key={i}>
-                  {r?.badge?.key && namesIds.includes(r.quizId) &&
+                  {r?.badge?.key && namesIds.includes(r?.quizId) &&
                   <div className="col p-2" >
                     <div className="container-fluid border border-2 p-2" style={{width: '330px'}}>
                       <div className="row p-0 m-0">
@@ -127,7 +127,7 @@ const Profile = (props) => {
                         <div className="col">
                           <div>{r.badge.title}</div>
                           <div>{r.badge.description}</div>
-                          <div onClick={() => props.history.push('/quizscreen/'+r.quizId)}>Quiz:{namesValues[namesIds.indexOf(r?.quizId)]}</div>
+                          <div onClick={() => props.history.push('/quizscreen/'+r?.quizId)}>Quiz:{namesValues[namesIds.indexOf(r?.quizId)]}</div>
                         </div>
                       </div>
                     </div>
@@ -150,9 +150,9 @@ const Profile = (props) => {
               <div className="row row-cols-auto p-3 g-3 p-1">
                 {results && names && names.length > 0 && results.map((r, i) => 
                   <div className="p-0 m-0" key={i}>
-                    {namesIds.includes(r.quizId)&& names.length>0 &&
+                    {namesIds.includes(r?.quizId)&& names.length>0 &&
                     <div className="col p-2" key={i}>
-                      <div className="container-fluid border border-2 p-2 leaderboard-card pointer" onClick={() => props.history.push('/quizscreen/'+r.quizId)} style={{width: '400px'}}>
+                      <div className="container-fluid border border-2 p-2 leaderboard-card pointer" onClick={() => props.history.push('/quizscreen/'+r?.quizId)} style={{width: '400px'}}>
                         <div className="row p-0 m-0 justify-content-center border-bottom">
                           <div className="col-auto m-auto pb-2">{namesValues[namesIds.indexOf(r?.quizId)]}</div>
                         </div>
