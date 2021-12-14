@@ -130,7 +130,26 @@ const RESULT_ATTRIBUTES = gql`
     score
     time
     timesTaken
-    badges
+    badge {
+      key
+      title
+      quiz {
+        _id
+        name
+      }
+      description
+      createdAt
+    }
+    badges {
+      key
+      title
+      quiz {
+        _id
+        name
+      }
+      description
+      createdAt
+    }
     record
     last
     lastTime
