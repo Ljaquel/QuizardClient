@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment'
 
 function PlatformCard({ platform, history, add, handleShow }) {
   if(add) {
@@ -15,9 +16,12 @@ function PlatformCard({ platform, history, add, handleShow }) {
       <div className="card-body">
         <h5 className="card-title">{platform.name}</h5>
         <p className="card-text">{platform.description.length < 80 ? platform.description : platform.description.substring(0, 80)+"..."}</p>
+        <div className="row p-0 m-0 justify-content-end">
+          <div className="col-auto p-0"><span style={{fontSize:'13px'}} className='badge bg-light text-dark border'>{platform?.followers.length} follower{platform?.followers.length===1?'':'s'}</span></div>
+        </div>
       </div>
       <div className="card-footer">
-        <span className='badge bg-light text-dark border'>{platform?.followers.length} follower{platform?.followers.length===1?'':'s'}</span>
+        <span>Created {moment(platform?.createdAt).fromNow()}</span>
       </div>
     </div>
   )

@@ -3,7 +3,7 @@ import QuizCard from "../../QuizCard";
 
 const Panel = ({ title, data, type, history, home, color }) => {
   return (
-    <div className="container-fluid p-0">
+    <div className="container-fluid p-0 pb-2">
       <div className="rounded-top px-3 pt-3 pb-1 w-100 border border-1"
         style={{  backgroundColor: color?color:"#9FA300", textAlign: "center" }}>
         <h5>{title}</h5>

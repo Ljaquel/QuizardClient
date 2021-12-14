@@ -31,7 +31,7 @@ function QuizCard({ quiz, home, history }) {
         <div className="row">
           <div className="col align-self-center">
             <small className="text-muted">
-              {quiz.publishedDate.length > 0
+              {quiz.publishedDate.length > 0 || home
                 ? "Published " + moment(quiz.publishedDate).fromNow()
                 : "Created " + moment(quiz.createdAt).fromNow()}
             </small>
