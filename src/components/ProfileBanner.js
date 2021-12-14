@@ -44,7 +44,7 @@ const ProfileBanner = ({ user, history }) => {
      newFollowers.push(visitor._id)  
     }
     else{   
-       newFollowing = newFollowing.filter(el => el !== user._id) 
+       newFollowing = newFollowing.filter(el => el !== userMain._id) 
        newFollowers = newFollowers.filter(el => el !== visitor._id)
     }
     updateUser({ variables: { userId: userMain?._id, update: { followers: newFollowers }}})
